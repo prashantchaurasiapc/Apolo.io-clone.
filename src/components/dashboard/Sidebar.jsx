@@ -354,6 +354,7 @@ export default function Sidebar({ activeTab, onSelectTab, onUpgradeClick, showTo
                   <div className="admin-progress-line"><div className="admin-progress-fill" style={{ width: '11%' }} /></div>
                 </div>
               </div>
+              <div className="admin-flyout-menu">
                 <button className={`admin-flyout-item ${activeTab === 'admin_users' ? 'active' : ''}`} onClick={() => { handleSelect('admin_users'); setShowAdminPopup(false); }}>
                   <Users size={15} /> <span>Users and teams</span>
                 </button>

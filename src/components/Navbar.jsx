@@ -23,7 +23,7 @@ import {
 } from 'lucide-react';
 import './Navbar.css';
 
-export default function Navbar({ onLoginClick, onPricingClick, onDemoClick, onSignupClick }) {
+export default function Navbar({ onLoginClick, onPricingClick, onDemoClick, onSignupClick, onDashboardClick }) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [activeMenu, setActiveMenu] = useState(null);
@@ -339,6 +339,15 @@ export default function Navbar({ onLoginClick, onPricingClick, onDemoClick, onSi
 
         {/* Right Section: Action Buttons */}
         <div className="nav-right">
+          {onDashboardClick && (
+            <button 
+              onClick={onDashboardClick} 
+              className="nav-desktop-only" 
+              style={{ background: '#f8fafc', border: '1px solid #cbd5e1', borderRadius: '6px', padding: '7px 14px', fontSize: '13.5px', fontWeight: 600, color: '#0f172a', cursor: 'pointer', fontFamily: 'inherit' }}
+            >
+              Dashboard
+            </button>
+          )}
           <button onClick={onLoginClick} className="login-link nav-desktop-only" style={{ background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'inherit' }}>Log in</button>
           <button onClick={onDemoClick} className="btn-apollo-secondary nav-desktop-only" style={{ padding: '8px 18px', fontSize: '14px', border: '1px solid #111', background: '#fff', cursor: 'pointer' }}>
             Get a demo

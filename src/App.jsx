@@ -50,9 +50,19 @@ export const TAB_TO_HASH = {
   admin_settings: '#/app/admin-settings',
 };
 
-export const HASH_TO_TAB = Object.fromEntries(
-  Object.entries(TAB_TO_HASH).map(([tab, hash]) => [hash, tab])
-);
+export const HASH_TO_TAB = {
+  ...Object.fromEntries(
+    Object.entries(TAB_TO_HASH).map(([tab, hash]) => [hash, tab])
+  ),
+  '#/home': 'home',
+  '#/dashboard': 'home',
+  '#/win/meetings': 'meetings',
+  '#/win/conversations': 'conversations',
+  '#/win/deals': 'deals',
+  '#/meetings': 'meetings',
+  '#/conversations': 'conversations',
+  '#/deals': 'deals',
+};
 
 export default function App() {
   const [viewMode, setViewMode] = useState('website'); // 'website' | 'login' | 'signup' | 'pricing' | 'dashboard'
@@ -73,7 +83,7 @@ export default function App() {
         setViewMode('signup');
       } else if (hash === '#/pricing') {
         setViewMode('pricing');
-      } else if (hash.startsWith('#/app/')) {
+      } else if (hash.startsWith('#/app/') || hash.startsWith('#/win/') || hash === '#/home' || hash === '#/deals' || hash === '#/meetings' || hash === '#/conversations' || hash === '#/dashboard') {
         setViewMode('dashboard');
         const matchedTab = HASH_TO_TAB[hash] || 'home';
         setActiveTab(matchedTab);
@@ -186,6 +196,7 @@ export default function App() {
         onPricingClick={() => navigateTo('pricing')} 
         onDemoClick={() => setDemoOpen(true)}
         onSignupClick={() => navigateTo('signup')}
+        onDashboardClick={() => navigateTo('home')}
       />
       <div key={key} style={{ ...fadeStyle, paddingTop: NAV_HEIGHT, minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
         <main style={{ flex: 1 }}>

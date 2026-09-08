@@ -1,0 +1,221 @@
+/* DemoModal.css */
+.demo-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  animation: modalOverlayFadeIn 0.2s ease forwards;
+}
+
+.demo-modal-card {
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 44px 40px;
+  max-width: 520px;
+  width: 100%;
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.22), 0 4px 16px rgba(0, 0, 0, 0.08);
+  position: relative;
+  text-align: center;
+  animation: modalCardPop 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.demo-modal-close {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: none;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #777;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.demo-modal-close:hover {
+  background: #f0f0f0;
+  color: #111;
+}
+
+.demo-modal-title {
+  font-family: var(--font-serif, 'Newsreader', Georgia, serif);
+  font-size: 34px;
+  font-weight: 500;
+  letter-spacing: -0.025em;
+  color: #0f0f0f;
+  margin-bottom: 8px;
+  line-height: 1.15;
+}
+
+.demo-modal-subtitle {
+  font-size: 14.5px;
+  color: #555555;
+  margin-bottom: 24px;
+  line-height: 1.45;
+}
+
+.demo-modal-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+}
+
+.demo-modal-input {
+  width: 100%;
+  height: 48px;
+  padding: 0 16px;
+  border: 1.5px solid #222222;
+  border-radius: 8px;
+  font-size: 15px;
+  color: #111;
+  background: #fff;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  font-family: inherit;
+  box-sizing: border-box;
+}
+
+.demo-modal-input:focus {
+  border-color: #000;
+  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1);
+}
+
+.demo-modal-input::placeholder {
+  color: #888;
+}
+
+.demo-modal-btn {
+  width: 100%;
+  height: 48px;
+  background: #000000;
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 600;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+
+.demo-modal-btn:hover {
+  background: #222222;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.demo-modal-disclaimer {
+  font-size: 11.5px;
+  color: #666666;
+  line-height: 1.5;
+  margin-top: 18px;
+  margin-bottom: 24px;
+}
+
+.demo-modal-disclaimer a {
+  color: #333;
+  text-decoration: underline;
+}
+
+.demo-modal-disclaimer a:hover {
+  color: #000;
+}
+
+.demo-modal-reviews {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 12px;
+  color: #222;
+  font-weight: 600;
+}
+
+.demo-stars {
+  color: #111;
+  letter-spacing: 2px;
+  font-size: 13px;
+}
+
+.demo-reviews-text {
+  color: #444;
+}
+
+/* Success State */
+.demo-modal-success {
+  padding: 20px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.demo-success-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: #e2fc00;
+  color: #111;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
+.demo-success-title {
+  font-family: var(--font-serif, Georgia, serif);
+  font-size: 26px;
+  color: #111;
+  margin-bottom: 8px;
+}
+
+.demo-success-desc {
+  font-size: 14px;
+  color: #555;
+  line-height: 1.55;
+  max-width: 380px;
+}
+
+@keyframes modalOverlayFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes modalCardPop {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@media (max-width: 540px) {
+  .demo-modal-card {
+    padding: 32px 20px;
+  }
+  .demo-modal-title {
+    font-size: 28px;
+  }
+  .demo-modal-reviews {
+    flex-direction: column;
+    gap: 4px;
+  }
+}

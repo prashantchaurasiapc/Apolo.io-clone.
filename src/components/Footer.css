@@ -1,0 +1,245 @@
+/* ═══════════════════════════════════════════════════════════════
+   APOLLO.IO ORIGINAL FOOTER
+   - Authentic warm sand/taupe background (#D4CFC7)
+   - Giant 7-blade Propeller logo on the left
+   - 4 multi-tier link columns (Get Started, Solutions, Platform, Roles, Use Cases, Resources, Company, Social, AI, Extension)
+   - Exact sizing & typography
+   ═══════════════════════════════════════════════════════════════ */
+
+.apollo-footer {
+  width: 100%;
+  background-color: #D4CFC7;
+  padding: 80px 0 100px 0;
+  color: #1C1C1C;
+  font-family: var(--font-sans, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif);
+}
+
+.apollo-footer-container {
+  max-width: 1380px;
+  margin: 0 auto;
+  padding: 0 48px;
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  gap: 80px;
+  align-items: flex-start;
+  box-sizing: border-box;
+}
+
+/* ── 1. Left Column: Giant Logo & Legal ── */
+.apollo-footer-brand {
+  display: flex;
+  flex-direction: column;
+}
+
+.apollo-footer-giant-logo {
+  margin-bottom: 56px;
+}
+
+.apollo-propeller-svg {
+  width: 175px;
+  height: 175px;
+  display: block;
+}
+
+.apollo-footer-copyright {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.apollo-copy-text {
+  font-size: 13px;
+  font-weight: 700;
+  color: #111111;
+  margin-bottom: 8px;
+}
+
+.apollo-legal-link {
+  font-size: 12.5px;
+  color: #635F57;
+  text-decoration: none;
+  line-height: 1.6;
+  transition: color 0.15s ease;
+}
+
+.apollo-legal-link:hover {
+  color: #111111;
+  text-decoration: underline;
+}
+
+/* ── 2. Right Column Links Grid (4 columns) ── */
+.apollo-footer-nav-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 36px;
+}
+
+.apollo-footer-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.apollo-nav-block {
+  display: flex;
+  flex-direction: column;
+}
+
+.apollo-nav-block-bottom {
+  margin-top: 48px;
+}
+
+.apollo-col-heading {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: #111111;
+  margin: 0 0 14px 0;
+  letter-spacing: -0.01em;
+}
+
+.apollo-social-subheading {
+  margin-top: 36px;
+}
+
+.apollo-link-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.apollo-link-list li a {
+  font-size: 13px;
+  color: #2D2B28;
+  line-height: 1.85;
+  text-decoration: none;
+  display: inline-block;
+  transition: color 0.15s ease;
+}
+
+.apollo-link-list li a:hover {
+  color: #000000;
+  text-decoration: underline;
+}
+
+/* ── 3. Ask AI about Apollo (5 Badges) ── */
+.apollo-ai-badges-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 36px;
+}
+
+.apollo-ai-badge-btn {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  background-color: #111111;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  transition: transform 0.15s ease, opacity 0.15s ease;
+  flex-shrink: 0;
+}
+
+.apollo-ai-badge-btn:hover {
+  transform: translateY(-1px);
+  opacity: 0.9;
+}
+
+.apollo-ai-claude {
+  background-color: #1A3E3E;
+}
+
+.apollo-ai-orange {
+  background-color: #E65A40;
+}
+
+/* ── 4. Prospect Anywhere & Chrome Extension ── */
+.apollo-prospect-block {
+  display: flex;
+  flex-direction: column;
+}
+
+.apollo-prospect-desc {
+  font-size: 12.5px;
+  color: #55524C;
+  line-height: 1.45;
+  margin: 0 0 18px 0;
+  max-width: 240px;
+}
+
+.apollo-extension-btn {
+  display: inline-block;
+  border: 1px solid #9E988F;
+  border-radius: 8px;
+  padding: 9px 16px;
+  font-size: 12.5px;
+  font-weight: 500;
+  color: #111111;
+  text-decoration: none;
+  background-color: transparent;
+  width: fit-content;
+  transition: all 0.2s ease;
+}
+
+.apollo-extension-btn:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+  border-color: #111111;
+}
+
+/* ── 5. Responsive Styles ── */
+@media (max-width: 1150px) {
+  .apollo-footer-container {
+    grid-template-columns: 200px 1fr;
+    gap: 48px;
+    padding: 0 32px;
+  }
+  .apollo-propeller-svg {
+    width: 140px;
+    height: 140px;
+  }
+  .apollo-footer-nav-grid {
+    gap: 24px;
+  }
+}
+
+@media (max-width: 900px) {
+  .apollo-footer {
+    padding: 60px 0 80px 0;
+  }
+  .apollo-footer-container {
+    grid-template-columns: 1fr;
+    gap: 50px;
+    padding: 0 24px;
+  }
+  .apollo-footer-brand {
+    flex-direction: row;
+    align-items: center;
+    gap: 40px;
+  }
+  .apollo-footer-giant-logo {
+    margin-bottom: 0;
+  }
+  .apollo-footer-nav-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 36px;
+  }
+}
+
+@media (max-width: 540px) {
+  .apollo-footer-brand {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 24px;
+  }
+  .apollo-footer-nav-grid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+  .apollo-nav-block-bottom {
+    margin-top: 32px;
+  }
+}

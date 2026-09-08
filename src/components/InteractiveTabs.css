@@ -1,0 +1,346 @@
+/* ═══════════════════════════════════════════════════════════════
+   APOLLO.IO INTERACTIVE TABS (EXACT ORIGINAL MATCH)
+   - Top Buttons: OUTBOUND, INBOUND, DATA ENRICHMENT, DEAL EXECUTION
+   - Full clearance below the 72px navbar (never hidden)
+   - Vertical Bottom-to-Top Sliding Animation (translateY)
+   - Original High-Resolution Screenshot Cards
+   ═══════════════════════════════════════════════════════════════ */
+
+/* 400vh total height ensures ample scroll room to transition one-by-one */
+.apollo-scroll-container {
+  height: 400vh;
+  position: relative;
+  width: 100%;
+  background-color: #FFFFFF;
+}
+
+/* Sticky window locks onto viewport cleanly below the 72px navbar */
+.apollo-sticky-box {
+  position: sticky;
+  top: 76px;
+  height: calc(100vh - 76px);
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-color: #FFFFFF;
+  overflow: hidden;
+  box-sizing: border-box;
+  padding: 16px 0 24px 0;
+  z-index: 10;
+}
+
+.apollo-tabs-content-wrapper {
+  max-width: 1320px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 40px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── 1. Top 4 Buttons Bar (OUTBOUND, INBOUND, DATA ENRICHMENT, DEAL EXECUTION) ── */
+.apollo-tabs-bar {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 36px;
+  position: relative;
+  z-index: 20;
+}
+
+.apollo-tab-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 48px;
+  padding: 0 16px;
+  background-color: #F4F2EC;
+  border: none;
+  border-radius: 4px;
+  color: #111111;
+  font-family: var(--font-mono, 'Founders Grotesk Mono', 'JetBrains Mono', monospace);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  outline: none;
+  transition: background-color 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+              color 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.15s ease;
+  user-select: none;
+  white-space: nowrap;
+}
+
+.apollo-tab-button:hover:not(.tab-active) {
+  background-color: #EAE5DB;
+}
+
+.apollo-tab-button.tab-active {
+  color: #111111;
+  font-weight: 700;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+/* ── 2. Vertical Slider Viewport (Bottom-to-Top Slide) ── */
+.apollo-slider-viewport {
+  width: 100%;
+  height: 520px;
+  overflow: hidden;
+  position: relative;
+}
+
+.apollo-slider-track {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
+}
+
+.apollo-slide {
+  flex: 0 0 100%;
+  min-height: 100%;
+  max-height: 100%;
+  width: 100%;
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: 1fr 1.15fr;
+  gap: 60px;
+  align-items: center;
+  padding: 10px 4px;
+  opacity: 0.3;
+  transform: scale(0.985);
+  transition: opacity 0.5s cubic-bezier(0.2, 0.8, 0.2, 1),
+              transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.apollo-slide.slide-active {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* ── 3. Left Column: Heading, CTAs, Feature Checklist ── */
+.apollo-slide-left {
+  display: flex;
+  flex-direction: column;
+  max-width: 520px;
+}
+
+.apollo-slide-heading {
+  font-family: var(--font-serif, 'Playfair Display', Georgia, serif);
+  font-size: 50px;
+  font-weight: 500;
+  line-height: 1.08;
+  letter-spacing: -0.025em;
+  color: #111111;
+  margin: 0 0 28px 0;
+}
+
+/* CTA Buttons */
+.apollo-slide-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 38px;
+}
+
+.apollo-btn-black {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #000000;
+  color: #FFFFFF;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1;
+  padding: 13px 22px;
+  border-radius: 8px;
+  text-decoration: none;
+  border: 1px solid #000000;
+  transition: background-color 0.2s ease, transform 0.15s ease;
+  white-space: nowrap;
+}
+
+.apollo-btn-black:hover {
+  background-color: #222222;
+  transform: translateY(-1px);
+}
+
+.apollo-btn-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #FFFFFF;
+  color: #000000;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1;
+  padding: 13px 22px;
+  border-radius: 8px;
+  text-decoration: none;
+  border: 1px solid #111111;
+  transition: background-color 0.2s ease, transform 0.15s ease;
+  white-space: nowrap;
+}
+
+.apollo-btn-outline:hover {
+  background-color: #F8F7F4;
+  transform: translateY(-1px);
+}
+
+/* Feature Checklist */
+.apollo-features-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.apollo-feature-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  color: #222222;
+  font-size: 15.5px;
+  line-height: 1.35;
+  font-weight: 450;
+}
+
+.apollo-feature-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 22px;
+  height: 22px;
+  color: #111111;
+}
+
+.apollo-feature-label {
+  color: #222222;
+  letter-spacing: -0.01em;
+}
+
+/* ── 4. Right Column: High-Res Original Screenshot Card ── */
+.apollo-slide-right {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.apollo-screenshot-card {
+  width: 100%;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.08), 0 4px 12px rgba(0, 0, 0, 0.04);
+  background-color: #F4F2EC;
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.apollo-screenshot-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 20px 54px rgba(0, 0, 0, 0.11), 0 6px 16px rgba(0, 0, 0, 0.05);
+}
+
+.apollo-screenshot-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+/* ── 5. Responsive Design ── */
+@media (max-width: 1150px) {
+  .apollo-slide-heading {
+    font-size: 42px;
+  }
+  .apollo-slide {
+    gap: 36px;
+  }
+  .apollo-slider-viewport {
+    height: 480px;
+  }
+}
+
+@media (max-width: 900px) {
+  .apollo-scroll-container {
+    height: auto;
+  }
+  .apollo-sticky-box {
+    position: relative;
+    top: 0;
+    height: auto;
+    padding: 30px 0 60px 0;
+  }
+  .apollo-tabs-content-wrapper {
+    padding: 0 24px;
+  }
+  .apollo-tabs-bar {
+    gap: 8px;
+    margin-bottom: 28px;
+    overflow-x: auto;
+    display: flex;
+    padding-bottom: 6px;
+    -webkit-overflow-scrolling: touch;
+  }
+  .apollo-tab-button {
+    flex: 0 0 auto;
+    font-size: 12px;
+    padding: 0 16px;
+    height: 42px;
+  }
+  .apollo-slider-viewport {
+    height: auto;
+    overflow: visible;
+  }
+  .apollo-slider-track {
+    transform: none !important;
+  }
+  .apollo-slide {
+    grid-template-columns: 1fr;
+    gap: 32px;
+    opacity: 1;
+    transform: none;
+    height: auto;
+    min-height: auto;
+    max-height: none;
+    display: none;
+  }
+  .apollo-slide.slide-active {
+    display: grid;
+  }
+  .apollo-slide-left {
+    max-width: 100%;
+  }
+  .apollo-slide-heading {
+    font-size: 34px;
+    margin-bottom: 20px;
+  }
+  .apollo-slide-actions {
+    margin-bottom: 28px;
+  }
+}
+
+@media (max-width: 600px) {
+  .apollo-slide-heading {
+    font-size: 28px;
+  }
+  .apollo-slide-actions {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+  .apollo-btn-black,
+  .apollo-btn-outline {
+    width: 100%;
+  }
+}

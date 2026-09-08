@@ -1,0 +1,135 @@
+/* ─── Generic Dashboard Views & Settings Styles ─── */
+
+.dash-view-content {
+  padding: 32px 40px;
+  background-color: #fafafa;
+  min-height: 100%;
+  font-family: 'Inter', sans-serif;
+}
+
+.dash-view-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 24px;
+}
+
+.dash-view-title-group h1 {
+  font-size: 24px;
+  font-weight: 800;
+  color: #0f172a;
+  margin: 0 0 8px 0;
+  letter-spacing: -0.5px;
+}
+
+.dash-view-title-group p {
+  font-size: 14px;
+  color: #64748b;
+  margin: 0;
+}
+
+.dash-card-section {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+  margin-bottom: 24px;
+}
+
+.dash-card-section p {
+  font-size: 14px;
+  color: #334155;
+  margin: 0 0 12px 0;
+}
+
+.dash-card-section strong {
+  color: #0f172a;
+  font-weight: 600;
+}
+
+.dash-metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+}
+
+.dash-metric-card {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.dash-metric-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #64748b;
+}
+
+.dash-metric-value {
+  font-size: 24px;
+  font-weight: 800;
+  color: #0f172a;
+}
+
+.dash-btn-primary {
+  background: #4f46e5;
+  color: #ffffff;
+  border: 1px solid #4338ca;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 13.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.dash-btn-primary:hover {
+  background: #4338ca;
+}
+
+/* Generic Table Styles */
+.dash-leads-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 13.5px;
+}
+
+.dash-leads-table th {
+  background: #f8fafc;
+  padding: 12px 16px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #64748b;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.dash-leads-table td {
+  padding: 14px 16px;
+  border-bottom: 1px solid #f1f5f9;
+  color: #334155;
+}
+
+.dash-leads-table tr:hover td {
+  background: #f8fafc;
+}
+
+.dash-metric-badge {
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 11.5px;
+  font-weight: 600;
+}
+
+.dash-metric-badge.green {
+  background: #dcfce7;
+  color: #15803d;
+}

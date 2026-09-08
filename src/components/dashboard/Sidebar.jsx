@@ -342,23 +342,23 @@ export default function Sidebar({ activeTab, onSelectTab, onUpgradeClick, showTo
                 </div>
               </div>
               <div className="admin-flyout-menu">
-                <button className="admin-flyout-item" onClick={() => { onSelectTab('admin_settings'); setShowAdminPopup(false); }}>
+                <button className={`admin-flyout-item ${activeTab === 'admin_users' ? 'active' : ''}`} onClick={() => { onSelectTab('admin_users'); setShowAdminPopup(false); }}>
                   <Users size={15} /> <span>Users and teams</span>
                 </button>
-                <button className="admin-flyout-item" onClick={() => { showToast('Opening System Activity logs'); setShowAdminPopup(false); }}>
+                <button className={`admin-flyout-item ${activeTab === 'admin_activity' ? 'active' : ''}`} onClick={() => { onSelectTab('admin_activity'); setShowAdminPopup(false); }}>
                   <Activity size={15} /> <span>System activity</span>
                 </button>
-                <button className="admin-flyout-item" onClick={() => { showToast('Security & SAML SSO configuration'); setShowAdminPopup(false); }}>
+                <button className={`admin-flyout-item ${activeTab === 'admin_security' ? 'active' : ''}`} onClick={() => { onSelectTab('admin_security'); setShowAdminPopup(false); }}>
                   <Lock size={15} /> <span>Security</span>
                 </button>
-                <button className="admin-flyout-item" onClick={() => { showToast('Enterprise Plan Overview'); setShowAdminPopup(false); }}>
+                <button className={`admin-flyout-item ${activeTab === 'admin_plan' ? 'active' : ''}`} onClick={() => { onSelectTab('admin_plan'); setShowAdminPopup(false); }}>
                   <CreditCard size={15} /> <span>Plan overview</span>
                 </button>
-                <button className="admin-flyout-item" onClick={() => { showToast('CRM & API Integrations'); setShowAdminPopup(false); }}>
+                <button className={`admin-flyout-item ${activeTab === 'admin_integrations' ? 'active' : ''}`} onClick={() => { onSelectTab('admin_integrations'); setShowAdminPopup(false); }}>
                   <PackageCheck size={15} /> <span>Integrations</span>
                 </button>
                 <div className="admin-flyout-divider" />
-                <button className="admin-flyout-item bold-item" onClick={() => { onSelectTab('admin_settings'); setShowAdminPopup(false); }}>
+                <button className={`admin-flyout-item bold-item ${activeTab === 'admin_settings' ? 'active' : ''}`} onClick={() => { onSelectTab('admin_settings'); setShowAdminPopup(false); }}>
                   <Settings size={15} /> <span>All settings</span>
                 </button>
               </div>

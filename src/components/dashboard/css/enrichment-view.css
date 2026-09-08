@@ -1,0 +1,475 @@
+/* ─────────────────────────────────────────────────────────────
+   11. 1:1 DATA ENRICHMENT PAGE STYLES (Matching User Screenshot)
+   ───────────────────────────────────────────────────────────── */
+
+.apollo-data-enrichment-page {
+  background: #f8fafc;
+  min-height: calc(100vh - 60px);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+/* Header */
+.enrichment-top-header {
+  padding: 16px 28px;
+  background: #ffffff;
+  border-bottom: 1px solid #f1f5f9;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.enrichment-page-title {
+  font-size: 22px;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0;
+}
+
+.enrichment-top-right-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.scheduled-jobs-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: #ffffff;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #334155;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.scheduled-jobs-btn:hover {
+  background: #f8fafc;
+  border-color: #94a3b8;
+}
+
+.jobs-count-pill {
+  background: #f1f5f9;
+  color: #475569;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 1px 6px;
+  border-radius: 10px;
+}
+
+.automate-enrichment-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 18px;
+  background: #d4ff00;
+  border: none;
+  border-radius: 20px;
+  color: #0f172a;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  transition: all 0.15s ease;
+}
+.automate-enrichment-btn:hover {
+  background: #c2eb00;
+  transform: translateY(-1px);
+}
+
+/* Tabs Bar */
+.enrichment-tabs-bar {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  padding: 0 28px;
+  background: #ffffff;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.enrichment-tab-item {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 14px 2px;
+  background: transparent;
+  border: none;
+  font-size: 13.5px;
+  font-weight: 500;
+  color: #64748b;
+  cursor: pointer;
+  transition: color 0.15s ease;
+}
+.enrichment-tab-item:hover {
+  color: #0f172a;
+}
+.enrichment-tab-item.active {
+  font-weight: 700;
+  color: #0f172a;
+}
+.enrichment-tab-item.active::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: #0f172a;
+  border-radius: 2px 2px 0 0;
+}
+
+.green-new-badge {
+  background: #d1fae5;
+  color: #047857;
+  font-size: 10.5px;
+  font-weight: 700;
+  padding: 1px 7px;
+  border-radius: 10px;
+}
+
+/* Main Body Area */
+.enrichment-main-body-container {
+  flex: 1;
+  padding: 24px 28px;
+}
+
+/* Tab 1: Data Health Center (1:1 Screenshot View) */
+.data-health-center-view {
+  max-width: 680px;
+  margin: 60px auto 0 auto;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.health-illustration-wrap {
+  margin-bottom: 24px;
+}
+
+.stacked-dashboard-svg {
+  filter: drop-shadow(0 6px 16px rgba(0, 0, 0, 0.06));
+}
+
+.health-center-title {
+  font-size: 22px;
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 10px;
+}
+
+.health-center-subtext {
+  font-size: 14px;
+  color: #64748b;
+  line-height: 1.5;
+  max-width: 520px;
+  margin-bottom: 60px;
+}
+
+/* Bottom CTA Strip */
+.health-bottom-cta-strip {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.works-with-logos-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.works-with-label {
+  font-size: 13px;
+  color: #64748b;
+  font-weight: 500;
+}
+
+.crm-logo-badges {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.cta-buttons-group {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.connect-crm-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 20px;
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #1e293b;
+  cursor: pointer;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  transition: all 0.15s ease;
+}
+.connect-crm-btn:hover {
+  background: #f8fafc;
+  border-color: #94a3b8;
+}
+
+.save-contacts-btn {
+  padding: 10px 24px;
+  background: #d4ff00;
+  border: none;
+  border-radius: 8px;
+  font-size: 13.5px;
+  font-weight: 700;
+  color: #0f172a;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  transition: all 0.15s ease;
+}
+.save-contacts-btn:hover {
+  background: #c2eb00;
+  transform: translateY(-1px);
+}
+
+/* Floating Help Question Mark Button */
+.enrichment-floating-help-btn {
+  position: fixed;
+  bottom: 28px;
+  right: 28px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 99;
+  transition: all 0.15s ease;
+}
+.enrichment-floating-help-btn:hover {
+  transform: scale(1.08);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.18);
+}
+
+/* Popover Menu */
+.enrichment-popover-menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  width: 280px;
+  background: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+  border: 1px solid #e2e8f0;
+  padding: 8px;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.enrichment-popover-menu.bottom-left {
+  right: auto;
+  left: 0;
+}
+
+.popover-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.12s ease;
+}
+.popover-item:hover {
+  background: #f1f5f9;
+}
+
+.item-title {
+  display: block;
+  font-size: 13px;
+  color: #0f172a;
+}
+.item-desc {
+  display: block;
+  font-size: 11.5px;
+  color: #64748b;
+}
+
+/* Other Tabs Styling */
+.crm-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.crm-integration-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 20px;
+}
+
+.crm-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.crm-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.crm-icon {
+  font-size: 24px;
+}
+.crm-icon.salesforce { color: #00a1e0; }
+.crm-icon.hubspot { color: #ff7a59; }
+
+.crm-name {
+  font-size: 15px;
+  font-weight: 700;
+  margin: 0;
+  color: #0f172a;
+}
+
+.crm-status {
+  font-size: 12px;
+  color: #64748b;
+}
+
+.crm-toggle-btn {
+  padding: 6px 14px;
+  border-radius: 6px;
+  border: 1px solid #cbd5e1;
+  background: #ffffff;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #334155;
+  cursor: pointer;
+}
+.crm-toggle-btn.active {
+  background: #fee2e2;
+  color: #dc2626;
+  border-color: #fca5a5;
+}
+
+.csv-dropzone-box {
+  background: #ffffff;
+  border: 2px dashed #cbd5e1;
+  border-radius: 12px;
+  padding: 50px 30px;
+  text-align: center;
+  margin-top: 20px;
+  transition: all 0.15s ease;
+}
+.csv-dropzone-box.drag-active {
+  border-color: #2563eb;
+  background: #eff6ff;
+}
+
+.dropzone-heading {
+  font-size: 17px;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 12px 0 6px 0;
+}
+.dropzone-sub {
+  font-size: 13px;
+  color: #64748b;
+  margin-bottom: 20px;
+}
+
+.browse-files-btn {
+  display: inline-block;
+  padding: 10px 24px;
+  background: #0f172a;
+  color: #ffffff;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* Key Benefits Grid Section */
+.key-benefits-container {
+  margin-top: 60px;
+  width: 100%;
+  max-width: 900px;
+  text-align: center;
+}
+
+.key-benefits-heading {
+  font-size: 20px;
+  font-weight: 500;
+  color: #111827;
+  margin-bottom: 40px;
+}
+
+.key-benefits-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+}
+
+.benefit-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.benefit-icon-wrapper {
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 8px;
+}
+
+.benefit-title {
+  font-size: 15px;
+  font-weight: 500;
+  color: #111827;
+  margin: 0;
+}
+
+.benefit-desc {
+  font-size: 13.5px;
+  color: #4b5563;
+  line-height: 1.5;
+  margin: 0;
+  max-width: 260px;
+}
+
+.learn-more-btn {
+  margin-top: 40px;
+  padding: 8px 24px;
+  font-size: 14px;
+  border-radius: 6px;
+  border: 1px solid #e5e7eb;
+  background: #ffffff;
+  color: #374151;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.learn-more-btn:hover {
+  background: #f9fafb;
+}

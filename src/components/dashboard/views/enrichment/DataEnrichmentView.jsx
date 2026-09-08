@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { 
   ChevronDown, Plus, Upload, Database, RefreshCw, Layers, CheckCircle2, 
   Sparkles, FileSpreadsheet, Lock, HelpCircle, ExternalLink, Zap, Settings,
-  AlertCircle, ArrowRight, ShieldCheck, Check, Users, Search, Sliders
+  AlertCircle, ArrowRight, ShieldCheck, Check, Users, Search, Sliders,
+  Filter, Bell, Mail, UserCheck, Briefcase, Building2, TrendingUp, Copy
 } from 'lucide-react';
 
 import '../../css/enrichment-view.css';
@@ -22,6 +23,14 @@ export default function DataEnrichmentView({ showToast, onNavigateToProspect }) 
   const [dragActive, setDragActive] = useState(false);
   const [uploadedFile, setUploadedFile] = useState(null);
 
+  // Job alerts search & filter state
+  const [alertsSearch, setAlertsSearch] = useState('');
+  const [alertTypeFilter, setAlertTypeFilter] = useState('all');
+
+  // Form enrichment live input state
+  const [demoEmail, setDemoEmail] = useState('alex@stripe.com');
+  const [copiedCode, setCopiedCode] = useState(false);
+
   // CRM Sync Connection Status
   const [crmConnections, setCrmConnections] = useState({
     salesforce: false,
@@ -34,6 +43,13 @@ export default function DataEnrichmentView({ showToast, onNavigateToProspect }) 
     const nextState = !crmConnections[crmName];
     setCrmConnections(prev => ({ ...prev, [crmName]: nextState }));
     showToast(nextState ? `Connected and synced with ${crmName}!` : `Disconnected ${crmName}`);
+  };
+
+  const handleCopyCode = () => {
+    navigator.clipboard?.writeText?.('<script src="https://cdn.apollo.io/enrichment.js" data-key="apollo_live_94827"></script>');
+    setCopiedCode(true);
+    showToast('Copied form enrichment script to clipboard!');
+    setTimeout(() => setCopiedCode(false), 2000);
   };
 
   return (
@@ -92,7 +108,7 @@ export default function DataEnrichmentView({ showToast, onNavigateToProspect }) 
         </div>
       </div>
 
-      {/* ── 2. SUB-NAVIGATION TABS BAR (1:1 MATCH TO SCREENSHOT) ── */}
+      {/* ── 2. SUB-NAVIGATION TABS BAR ── */}
       <div className="enrichment-tabs-bar">
         <button 
           className={`enrichment-tab-item ${activeTab === 'data_health' ? 'active' : ''}`}
@@ -134,11 +150,11 @@ export default function DataEnrichmentView({ showToast, onNavigateToProspect }) 
       {/* ── 3. MAIN TAB CONTENT AREA ── */}
       <div className="enrichment-main-body-container">
         
-        {/* ── TAB 1: DATA HEALTH CENTER (1:1 MATCH TO SCREENSHOT) ── */}
+        {/* ── TAB 1: DATA HEALTH CENTER ── */}
         {activeTab === 'data_health' && (
           <div className="data-health-center-view">
             
-            {/* 1:1 Stacked Cards Graphic SVG matching Screenshot */}
+            {/* Stacked Cards Graphic SVG */}
             <div className="health-illustration-wrap">
               <svg 
                 width="180" 
@@ -152,7 +168,6 @@ export default function DataEnrichmentView({ showToast, onNavigateToProspect }) 
                 <rect x="25" y="15" width="80" height="60" rx="6" fill="#DCE7F6" stroke="#000000" strokeWidth="1.5" />
                 <line x1="33" y1="28" x2="60" y2="28" stroke="#000000" strokeWidth="1.5" strokeLinecap="round" />
                 <line x1="33" y1="36" x2="52" y2="36" stroke="#000000" strokeWidth="1.5" strokeLinecap="round" />
-                {/* Pie Chart Circle */}
                 <circle cx="85" cy="40" r="14" fill="#DCE7F6" stroke="#000000" strokeWidth="1.5" />
                 <path d="M85 40 L85 26 A14 14 0 0 1 99 40 Z" fill="#000000" opacity="0.15" />
                 <line x1="85" y1="40" x2="95" y2="48" stroke="#000000" strokeWidth="1.5" />
@@ -166,7 +181,6 @@ export default function DataEnrichmentView({ showToast, onNavigateToProspect }) 
                 {/* Back Right Card: Light Pink/Salmon Bar Chart Card */}
                 <rect x="68" y="70" width="82" height="60" rx="6" fill="#F8C8C8" stroke="#000000" strokeWidth="1.5" />
                 <line x1="78" y1="82" x2="110" y2="82" stroke="#000000" strokeWidth="1.5" strokeLinecap="round" />
-                {/* Bar Chart Columns */}
                 <rect x="78" y="105" width="8" height="15" fill="#F8C8C8" stroke="#000000" strokeWidth="1.5" />
                 <rect x="91" y="98" width="8" height="22" fill="#000000" opacity="0.2" stroke="#000000" strokeWidth="1.5" />
                 <rect x="104" y="92" width="8" height="28" fill="#F8C8C8" stroke="#000000" strokeWidth="1.5" />
@@ -182,7 +196,7 @@ export default function DataEnrichmentView({ showToast, onNavigateToProspect }) 
               Save contacts on the People page or connect your CRM to unlock powerful insights and track the quality of your data
             </p>
 
-            {/* Bottom Call to Action Strip (Works with HubSpot & Salesforce) */}
+            {/* Bottom Call to Action Strip */}
             <div className="health-bottom-cta-strip">
               <div className="works-with-logos-row">
                 <span className="works-with-label">Works with</span>
@@ -253,13 +267,13 @@ export default function DataEnrichmentView({ showToast, onNavigateToProspect }) 
               </div>
             </div>
 
-            {/* ── KEY BENEFITS SECTION ── */}
+            {/* KEY BENEFITS SECTION */}
             <div className="key-benefits-container">
               <h3 className="key-benefits-heading">Key benefits</h3>
               <div className="key-benefits-grid">
                 <div className="benefit-item">
                   <div className="benefit-icon-wrapper">
-                    <Search size={36} color="#374151" strokeWidth={1.5} />
+                    <Search size={28} color="#3b82f6" />
                   </div>
                   <h4 className="benefit-title">Discover enrichable data</h4>
                   <p className="benefit-desc">See job changes, missing emails, and CRM fields ready for enrichment</p>
@@ -267,7 +281,7 @@ export default function DataEnrichmentView({ showToast, onNavigateToProspect }) 
 
                 <div className="benefit-item">
                   <div className="benefit-icon-wrapper">
-                    <Layers size={36} color="#374151" strokeWidth={1.5} />
+                    <Layers size={28} color="#059669" />
                   </div>
                   <h4 className="benefit-title">Detect and merge duplicates</h4>
                   <p className="benefit-desc">Keep your records clean and streamlined</p>
@@ -275,13 +289,13 @@ export default function DataEnrichmentView({ showToast, onNavigateToProspect }) 
 
                 <div className="benefit-item">
                   <div className="benefit-icon-wrapper">
-                    <CheckCircle2 size={36} color="#374151" strokeWidth={1.5} />
+                    <CheckCircle2 size={28} color="#8b5cf6" />
                   </div>
                   <h4 className="benefit-title">Track enrichment activities</h4>
                   <p className="benefit-desc">Monitor enrichment job performance and credit usage effortlessly</p>
                 </div>
               </div>
-              <button className="learn-more-btn">Learn more</button>
+              <button className="learn-more-btn" onClick={() => showToast('Opening Data Health Documentation...')}>Learn more</button>
             </div>
 
           </div>
@@ -290,10 +304,8 @@ export default function DataEnrichmentView({ showToast, onNavigateToProspect }) 
         {/* ── TAB 2: CRM ENRICHMENT ── */}
         {activeTab === 'crm' && (
           <div className="crm-enrichment-tab-view">
-            <div className="tab-card-hero">
-              <h3 className="section-card-title">Connect your CRM for Automatic Bi-Directional Sync</h3>
-              <p className="section-card-desc">Automatically fill missing phone numbers, verified emails, job titles, and company tech stacks in your CRM.</p>
-            </div>
+            <h3 className="section-card-title">Connect your CRM for Automatic Bi-Directional Sync</h3>
+            <p className="section-card-desc">Automatically fill missing phone numbers, verified emails, job titles, and company tech stacks in your CRM.</p>
 
             <div className="crm-cards-grid">
               {/* Salesforce */}
@@ -314,9 +326,9 @@ export default function DataEnrichmentView({ showToast, onNavigateToProspect }) 
                   </button>
                 </div>
                 <div className="crm-card-features">
-                  <div>✓ Auto-enrich new leads</div>
-                  <div>✓ Custom field mapping</div>
-                  <div>✓ Lead score sync</div>
+                  <div>✓ Auto-enrich new leads in real-time</div>
+                  <div>✓ Custom field mapping & status sync</div>
+                  <div>✓ Lead score & activity tracking</div>
                 </div>
               </div>
 
@@ -338,9 +350,57 @@ export default function DataEnrichmentView({ showToast, onNavigateToProspect }) 
                   </button>
                 </div>
                 <div className="crm-card-features">
-                  <div>✓ Real-time deal enrichment</div>
-                  <div>✓ Activity logging</div>
-                  <div>✓ Contact deduplication</div>
+                  <div>✓ Real-time deal & contact enrichment</div>
+                  <div>✓ Bi-directional timeline activity sync</div>
+                  <div>✓ Automatic lead deduplication</div>
+                </div>
+              </div>
+
+              {/* Zoho CRM */}
+              <div className="crm-integration-card">
+                <div className="crm-card-header">
+                  <div className="crm-info">
+                    <span className="crm-icon zoho">Z</span>
+                    <div>
+                      <h4 className="crm-name">Zoho CRM</h4>
+                      <span className="crm-status">{crmConnections.zoho ? '● Connected' : 'Not Connected'}</span>
+                    </div>
+                  </div>
+                  <button 
+                    className={`crm-toggle-btn ${crmConnections.zoho ? 'active' : ''}`}
+                    onClick={() => toggleCrmSync('zoho')}
+                  >
+                    {crmConnections.zoho ? 'Disconnect' : 'Connect'}
+                  </button>
+                </div>
+                <div className="crm-card-features">
+                  <div>✓ Auto-append direct phone numbers</div>
+                  <div>✓ Verified email status checks</div>
+                  <div>✓ Instant account hierarchy lookup</div>
+                </div>
+              </div>
+
+              {/* Pipedrive */}
+              <div className="crm-integration-card">
+                <div className="crm-card-header">
+                  <div className="crm-info">
+                    <span className="crm-icon pipedrive">P</span>
+                    <div>
+                      <h4 className="crm-name">Pipedrive</h4>
+                      <span className="crm-status">{crmConnections.pipedrive ? '● Connected' : 'Not Connected'}</span>
+                    </div>
+                  </div>
+                  <button 
+                    className={`crm-toggle-btn ${crmConnections.pipedrive ? 'active' : ''}`}
+                    onClick={() => toggleCrmSync('pipedrive')}
+                  >
+                    {crmConnections.pipedrive ? 'Disconnect' : 'Connect'}
+                  </button>
+                </div>
+                <div className="crm-card-features">
+                  <div>✓ Pipeline stage enrichment triggers</div>
+                  <div>✓ Organization tech stack tagging</div>
+                  <div>✓ Smart contact details update</div>
                 </div>
               </div>
             </div>
@@ -367,38 +427,47 @@ export default function DataEnrichmentView({ showToast, onNavigateToProspect }) 
                 }
               }}
             >
-              <Upload size={32} color="#3b82f6" className="upload-cloud-icon" />
+              <Upload size={38} color="#2563eb" className="upload-cloud-icon" />
               <h4 className="dropzone-heading">Drag and drop your CSV lead file here</h4>
-              <p className="dropzone-sub">Supports .csv, .xlsx up to 50,000 records</p>
+              <p className="dropzone-sub">Supports .csv, .xlsx up to 50,000 records per upload batch</p>
               
-              <label className="browse-files-btn">
-                <span>Browse Files</span>
-                <input 
-                  type="file" 
-                  accept=".csv,.xlsx" 
-                  style={{ display: 'none' }}
-                  onChange={(e) => {
-                    if (e.target.files && e.target.files[0]) {
-                      const f = e.target.files[0];
-                      setUploadedFile(f);
-                      showToast(`Selected file ${f.name} for enrichment`);
-                    }
-                  }}
-                />
-              </label>
+              <div style={{ display: 'flex', gap: '12px', justifyContent: 'center' }}>
+                <label className="browse-files-btn">
+                  <span>Browse Files</span>
+                  <input 
+                    type="file" 
+                    accept=".csv,.xlsx" 
+                    style={{ display: 'none' }}
+                    onChange={(e) => {
+                      if (e.target.files && e.target.files[0]) {
+                        const f = e.target.files[0];
+                        setUploadedFile(f);
+                        showToast(`Selected file ${f.name} for enrichment`);
+                      }
+                    }}
+                  />
+                </label>
+                <button 
+                  className="scheduled-jobs-btn" 
+                  onClick={() => showToast('Downloading CSV Sample Template...')}
+                >
+                  Download Sample CSV
+                </button>
+              </div>
             </div>
 
             {uploadedFile && (
               <div className="uploaded-file-status-card">
                 <div className="file-left">
-                  <FileSpreadsheet size={20} color="#059669" />
+                  <FileSpreadsheet size={24} color="#059669" />
                   <div>
                     <strong className="file-name">{uploadedFile.name}</strong>
-                    <span className="file-meta">{(uploadedFile.size / 1024).toFixed(1)} KB • Ready to enrich</span>
+                    <span className="file-meta">{(uploadedFile.size / 1024).toFixed(1)} KB • 1,250 estimated records • Ready to enrich</span>
                   </div>
                 </div>
                 <button 
                   className="yellow-primary-btn"
+                  style={{ padding: '9px 20px', borderRadius: '8px', fontWeight: 700 }}
                   onClick={() => {
                     showToast(`Started bulk enrichment job for ${uploadedFile.name}!`);
                     setScheduledJobsCount(prev => prev + 1);
@@ -412,30 +481,286 @@ export default function DataEnrichmentView({ showToast, onNavigateToProspect }) 
           </div>
         )}
 
-        {/* ── TAB 4: JOB CHANGE ALERTS ── */}
+        {/* ── TAB 4: JOB CHANGE ALERTS (RESTYLED 1:1 SaaS) ── */}
         {activeTab === 'job_alerts' && (
           <div className="job-alerts-tab-view">
-            <h3 className="section-card-title">Job Change Alerts & Executive Tracking</h3>
-            <p className="section-card-desc">Automatically get notified when key target contacts change companies or get promoted.</p>
+            <div>
+              <h3 className="section-card-title">Job Change Alerts & Executive Tracking</h3>
+              <p className="section-card-desc">Automatically get notified when key target contacts change companies or get promoted so you can re-engage at the perfect moment.</p>
+            </div>
 
+            {/* 1. Top Metrics Grid */}
+            <div className="job-alerts-stats-grid">
+              <div className="job-alert-stat-card">
+                <div className="stat-icon-wrap" style={{ background: '#eff6ff', color: '#2563eb' }}>
+                  <Users size={22} />
+                </div>
+                <div>
+                  <div className="stat-val">1,420</div>
+                  <div className="stat-lbl">Tracked Executives</div>
+                </div>
+              </div>
+
+              <div className="job-alert-stat-card">
+                <div className="stat-icon-wrap" style={{ background: '#fef3c7', color: '#d97706' }}>
+                  <TrendingUp size={22} />
+                </div>
+                <div>
+                  <div className="stat-val">38</div>
+                  <div className="stat-lbl">Job Changes This Month</div>
+                </div>
+              </div>
+
+              <div className="job-alert-stat-card">
+                <div className="stat-icon-wrap" style={{ background: '#f0fdf4', color: '#16a34a' }}>
+                  <UserCheck size={22} />
+                </div>
+                <div>
+                  <div className="stat-val">24</div>
+                  <div className="stat-lbl">Re-engaged Leads</div>
+                </div>
+              </div>
+
+              <div className="job-alert-stat-card">
+                <div className="stat-icon-wrap" style={{ background: '#f3e8ff', color: '#7c3aed' }}>
+                  <Mail size={22} />
+                </div>
+                <div>
+                  <div className="stat-val">19</div>
+                  <div className="stat-lbl">Unlocked New Emails</div>
+                </div>
+              </div>
+            </div>
+
+            {/* 2. Action & Filter Bar */}
+            <div className="job-alerts-controls-bar">
+              <div className="alerts-search-box">
+                <Search size={16} color="#94a3b8" />
+                <input 
+                  type="text"
+                  placeholder="Search contacts, titles, or target companies..."
+                  className="alerts-search-input"
+                  value={alertsSearch}
+                  onChange={(e) => setAlertsSearch(e.target.value)}
+                />
+              </div>
+
+              <div className="alerts-filter-group">
+                <select 
+                  className="alert-filter-select"
+                  value={alertTypeFilter}
+                  onChange={(e) => setAlertTypeFilter(e.target.value)}
+                >
+                  <option value="all">All Alert Types</option>
+                  <option value="promotion">Promotions</option>
+                  <option value="company_move">Company Moves</option>
+                  <option value="acquisition">Acquisitions</option>
+                </select>
+
+                <select className="alert-filter-select">
+                  <option value="30d">Last 30 Days</option>
+                  <option value="7d">Last 7 Days</option>
+                  <option value="90d">This Quarter</option>
+                </select>
+
+                <button 
+                  className="create-rule-btn"
+                  onClick={() => showToast('Opened Create Job Alert Rule modal')}
+                >
+                  <Plus size={15} />
+                  <span>Set up Alert Rule</span>
+                </button>
+              </div>
+            </div>
+
+            {/* 3. Feed List Card */}
             <div className="job-alerts-list-card">
-              <div className="alert-item-row">
-                <div className="alert-avatar">L</div>
-                <div className="alert-info">
-                  <strong>Liz Ryan</strong> changed job title to <em>VP of Talent Strategy</em> at <strong>Human Workplace</strong>
-                  <span className="alert-time">2 hours ago</span>
+              <div className="job-alerts-feed-header">
+                <div className="feed-title-wrap">
+                  <Bell size={16} color="#2563eb" />
+                  <span>Live Executive Tracking Feed</span>
+                  <span className="feed-count-badge">5 New</span>
                 </div>
-                <button className="white-subtle-btn" onClick={() => showToast('Re-engaged Liz Ryan with updated email')}>Re-engage →</button>
+                <button className="mark-read-btn" onClick={() => showToast('Marked all alerts as read')}>
+                  Mark all as read
+                </button>
               </div>
 
+              {/* Alert 1: Liz Ryan */}
               <div className="alert-item-row">
-                <div className="alert-avatar" style={{ background: '#dbeafe', color: '#1d4ed8' }}>J</div>
-                <div className="alert-info">
-                  <strong>Jeffrey Towson</strong> joined <strong>Bain & Company</strong> as <em>Senior Partner</em>
-                  <span className="alert-time">Yesterday</span>
+                <div className="alert-avatar" style={{ background: 'linear-gradient(135deg, #ec4899 0%, #be185d 100%)' }}>
+                  LR
                 </div>
-                <button className="white-subtle-btn" onClick={() => showToast('Unlocked new verified email')}>Get New Email →</button>
+                <div className="alert-main-content">
+                  <div className="alert-top-meta">
+                    <span className="alert-type-badge promotion">★ Promotion</span>
+                    <span className="alert-time-stamp">• 2 hours ago</span>
+                  </div>
+                  <p className="alert-description-text">
+                    <strong>Liz Ryan</strong> changed job title from <em>Director of People</em> to <span className="role-highlight-chip">VP of Talent Strategy</span> at <strong>Human Workplace</strong>
+                  </p>
+                  <div className="alert-extra-details">
+                    <span className="detail-pill">✉ l.ryan@humanworkplace.com (Verified)</span>
+                    <span className="detail-pill">🏢 Human Workplace • 250 employees</span>
+                  </div>
+                </div>
+                <div className="alert-actions-group">
+                  <button 
+                    className="alert-action-primary-btn" 
+                    onClick={() => showToast('Opened email composer to re-engage Liz Ryan')}
+                  >
+                    <span>Re-engage</span>
+                    <ArrowRight size={14} />
+                  </button>
+                  <button 
+                    className="alert-action-secondary-btn"
+                    onClick={() => showToast('Added Liz Ryan to Executive Sequence')}
+                  >
+                    Add to Sequence
+                  </button>
+                </div>
               </div>
+
+              {/* Alert 2: Jeffrey Towson */}
+              <div className="alert-item-row">
+                <div className="alert-avatar" style={{ background: 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)' }}>
+                  JT
+                </div>
+                <div className="alert-main-content">
+                  <div className="alert-top-meta">
+                    <span className="alert-type-badge company-change">↔ Company Move</span>
+                    <span className="alert-time-stamp">• Yesterday</span>
+                  </div>
+                  <p className="alert-description-text">
+                    <strong>Jeffrey Towson</strong> joined <strong>Bain & Company</strong> as <span className="role-highlight-chip">Senior Partner</span> (formerly Partner at BCG)
+                  </p>
+                  <div className="alert-extra-details">
+                    <span className="detail-pill">📞 Direct Phone Available</span>
+                    <span className="detail-pill">📍 New York, NY</span>
+                  </div>
+                </div>
+                <div className="alert-actions-group">
+                  <button 
+                    className="alert-action-primary-btn"
+                    onClick={() => showToast('Unlocked new verified email for Jeffrey Towson')}
+                  >
+                    <span>Get New Email</span>
+                    <ArrowRight size={14} />
+                  </button>
+                  <button 
+                    className="alert-action-secondary-btn"
+                    onClick={() => showToast('Exported Jeffrey Towson to CRM')}
+                  >
+                    Export to CRM
+                  </button>
+                </div>
+              </div>
+
+              {/* Alert 3: Sarah Jenkins */}
+              <div className="alert-item-row">
+                <div className="alert-avatar" style={{ background: 'linear-gradient(135deg, #10b981 0%, #047857 100%)' }}>
+                  SJ
+                </div>
+                <div className="alert-main-content">
+                  <div className="alert-top-meta">
+                    <span className="alert-type-badge promotion">★ Promotion</span>
+                    <span className="alert-time-stamp">• 3 days ago</span>
+                  </div>
+                  <p className="alert-description-text">
+                    <strong>Sarah Jenkins</strong> promoted to <span className="role-highlight-chip">Chief Technology Officer</span> at <strong>Datadog</strong> 🚀
+                  </p>
+                  <div className="alert-extra-details">
+                    <span className="detail-pill">✉ s.jenkins@datadog.com</span>
+                    <span className="detail-pill">👥 2 Mutual Connections</span>
+                  </div>
+                </div>
+                <div className="alert-actions-group">
+                  <button 
+                    className="alert-action-primary-btn"
+                    onClick={() => showToast('Opened email composer to re-engage Sarah Jenkins')}
+                  >
+                    <span>Re-engage</span>
+                    <ArrowRight size={14} />
+                  </button>
+                  <button 
+                    className="alert-action-secondary-btn"
+                    onClick={() => showToast('Opened profile for Sarah Jenkins')}
+                  >
+                    View Profile
+                  </button>
+                </div>
+              </div>
+
+              {/* Alert 4: David Chen */}
+              <div className="alert-item-row">
+                <div className="alert-avatar" style={{ background: 'linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%)' }}>
+                  DC
+                </div>
+                <div className="alert-main-content">
+                  <div className="alert-top-meta">
+                    <span className="alert-type-badge company-change">↔ Company Move</span>
+                    <span className="alert-time-stamp">• 4 days ago</span>
+                  </div>
+                  <p className="alert-description-text">
+                    <strong>David Chen</strong> joined <strong>Stripe</strong> as <span className="role-highlight-chip">Head of Product Growth</span> (formerly VP Product at Adyen)
+                  </p>
+                  <div className="alert-extra-details">
+                    <span className="detail-pill">✉ dchen@stripe.com (Verified)</span>
+                    <span className="detail-pill">⚡ High Intent Signal</span>
+                  </div>
+                </div>
+                <div className="alert-actions-group">
+                  <button 
+                    className="alert-action-primary-btn"
+                    onClick={() => showToast('Unlocked new email for David Chen')}
+                  >
+                    <span>Get New Email</span>
+                    <ArrowRight size={14} />
+                  </button>
+                  <button 
+                    className="alert-action-secondary-btn"
+                    onClick={() => showToast('Added David Chen to Saved Contacts')}
+                  >
+                    Save Contact
+                  </button>
+                </div>
+              </div>
+
+              {/* Alert 5: Amanda Miller */}
+              <div className="alert-item-row">
+                <div className="alert-avatar" style={{ background: 'linear-gradient(135deg, #f59e0b 0%, #b45309 100%)' }}>
+                  AM
+                </div>
+                <div className="alert-main-content">
+                  <div className="alert-top-meta">
+                    <span className="alert-type-badge acquisition">⚡ Acquisition Move</span>
+                    <span className="alert-time-stamp">• 1 week ago</span>
+                  </div>
+                  <p className="alert-description-text">
+                    <strong>Amanda Miller</strong> transitioned to <strong>Salesforce</strong> following Slack acquisition as <span className="role-highlight-chip">VP Enterprise Sales</span>
+                  </p>
+                  <div className="alert-extra-details">
+                    <span className="detail-pill">✉ amiller@salesforce.com</span>
+                    <span className="detail-pill">🌐 San Francisco, CA</span>
+                  </div>
+                </div>
+                <div className="alert-actions-group">
+                  <button 
+                    className="alert-action-primary-btn"
+                    onClick={() => showToast('Opened email composer to re-engage Amanda Miller')}
+                  >
+                    <span>Re-engage</span>
+                    <ArrowRight size={14} />
+                  </button>
+                  <button 
+                    className="alert-action-secondary-btn"
+                    onClick={() => showToast('Opened profile for Amanda Miller')}
+                  >
+                    View Profile
+                  </button>
+                </div>
+              </div>
+
             </div>
           </div>
         )}
@@ -448,23 +773,51 @@ export default function DataEnrichmentView({ showToast, onNavigateToProspect }) 
 
             <div className="form-enrichment-demo-card">
               <div className="demo-form-box">
-                <label className="demo-label">Work Email Address</label>
-                <input type="email" placeholder="alex@stripe.com" className="demo-input" defaultValue="alex@stripe.com" />
+                <label className="demo-label">Work Email Address (Live Test Input)</label>
+                <input 
+                  type="email" 
+                  value={demoEmail} 
+                  onChange={(e) => setDemoEmail(e.target.value)}
+                  className="demo-input" 
+                />
                 <div className="autofill-preview-strip">
                   <span className="sparkles-badge">✨ Auto-detected by Apollo:</span>
                   <span className="detected-tag">Stripe, Inc.</span>
                   <span className="detected-tag">Financial Services</span>
                   <span className="detected-tag">5,000+ employees</span>
+                  <span className="detected-tag">San Francisco, CA</span>
                 </div>
               </div>
-              <button className="yellow-primary-btn" onClick={() => showToast('Generated Form Enrichment Embed Script!')}>Get Embed Code</button>
+
+              <div style={{ marginBottom: '20px' }}>
+                <label className="demo-label">Embed Script Code</label>
+                <div className="code-snippet-box">
+                  <code>{`<script src="https://cdn.apollo.io/enrichment.js" data-key="apollo_live_94827"></script>`}</code>
+                </div>
+                <div style={{ display: 'flex', gap: '12px' }}>
+                  <button 
+                    className="yellow-primary-btn" 
+                    style={{ padding: '9px 22px', borderRadius: '8px', display: 'inline-flex', alignItems: 'center', gap: '8px' }}
+                    onClick={handleCopyCode}
+                  >
+                    {copiedCode ? <Check size={16} /> : <Copy size={16} />}
+                    <span>{copiedCode ? 'Copied Code!' : 'Copy Embed Script'}</span>
+                  </button>
+                  <button 
+                    className="scheduled-jobs-btn"
+                    onClick={() => showToast('Opening Form Enrichment Customizer Settings')}
+                  >
+                    Configure Form Fields
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
         )}
 
       </div>
 
-      {/* ── FLOATING HELP QUESTION MARK BUTTON (1:1 SCREENSHOT) ── */}
+      {/* ── FLOATING HELP QUESTION MARK BUTTON ── */}
       <button 
         className="enrichment-floating-help-btn"
         title="Help & Documentation"

@@ -173,18 +173,29 @@ export default function DealsView({ showToast }) {
       <div className="deals-page-header">
         <h1 className="deals-page-title">Deals</h1>
         <div className="deals-header-actions">
-          <button 
-            className="btn-import-csv"
-            onClick={() => setShowImportModal(true)}
-          >
-            Import CSV
-          </button>
-          <button 
-            className="btn-create-deal-yellow"
-            onClick={() => setShowCreateModal(true)}
-          >
-            Create deal
-          </button>
+          {activeTab === 'analytics' ? (
+            <button 
+              className="btn-create-deal-yellow"
+              onClick={() => showToast && showToast('Opening Advanced Analytics Hub')}
+            >
+              Go to Analytics
+            </button>
+          ) : (
+            <>
+              <button 
+                className="btn-import-csv"
+                onClick={() => setShowImportModal(true)}
+              >
+                Import CSV
+              </button>
+              <button 
+                className="btn-create-deal-yellow"
+                onClick={() => setShowCreateModal(true)}
+              >
+                Create deal
+              </button>
+            </>
+          )}
         </div>
       </div>
 
@@ -208,8 +219,27 @@ export default function DealsView({ showToast }) {
         </button>
       </div>
 
-      {/* ─── 3. Filter & Control Bar ─── */}
-      <div className="deals-filter-bar" onClick={(e) => e.stopPropagation()}>
+      {/* ─── 3. Filter & Control Bar (Different for Analytics vs Overview) ─── */}
+      {activeTab === 'analytics' ? (
+        <div className="analytics-controls-bar">
+          <button 
+            className="btn-timeframe-dropdown"
+            onClick={() => showToast && showToast('Timeframe selector')}
+          >
+            <span>Select timeframe</span>
+            <ChevronDown size={13} color="#64748b" />
+          </button>
+
+          <button 
+            className="btn-add-filter-analytics"
+            onClick={() => showToast && showToast('Add Analytics Filter')}
+          >
+            <Plus size={14} />
+            <span>Add filter</span>
+          </button>
+        </div>
+      ) : (
+        <div className="deals-filter-bar" onClick={(e) => e.stopPropagation()}>
         <div className="deals-filter-left">
           
           {/* All Pipelines Dropdown (1:1 Screenshot 1) */}
@@ -724,29 +754,329 @@ export default function DealsView({ showToast }) {
             </div>
           )
         ) : (
-          /* Analytics Tab View */
-          <div style={{ padding: '36px', textAlign: 'center', flex: 1 }}>
-            <div style={{ maxWidth: 600, margin: '0 auto', background: '#f8fafc', padding: 32, borderRadius: 12, border: '1px solid #e2e8f0' }}>
-              <TrendingUp size={36} color="#2563eb" style={{ marginBottom: 12 }} />
-              <h3 style={{ fontSize: 18, fontWeight: 700, margin: '0 0 8px 0' }}>Pipeline Analytics & Deal Velocity</h3>
-              <p style={{ fontSize: 13.5, color: '#64748b', marginBottom: 20 }}>
-                Track conversion rates, average deal size, and sales cycle length as you win deals.
-              </p>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 12 }}>
-                <div style={{ background: '#ffffff', padding: 14, borderRadius: 8, border: '1px solid #e2e8f0' }}>
-                  <div style={{ fontSize: 11, color: '#64748b' }}>Pipeline Value</div>
-                  <div style={{ fontSize: 18, fontWeight: 800, color: '#0f172a' }}>$185,000</div>
+          /* ─── DEALS ANALYTICS DASHBOARD (1:1 with Screenshot) ─── */
+          <div className="deals-analytics-container">
+            
+            {/* 1. Deals Stats Row */}
+            <div className="deals-stats-card">
+              <div className="deals-stats-header">Deals Stats</div>
+              <div className="deals-stats-grid">
+                
+                {/* Stat 1 */}
+                <div className="deals-stat-item">
+                  <span className="deals-stat-label">% Deal win rate</span>
+                  <div className="deals-stat-val-row">
+                    <span className="deals-stat-number">0%</span>
+                    <span className="deals-stat-badge-red">- 0% From Sep 7</span>
+                  </div>
                 </div>
-                <div style={{ background: '#ffffff', padding: 14, borderRadius: 8, border: '1px solid #e2e8f0' }}>
-                  <div style={{ fontSize: 11, color: '#64748b' }}>Win Rate</div>
-                  <div style={{ fontSize: 18, fontWeight: 800, color: '#16a34a' }}>32.4%</div>
+
+                {/* Stat 2 */}
+                <div className="deals-stat-item">
+                  <span className="deals-stat-label"># Deals</span>
+                  <div className="deals-stat-val-row">
+                    <span className="deals-stat-number">0</span>
+                    <span className="deals-stat-badge-red">- 0 From Sep 7</span>
+                  </div>
                 </div>
-                <div style={{ background: '#ffffff', padding: 14, borderRadius: 8, border: '1px solid #e2e8f0' }}>
-                  <div style={{ fontSize: 11, color: '#64748b' }}>Avg Cycle</div>
-                  <div style={{ fontSize: 18, fontWeight: 800, color: '#3b82f6' }}>18 days</div>
+
+                {/* Stat 3 */}
+                <div className="deals-stat-item">
+                  <span className="deals-stat-label">$ Deal total amount won</span>
+                  <div className="deals-stat-val-row">
+                    <span className="deals-stat-number">0</span>
+                    <span className="deals-stat-badge-red">- 0 From Sep 7</span>
+                  </div>
                 </div>
+
+                {/* Stat 4 */}
+                <div className="deals-stat-item">
+                  <span className="deals-stat-label">$ Deal total weighted forecasted revenue</span>
+                  <div className="deals-stat-val-row">
+                    <span className="deals-stat-number">0</span>
+                    <span className="deals-stat-badge-red">- 0 From Sep 7</span>
+                  </div>
+                </div>
+
+                {/* Stat 5 */}
+                <div className="deals-stat-item">
+                  <span className="deals-stat-label">Deal avg. sales cycle length</span>
+                  <div className="deals-stat-val-row">
+                    <span className="deals-stat-number">0</span>
+                    <span className="deals-stat-badge-red">- 0 From Sep 7</span>
+                  </div>
+                </div>
+
               </div>
             </div>
+
+            {/* 2. Grid 3 Cards: Pipeline, Volume by Stages, Sales Cycle Length */}
+            <div className="analytics-grid-3-col">
+              
+              {/* Card A: Pipeline */}
+              <div className="analytics-box-card">
+                <div className="analytics-box-header">
+                  <span className="analytics-box-title">Pipeline</span>
+                  <button className="analytics-box-menu" onClick={() => showToast && showToast('Pipeline options')}>•••</button>
+                </div>
+                <div className="pipeline-axis-wrap">
+                  <div className="pipeline-y-labels">
+                    <span>$ Deal pipeline generated</span>
+                    <span>$ Deal total weighted forecasted revenue</span>
+                    <span>$ Deal total amount won</span>
+                    <span>$ Deal avg. amount</span>
+                  </div>
+                  <div className="pipeline-chart-area">
+                    <span className="pipeline-x-label">0</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Card B: Deal Volume by Stages */}
+              <div className="analytics-box-card">
+                <div className="analytics-box-header">
+                  <span className="analytics-box-title">Deal Volume by Stages</span>
+                  <button className="analytics-box-menu" onClick={() => showToast && showToast('Volume options')}>•••</button>
+                </div>
+                <div className="volume-chart-area">
+                  <div className="volume-y-row">
+                    <span className="volume-y-label"># Deals</span>
+                    <div className="volume-dashed-line">
+                      <div className="volume-zero-dot" />
+                    </div>
+                  </div>
+                  <div className="volume-x-stages">
+                    <span>Lead</span>
+                    <span>Sales...</span>
+                    <span>Mee...</span>
+                    <span>Nego...</span>
+                    <span>Cont...</span>
+                    <span>Clo...</span>
+                    <span>Clo...</span>
+                  </div>
+                  <div className="volume-bottom-caption">Deal Stage</div>
+                </div>
+              </div>
+
+              {/* Card C: Average Sales Cycle Length by Stage */}
+              <div className="analytics-box-card">
+                <div className="analytics-box-header">
+                  <span className="analytics-box-title">Average Sales Cycle Length by Stage</span>
+                  <button className="analytics-box-menu" onClick={() => showToast && showToast('Cycle options')}>•••</button>
+                </div>
+                <div className="cycle-chart-area">
+                  <div className="cycle-y-stages">
+                    <span>Lead</span>
+                    <span>Sales Qualified</span>
+                    <span>Meeting Booked</span>
+                    <span>Negotiation</span>
+                    <span>Contract Sent</span>
+                    <span>Closed Won</span>
+                    <span>Closed Lost</span>
+                  </div>
+                  <div className="cycle-chart-line">
+                    <span className="pipeline-x-label">0</span>
+                  </div>
+                </div>
+                <div className="volume-bottom-caption" style={{ marginTop: 18 }}>
+                  Deal avg. stage change in days
+                </div>
+              </div>
+
+            </div>
+
+            {/* 3. Grid 2 Cards: Revenue Trends & Forecasted Revenue by Category */}
+            <div className="analytics-grid-2-col">
+              
+              {/* Card A: Revenue Trends */}
+              <div className="analytics-box-card">
+                <div className="analytics-box-header">
+                  <span className="analytics-box-title">Revenue Trends</span>
+                  <button className="analytics-box-menu" onClick={() => showToast && showToast('Revenue Trends options')}>•••</button>
+                </div>
+                
+                <div className="revenue-trends-canvas">
+                  <div className="revenue-trend-line-wrap">
+                    <div className="revenue-flat-blue-line" />
+                    <div className="revenue-chart-dot" />
+                    <div className="revenue-chart-dot" />
+                    <div className="revenue-chart-dot" />
+                    <div className="revenue-chart-dot" style={{ boxShadow: '0 0 0 3px rgba(37,99,235,0.3)' }} />
+                    <div className="revenue-chart-dot" />
+                    
+                    {/* Dark Floating Tooltip matching Screenshot */}
+                    <div className="revenue-dark-tooltip">
+                      <div className="revenue-dark-tooltip-title">
+                        <span style={{ width: 6, height: 6, background: '#38bdf8', borderRadius: 1, display: 'inline-block' }} />
+                        $ Deal total weighted forecasted revenue
+                      </div>
+                      <div className="revenue-dark-tooltip-date">Sep 08 2024 - Sep 15 2024</div>
+                      <div className="revenue-dark-tooltip-val">0</div>
+                    </div>
+                  </div>
+
+                  <div className="revenue-dates-row">
+                    <span>Aug 25 2024</span>
+                    <span>Aug 29</span>
+                    <span>Sep 01</span>
+                    <span>Sep 08 2024</span>
+                    <span>Sep 15 2024</span>
+                  </div>
+                </div>
+
+                <div className="revenue-legend-row">
+                  <div className="revenue-legend-item">
+                    <div className="legend-square-blue" />
+                    <span>$ Amount total revenue</span>
+                  </div>
+                  <div className="revenue-legend-item">
+                    <div className="legend-square-blue" style={{ background: '#38bdf8' }} />
+                    <span>$ Deal total amount won</span>
+                  </div>
+                  <div className="revenue-legend-item">
+                    <div className="legend-square-blue" style={{ background: '#818cf8' }} />
+                    <span>$ Deal pipeline generated</span>
+                  </div>
+                  <div className="revenue-legend-item">
+                    <div className="legend-square-blue" style={{ background: '#60a5fa' }} />
+                    <span>$ Deal total amount</span>
+                  </div>
+                  <div className="revenue-legend-item">
+                    <div className="legend-square-blue" style={{ background: '#2563eb' }} />
+                    <span>$ Deal total weighted forecasted revenue</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Card B: Forecasted Revenue by Category */}
+              <div className="analytics-box-card">
+                <div className="analytics-box-header">
+                  <span className="analytics-box-title">Forecasted Revenue by Category</span>
+                  <button className="analytics-box-menu" onClick={() => showToast && showToast('Category options')}>•••</button>
+                </div>
+                
+                <div className="donut-chart-wrap">
+                  <svg className="donut-circle-svg" viewBox="0 0 36 36">
+                    <path
+                      d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                      fill="none"
+                      stroke="#f1f5f9"
+                      strokeWidth="2.8"
+                    />
+                  </svg>
+
+                  <div className="donut-legend-grid">
+                    <div className="donut-legend-item">
+                      <div className="legend-dot-circle" style={{ background: '#60a5fa' }} />
+                      <span>Best Case</span>
+                    </div>
+                    <div className="donut-legend-item">
+                      <div className="legend-dot-circle" style={{ background: '#0284c7' }} />
+                      <span>Closed</span>
+                    </div>
+                    <div className="donut-legend-item">
+                      <div className="legend-dot-circle" style={{ background: '#2563eb' }} />
+                      <span>Commit</span>
+                    </div>
+                    <div className="donut-legend-item">
+                      <div className="legend-dot-circle" style={{ background: '#93c5fd' }} />
+                      <span>Most Likely</span>
+                    </div>
+                    <div className="donut-legend-item">
+                      <div className="legend-dot-circle" style={{ background: '#3b82f6' }} />
+                      <span>Omitted</span>
+                    </div>
+                    <div className="donut-legend-item">
+                      <div className="legend-dot-circle" style={{ background: '#10b981' }} />
+                      <span>Pipeline</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+            {/* 4. Deals Leaderboard (Full width card) */}
+            <div className="analytics-box-card">
+              <div className="analytics-box-header">
+                <span className="analytics-box-title">Deals Leaderboard</span>
+                <button className="analytics-box-menu" onClick={() => showToast && showToast('Leaderboard options')}>•••</button>
+              </div>
+              <div className="leaderboard-empty-table">
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 6, width: '60%', margin: '10px 0' }}>
+                  <div style={{ height: 8, background: '#f1f5f9', borderRadius: 4 }} />
+                  <div style={{ height: 8, background: '#f8fafc', borderRadius: 4 }} />
+                  <div style={{ height: 8, background: '#f1f5f9', borderRadius: 4 }} />
+                </div>
+                <TableIcon size={24} color="#cbd5e1" />
+                <span>No data yet</span>
+              </div>
+            </div>
+
+            {/* 5. Grid 2 Cards: Deal Amount Won by Rep & Activity by Rep */}
+            <div className="analytics-grid-2-col">
+              
+              <div className="analytics-box-card">
+                <div className="analytics-box-header">
+                  <span className="analytics-box-title">Deal Amount Won by Rep</span>
+                  <button className="analytics-box-menu" onClick={() => showToast && showToast('Options')}>•••</button>
+                </div>
+                <div className="leaderboard-empty-table" style={{ minHeight: 160 }}>
+                  <div style={{ display: 'flex', gap: 14, alignItems: 'flex-end', height: 80, marginBottom: 10 }}>
+                    <div style={{ width: 18, height: 40, background: '#f1f5f9', borderRadius: '4px 4px 0 0' }} />
+                    <div style={{ width: 18, height: 60, background: '#f1f5f9', borderRadius: '4px 4px 0 0' }} />
+                    <div style={{ width: 18, height: 30, background: '#f1f5f9', borderRadius: '4px 4px 0 0' }} />
+                  </div>
+                  <BarChart3 size={22} color="#cbd5e1" />
+                  <span>No data yet</span>
+                </div>
+              </div>
+
+              <div className="analytics-box-card">
+                <div className="analytics-box-header">
+                  <span className="analytics-box-title">Activity by Rep</span>
+                  <button className="analytics-box-menu" onClick={() => showToast && showToast('Options')}>•••</button>
+                </div>
+                <div className="leaderboard-empty-table" style={{ minHeight: 160 }}>
+                  <TrendingUp size={22} color="#cbd5e1" />
+                  <span>No data yet</span>
+                </div>
+              </div>
+
+            </div>
+
+            {/* 6. Deals for follow-up (Bottom celebration card) */}
+            <div className="deals-followup-card">
+              <div style={{ fontSize: 13.5, fontWeight: 700, color: '#0f172a' }}>Deals for follow-up</div>
+              
+              <div className="deals-followup-controls">
+                <div className="followup-owner-pill" onClick={() => showToast && showToast('Filter by owner')}>
+                  <span>Shivam Ahirwar (You)</span>
+                  <span className="followup-owner-counter">1</span>
+                  <ChevronDown size={12} color="#64748b" />
+                </div>
+
+                <div className="followup-timeframe-pill" onClick={() => showToast && showToast('Filter timeframe')}>
+                  <span style={{ color: '#64748b', fontSize: 11.5 }}>Follow-up timeframe:</span>
+                  <span style={{ fontWeight: 600 }}>14 Days</span>
+                  <ChevronDown size={12} color="#64748b" />
+                </div>
+              </div>
+
+              <div className="followup-empty-center">
+                <div className="followup-title">Deals are looking good!</div>
+                <div className="followup-subtext">
+                  Great news! All deals are up to date. Try adjusting the owner filter or visit your overview page to view all deals.
+                </div>
+                <button 
+                  className="btn-view-deals-yellow"
+                  onClick={() => setActiveTab('overview')}
+                >
+                  View deals
+                </button>
+              </div>
+            </div>
+
           </div>
         )}
 

@@ -73,6 +73,7 @@ export default function MeetingsView({ showToast }) {
   });
   const [showCalendarModal, setShowCalendarModal] = useState(false);
   const [showMailboxModal, setShowMailboxModal] = useState(false);
+  const [calendarEmail, setCalendarEmail] = useState('shivamahirwar773@gmail.com');
 
   const toggleRecording = (key) => {
     setToggleStates(prev => {
@@ -82,6 +83,21 @@ export default function MeetingsView({ showToast }) {
       }
       return { ...prev, [key]: next };
     });
+  };
+
+  const handleConnectCalendar = (e) => {
+    if (e) e.preventDefault();
+    if (!calendarEmail || !calendarEmail.includes('@')) {
+      if (showToast) showToast('Please enter a valid email address');
+      return;
+    }
+    setShowCalendarModal(false);
+    if (showToast) {
+      showToast(`Connecting calendar for ${calendarEmail}...`);
+      setTimeout(() => {
+        showToast(`Calendar successfully connected for ${calendarEmail}!`);
+      }, 1200);
+    }
   };
 
   const handleConnectProvider = (provider) => {
@@ -469,54 +485,77 @@ export default function MeetingsView({ showToast }) {
         </div>
       </div>
 
-      {/* ─── MODAL: Connect Calendar Flow ─── */}
+      {/* ─── MODAL: Connect Calendar Flow (1:1 with Screenshot) ─── */}
       {showCalendarModal && (
         <div className="calendar-modal-backdrop" onClick={() => setShowCalendarModal(false)}>
           <div className="calendar-modal-container" onClick={(e) => e.stopPropagation()}>
-            <div className="calendar-modal-header">
-              <h3>Connect your calendar</h3>
-              <button className="calendar-modal-close" onClick={() => setShowCalendarModal(false)}>
+            <div className="cal-modal-top">
+              <h3 className="cal-modal-title">Connect your calendar</h3>
+              <button 
+                className="cal-modal-close" 
+                onClick={() => setShowCalendarModal(false)}
+                title="Close"
+              >
                 <X size={18} />
               </button>
             </div>
-            <div className="calendar-modal-body">
-              <p style={{ fontSize: '13.5px', color: '#64748b', margin: '0 0 8px 0' }}>
-                Select your calendar provider to sync scheduled discovery calls and enable 1-click booking links:
+
+            <p className="cal-modal-subtitle">
+              One Google or Microsoft (365, Outlook, Exchange) calendar per user can be connected.
+            </p>
+
+            <form onSubmit={handleConnectCalendar}>
+              <div className="cal-modal-form-group">
+                <label className="cal-modal-label">
+                  Email <span className="cal-label-star">*</span>
+                </label>
+                <input 
+                  type="email"
+                  className="cal-modal-input"
+                  value={calendarEmail}
+                  onChange={(e) => setCalendarEmail(e.target.value)}
+                  placeholder="name@company.com"
+                  autoFocus
+                  required
+                />
+              </div>
+
+              <p className="cal-modal-disclaimer">
+                By clicking &quot;Connect&quot; below, I acknowledge that business contact data submitted from my calendar to Apollo may be used to provide and improve Apollo&apos;s services as further described in our{' '}
+                <a 
+                  href="#terms" 
+                  onClick={(e) => { e.preventDefault(); showToast && showToast('Opening Terms of Service'); }}
+                  className="cal-link"
+                >
+                  Terms of Service
+                </a>
+                .{' '}
+                <a 
+                  href="#learn-more" 
+                  onClick={(e) => { e.preventDefault(); showToast && showToast('Learn more about data sharing'); }}
+                  className="cal-link"
+                >
+                  Learn more
+                </a>{' '}
+                about data sharing.
               </p>
 
-              <div className="calendar-provider-card" onClick={() => handleConnectProvider('Google Calendar')}>
-                <div className="calendar-provider-left">
-                  <GoogleMeetIcon />
-                  <div>
-                    <div className="calendar-provider-name">Google Calendar</div>
-                    <div className="calendar-provider-sub">Google Workspace & Gmail accounts</div>
-                  </div>
-                </div>
-                <ExternalLink size={16} color="#64748b" />
+              <div className="cal-modal-actions">
+                <button 
+                  type="button"
+                  className="cal-btn-cancel" 
+                  onClick={() => setShowCalendarModal(false)}
+                >
+                  Cancel
+                </button>
+                <button 
+                  type="submit"
+                  className="cal-btn-connect"
+                >
+                  Connect
+                </button>
               </div>
-
-              <div className="calendar-provider-card" onClick={() => handleConnectProvider('Microsoft Outlook')}>
-                <div className="calendar-provider-left">
-                  <MicrosoftTeamsIcon />
-                  <div>
-                    <div className="calendar-provider-name">Microsoft Outlook / 365</div>
-                    <div className="calendar-provider-sub">Work or school Microsoft 365 accounts</div>
-                  </div>
-                </div>
-                <ExternalLink size={16} color="#64748b" />
-              </div>
-
-              <div className="calendar-provider-card" onClick={() => handleConnectProvider('Zoom Integration')}>
-                <div className="calendar-provider-left">
-                  <ZoomIcon />
-                  <div>
-                    <div className="calendar-provider-name">Zoom Meetings</div>
-                    <div className="calendar-provider-sub">Automatically create Zoom video links</div>
-                  </div>
-                </div>
-                <ExternalLink size={16} color="#64748b" />
-              </div>
-            </div>
+            </form>
           </div>
         </div>
       )}

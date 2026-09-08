@@ -1,0 +1,502 @@
+/* ==========================================================================
+   FormsView.css — Apollo.io Inbound Forms & Form Enrichment Styling (1:1 Match)
+   ========================================================================== */
+
+.fv-view-container {
+  display: flex;
+  flex-direction: column;
+  background-color: #f8fafc;
+  min-height: calc(100% + 48px);
+  margin: -24px -36px;
+  width: calc(100% + 72px);
+  box-sizing: border-box;
+  color: #0f172a;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* ─── Top Header ─── */
+.fv-header {
+  position: sticky;
+  top: -24px;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  padding: 18px 32px 16px 32px;
+  background: #ffffff;
+  border-bottom: 1px solid #e2e8f0;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+}
+
+.fv-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+
+/* ─── Main Body Container ─── */
+.fv-body {
+  max-width: 940px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 44px 20px 60px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+/* Hero Section */
+.fv-hero-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin-bottom: 36px;
+  gap: 12px;
+  max-width: 720px;
+}
+
+.fv-hero-title {
+  font-size: 24px;
+  font-weight: 800;
+  color: #0f172a;
+  line-height: 1.35;
+  margin: 0;
+  letter-spacing: -0.015em;
+}
+
+.fv-hero-desc {
+  font-size: 14px;
+  color: #475569;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* ─── 2 Column Feature Cards Grid ─── */
+.fv-cards-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  width: 100%;
+}
+
+.fv-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  display: flex;
+  flex-direction: column;
+  transition: all 0.2s ease;
+}
+
+.fv-card:hover {
+  border-color: #cbd5e1;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  transform: translateY(-2px);
+}
+
+/* ─── Graphic Box 1: Sky Blue (Form Enrichment comparison) ─── */
+.fv-graphic-box {
+  height: 250px;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  box-sizing: border-box;
+}
+
+.fv-graphic-box.blue {
+  background: #dceafc;
+}
+
+/* Flower Petal Cluster Graphics */
+.fv-flower-cluster {
+  position: absolute;
+  width: 110px;
+  height: 110px;
+  pointer-events: none;
+}
+
+.fv-flower-cluster.blue {
+  left: 20px;
+  top: 60px;
+}
+
+.fv-flower-cluster.yellow {
+  left: 36px;
+  top: 70px;
+}
+
+.fv-petal {
+  position: absolute;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+}
+
+.fv-petal.blue {
+  background: #3b82f6;
+  opacity: 0.95;
+}
+
+.fv-petal.yellow {
+  background: #f59e0b;
+  opacity: 0.95;
+}
+
+.fv-petal.p1 { top: 0px; left: 32px; }
+.fv-petal.p2 { top: 22px; left: 2px; }
+.fv-petal.p3 { top: 22px; left: 62px; }
+.fv-petal.p4 { top: 58px; left: 14px; }
+.fv-petal.p5 { top: 58px; left: 50px; }
+
+/* Comparison Forms Mockups */
+.fv-enrichment-comparison {
+  display: flex;
+  gap: 14px;
+  position: relative;
+  z-index: 2;
+  align-items: flex-start;
+  margin-top: 10px;
+}
+
+.fv-mini-form {
+  background: #ffffff;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  padding: 10px 12px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+  width: 142px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  box-sizing: border-box;
+}
+
+.fv-mini-form.after-card {
+  width: 154px;
+}
+
+.fv-badge-pill {
+  font-size: 8px;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 10px;
+  align-self: center;
+  margin-bottom: 2px;
+}
+
+.fv-badge-pill.before {
+  background: #e2e8f0;
+  color: #475569;
+}
+
+.fv-badge-pill.after {
+  background: #bae6fd;
+  color: #0369a1;
+}
+
+.fv-form-logo {
+  font-size: 10px;
+  font-weight: 800;
+  color: #0f172a;
+}
+.fv-form-logo span { color: #ea580c; }
+
+.fv-mock-input {
+  height: 15px;
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 4px;
+  padding: 0 5px;
+  font-size: 7.5px;
+  color: #94a3b8;
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+.fv-mock-input.pink-highlight {
+  border: 1px dashed #fb7185;
+  background: #fff1f2;
+  color: #e11d48;
+}
+
+.fv-btn-submit-mock {
+  background: #0f172a;
+  color: #ffffff;
+  border-radius: 4px;
+  font-size: 7.5px;
+  font-weight: 700;
+  text-align: center;
+  padding: 4px 0;
+  margin-top: 3px;
+  cursor: default;
+}
+
+/* ─── Graphic Box 2: Warm Peach (Form Builder Mockup) ─── */
+.fv-graphic-box.peach {
+  background: #fee7d6;
+}
+
+.fv-builder-modal-mock {
+  background: #ffffff;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  padding: 14px 16px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  width: 220px;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  position: relative;
+  z-index: 2;
+  margin-left: 40px;
+  box-sizing: border-box;
+}
+
+.fv-builder-title {
+  font-size: 11px;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0 0 2px 0;
+}
+
+.fv-builder-field {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.fv-builder-label {
+  font-size: 7.5px;
+  font-weight: 600;
+  color: #475569;
+}
+
+.fv-builder-input {
+  height: 14px;
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 3px;
+  padding: 0 4px;
+  font-size: 7px;
+  color: #94a3b8;
+  display: flex;
+  align-items: center;
+}
+
+/* Card Content Details */
+.fv-card-content {
+  padding: 22px 24px 24px 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex: 1;
+  gap: 16px;
+}
+
+.fv-card-info {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.fv-card-heading {
+  font-size: 16px;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0;
+}
+
+.fv-card-text {
+  font-size: 13px;
+  color: #475569;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.fv-btn-yellow {
+  background: #efff04;
+  border: 1px solid #d9e600;
+  color: #0f172a;
+  font-size: 13.5px;
+  font-weight: 700;
+  padding: 10px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  transition: all 0.15s ease;
+  box-sizing: border-box;
+}
+
+.fv-btn-yellow:hover {
+  background: #e4f500;
+  transform: translateY(-1px);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* ─── Floating Help Button ─── */
+.fv-floating-help {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  color: #334155;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  font-weight: 700;
+  cursor: pointer;
+  z-index: 50;
+  transition: all 0.2s ease;
+}
+
+.fv-floating-help:hover {
+  transform: scale(1.08);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+  color: #0f172a;
+}
+
+/* ─── Modals ─── */
+.fv-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.55);
+  backdrop-filter: blur(3px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  padding: 20px;
+}
+
+.fv-modal-card {
+  background: #ffffff;
+  border-radius: 14px;
+  width: 100%;
+  max-width: 580px;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: modalScale 0.18s ease-out;
+}
+
+.fv-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 24px 16px 24px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.fv-modal-title {
+  font-size: 16.5px;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0;
+}
+
+.fv-modal-close {
+  background: none;
+  border: none;
+  color: #64748b;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 6px;
+}
+
+.fv-modal-close:hover {
+  background: #f1f5f9;
+  color: #0f172a;
+}
+
+.fv-modal-body {
+  padding: 22px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.fv-modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 16px 24px;
+  border-top: 1px solid #e2e8f0;
+  background: #f8fafc;
+}
+
+.fv-btn-cancel {
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  padding: 7px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #0f172a;
+  cursor: pointer;
+}
+
+.fv-btn-submit {
+  background: #efff04;
+  border: 1px solid #d9e600;
+  border-radius: 6px;
+  padding: 7px 20px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #0f172a;
+  cursor: pointer;
+}
+
+/* Responsive */
+@media (max-width: 820px) {
+  .fv-cards-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .fv-view-container {
+    margin: -12px -14px !important;
+    width: calc(100% + 28px) !important;
+  }
+  .fv-header {
+    top: -12px !important;
+    padding: 14px 16px !important;
+  }
+  .fv-body {
+    padding: 24px 14px 40px 14px;
+  }
+  .fv-hero-title {
+    font-size: 20px;
+  }
+  .fv-graphic-box {
+    height: auto;
+    min-height: 220px;
+    padding: 14px 8px;
+  }
+  .fv-enrichment-comparison {
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+}
+

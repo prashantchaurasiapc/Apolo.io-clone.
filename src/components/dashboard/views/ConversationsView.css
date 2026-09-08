@@ -523,8 +523,44 @@
   .conversations-illustration-col {
     border-right: none;
     border-bottom: 1px solid #1e293b;
+    padding: 24px 16px;
   }
   .conversations-content-col {
     padding: 36px 24px;
   }
 }
+
+@media (max-width: 640px) {
+  .conversations-page-header {
+    padding: 14px 16px;
+  }
+  .conversations-summary-card {
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: 16px;
+  }
+  .conversations-video-card {
+    width: 100%;
+    max-width: 100%;
+    align-self: center;
+  }
+  .video-frame-container {
+    height: 180px;
+  }
+  .conversations-hero-title {
+    font-size: 22px;
+  }
+  .conversations-hero-subtitle {
+    font-size: 13.5px;
+  }
+  .conversations-cta-group {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .btn-get-started-yellow, .btn-explore-demo-white {
+    width: 100%;
+    text-align: center;
+    justify-content: center;
+  }
+}
+

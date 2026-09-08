@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { 
-  Search, Bell, ChevronDown, Settings, LogOut, CheckCircle2, Zap, Sparkles
+  Search, Bell, ChevronDown, Settings, LogOut, CheckCircle2, Zap, Sparkles, Menu
 } from 'lucide-react';
 import Sidebar from './dashboard/Sidebar';
 import {
@@ -25,6 +25,7 @@ export default function Dashboard({ user, activeTab = 'home', onSelectTab, onLog
   const [searchQuery, setSearchQuery] = useState('');
   const [revealedEmails, setRevealedEmails] = useState({});
   const [toastMessage, setToastMessage] = useState('');
+  const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
 
   const currentUser = user || {
     name: 'Abhishek Kumar',
@@ -114,6 +115,8 @@ export default function Dashboard({ user, activeTab = 'home', onSelectTab, onLog
         onSelectTab={onSelectTab}
         onUpgradeClick={() => showToast('Enterprise Unlimited Plan activated')}
         showToast={showToast}
+        mobileOpen={mobileSidebarOpen}
+        onCloseMobile={() => setMobileSidebarOpen(false)}
       />
 
       {/* Right Main Content Area (Header at top of right area) */}
@@ -123,6 +126,13 @@ export default function Dashboard({ user, activeTab = 'home', onSelectTab, onLog
            ───────────────────────────────────────────────────────────── */}
         <header className="dash-topbar">
           <div className="dash-topbar-left">
+            <button 
+              className="dash-mobile-menu-btn" 
+              onClick={() => setMobileSidebarOpen(!mobileSidebarOpen)}
+              title="Toggle Menu"
+            >
+              <Menu size={18} />
+            </button>
             <div className="dash-search-container">
               <Search size={15} className="dash-search-icon" />
               <input 

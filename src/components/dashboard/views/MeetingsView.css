@@ -577,31 +577,177 @@
   transform: translateY(0);
 }
 
-/* Modal for Connect Calendar Flow */
+/* Modal for Connect Calendar Flow (1:1 Match with Screenshot) */
 .calendar-modal-backdrop {
   position: fixed;
   inset: 0;
-  background: rgba(15, 23, 42, 0.5);
-  backdrop-filter: blur(4px);
+  background: rgba(15, 23, 42, 0.45);
+  backdrop-filter: blur(3px);
   z-index: 1000;
   display: flex;
   align-items: center;
   justify-content: center;
-  animation: modalFadeIn 0.2s ease;
+  padding: 16px;
+  animation: modalFadeIn 0.18s ease-out;
 }
 
 .calendar-modal-container {
   background: #ffffff;
-  border-radius: 16px;
-  width: 90%;
-  max-width: 520px;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+  border-radius: 12px;
+  width: 100%;
+  max-width: 530px;
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.22);
   overflow: hidden;
   border: 1px solid #e2e8f0;
+  padding: 24px 28px 24px 28px;
+  display: flex;
+  flex-direction: column;
 }
 
+.cal-modal-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.cal-modal-title {
+  font-size: 17px;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+
+.cal-modal-close {
+  background: transparent;
+  border: none;
+  color: #64748b;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+}
+
+.cal-modal-close:hover {
+  background: #f1f5f9;
+  color: #0f172a;
+}
+
+.cal-modal-subtitle {
+  font-size: 13.5px;
+  color: #334155;
+  line-height: 1.5;
+  margin: 0 0 18px 0;
+}
+
+.cal-modal-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 14px;
+}
+
+.cal-modal-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #334155;
+}
+
+.cal-label-star {
+  color: #ef4444;
+  margin-left: 2px;
+}
+
+.cal-modal-input {
+  width: 100%;
+  padding: 10px 14px;
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #0f172a;
+  outline: none;
+  transition: all 0.15s ease;
+  box-sizing: border-box;
+  font-family: inherit;
+}
+
+.cal-modal-input:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+}
+
+.cal-modal-disclaimer {
+  font-size: 12px;
+  color: #64748b;
+  line-height: 1.55;
+  margin: 0 0 24px 0;
+}
+
+.cal-link {
+  color: #475569;
+  text-decoration: underline;
+  cursor: pointer;
+  transition: color 0.12s ease;
+}
+
+.cal-link:hover {
+  color: #0f172a;
+}
+
+.cal-modal-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.cal-btn-cancel {
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  color: #334155;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 7px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  font-family: inherit;
+}
+
+.cal-btn-cancel:hover {
+  background: #f8fafc;
+  border-color: #94a3b8;
+  color: #0f172a;
+}
+
+.cal-btn-connect {
+  background: #efff04;
+  border: 1px solid #d9e600;
+  color: #0f172a;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 7px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  font-family: inherit;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.cal-btn-connect:hover {
+  background: #e4f500;
+  transform: translateY(-0.5px);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Mailbox modal header / body compatibility */
 .calendar-modal-header {
-  padding: 20px 24px;
+  padding: 18px 24px;
   border-bottom: 1px solid #e2e8f0;
   display: flex;
   align-items: center;
@@ -680,8 +826,45 @@
   .meetings-illustration-col {
     border-right: none;
     border-bottom: 1px solid #ede9fe;
+    padding: 28px 16px;
   }
   .meetings-content-col {
     padding: 36px 24px;
   }
 }
+
+@media (max-width: 640px) {
+  .meetings-page-header {
+    padding: 14px 16px;
+  }
+  .meetings-warning-banner {
+    padding: 10px 14px;
+    font-size: 12.5px;
+  }
+  .scheduler-inner-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  .meetings-preview-card {
+    padding: 12px 14px;
+  }
+  .calendar-modal-container {
+    padding: 20px 18px 18px 18px;
+    border-radius: 10px;
+    max-width: 100%;
+  }
+  .meetings-preview-card-compact {
+    width: 100%;
+  }
+  .meetings-hero-title {
+    font-size: 22px;
+  }
+  .meetings-hero-subtitle {
+    font-size: 13.5px;
+  }
+  .btn-connect-calendar {
+    width: 100%;
+  }
+}
+
+

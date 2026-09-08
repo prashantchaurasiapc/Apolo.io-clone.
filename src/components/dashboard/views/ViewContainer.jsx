@@ -10,6 +10,12 @@ import {
 import MeetingsView from './MeetingsView';
 import ConversationsView from './ConversationsView';
 import DealsView from './DealsView';
+import { WorkflowsView } from './WorkflowsView';
+import { AnalyticsView } from './AnalyticsView';
+import { WebsiteVisitorsView } from './WebsiteVisitorsView';
+import { FormsView } from './FormsView';
+import { SavedPeopleView } from './SavedPeopleView';
+import { SavedCompaniesView } from './SavedCompaniesView';
 
 
 
@@ -512,162 +518,22 @@ export { DealsView };
 
 
 /* ─── 14. Workflows View ─── */
-export const WorkflowsView = ({ showToast }) => (
-  <div className="dash-view-content">
-    <div className="dash-view-header">
-      <div className="dash-view-title-group">
-        <h1>Tools & Automation — Workflows</h1>
-        <p>Trigger-based automation rules for lead routing, tagging, and CRM sync.</p>
-      </div>
-      <button className="dash-btn-primary" onClick={() => showToast('Creating New Workflow...')}>
-        <Plus size={14} /> Create Workflow
-      </button>
-    </div>
-    <div className="dash-card-section">
-      <table className="dash-leads-table">
-        <thead>
-          <tr><th>Workflow Trigger</th><th>Automated Action</th><th>Executions</th><th>Status</th></tr>
-        </thead>
-        <tbody>
-          <tr><td style={{ fontWeight: 700 }}>New Verified Lead in US</td><td>Auto-add to Cold Outbound Sequence</td><td>4,210</td><td><span className="dash-metric-badge green">Active</span></td></tr>
-          <tr><td style={{ fontWeight: 700 }}>Website Visitor Intent Signal</td><td>Create Task: Follow-up Phone Call</td><td>840</td><td><span className="dash-metric-badge green">Active</span></td></tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-);
+export { WorkflowsView };
 
 /* ─── 15. Analytics View ─── */
-export const AnalyticsView = ({ showToast }) => (
-  <div className="dash-view-content">
-    <div className="dash-view-header">
-      <div className="dash-view-title-group">
-        <h1>Tools & Automation — Analytics & Reports</h1>
-        <p>Comprehensive reports on email deliverability, meeting conversion rates, and rep activity.</p>
-      </div>
-    </div>
-    <div className="dash-card-section">
-      <div className="dash-metrics-grid">
-        <div className="dash-metric-card">
-          <div className="dash-metric-label">Total Outbound Emails</div>
-          <div className="dash-metric-value">12,450</div>
-        </div>
-        <div className="dash-metric-card">
-          <div className="dash-metric-label">Open Rate Average</div>
-          <div className="dash-metric-value">54.8%</div>
-        </div>
-        <div className="dash-metric-card">
-          <div className="dash-metric-label">Reply Rate Average</div>
-          <div className="dash-metric-value">11.2%</div>
-        </div>
-        <div className="dash-metric-card">
-          <div className="dash-metric-label">Meetings Booked</div>
-          <div className="dash-metric-value">42</div>
-        </div>
-      </div>
-    </div>
-  </div>
-);
+export { AnalyticsView };
 
 /* ─── 16. Website Visitors View ─── */
-export const WebsiteVisitorsView = ({ showToast }) => (
-  <div className="dash-view-content">
-    <div className="dash-view-header">
-      <div className="dash-view-title-group">
-        <h1>Inbound — Website Visitors Intent</h1>
-        <p>Identify companies visiting your website before they fill out a form.</p>
-      </div>
-    </div>
-    <div className="dash-card-section">
-      <table className="dash-leads-table">
-        <thead>
-          <tr><th>Visiting Company</th><th>Pages Viewed</th><th>Visit Time</th><th>Intent Score</th><th>Action</th></tr>
-        </thead>
-        <tbody>
-          <tr><td style={{ fontWeight: 700 }}>Datadog</td><td>Pricing, Enterprise API Docs</td><td>12 mins ago</td><td><span className="dash-metric-badge green">Very High</span></td><td><button className="dash-btn-primary" style={{ padding: '4px 10px', fontSize: 12 }} onClick={()=>showToast('Revealing decision makers at Datadog...')}>Find Decision Makers</button></td></tr>
-          <tr><td style={{ fontWeight: 700 }}>Snowflake</td><td>Features, Lead Intelligence</td><td>45 mins ago</td><td><span className="dash-metric-badge green">High</span></td><td><button className="dash-btn-primary" style={{ padding: '4px 10px', fontSize: 12 }} onClick={()=>showToast('Revealing decision makers at Snowflake...')}>Find Decision Makers</button></td></tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-);
+export { WebsiteVisitorsView };
 
 /* ─── 17. Forms View ─── */
-export const FormsView = ({ showToast }) => (
-  <div className="dash-view-content">
-    <div className="dash-view-header">
-      <div className="dash-view-title-group">
-        <h1>Inbound — Lead Capture Forms</h1>
-        <p>Embed high-converting lead forms to automatically enrich and score inbound leads.</p>
-      </div>
-      <button className="dash-btn-primary" onClick={() => showToast('New Form Created')}>
-        <Plus size={14} /> Create Inbound Form
-      </button>
-    </div>
-    <div className="dash-card-section">
-      <table className="dash-leads-table">
-        <thead>
-          <tr><th>Form Name</th><th>Submissions</th><th>Conversion Rate</th><th>Status</th></tr>
-        </thead>
-        <tbody>
-          <tr><td style={{ fontWeight: 700 }}>Request Demo Form</td><td>428</td><td>18.4%</td><td><span className="dash-metric-badge green">Active</span></td></tr>
-          <tr><td style={{ fontWeight: 700 }}>Pricing Calculator Form</td><td>192</td><td>12.1%</td><td><span className="dash-metric-badge green">Active</span></td></tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-);
+export { FormsView };
 
-/* ─── 18 & 19. Saved Records Views ─── */
-export const SavedPeopleView = ({ sampleLeads, showToast }) => (
-  <div className="dash-view-content">
-    <div className="dash-view-header">
-      <div className="dash-view-title-group">
-        <h1>Saved Records — People</h1>
-        <p>Your saved contact records and exported leads.</p>
-      </div>
-    </div>
-    <div className="dash-card-section">
-      <table className="dash-leads-table">
-        <thead>
-          <tr><th>Name</th><th>Role</th><th>Company</th><th>Saved Date</th></tr>
-        </thead>
-        <tbody>
-          {sampleLeads.map((l) => (
-            <tr key={l.id}>
-              <td style={{ fontWeight: 700 }}>{l.name}</td>
-              <td>{l.role}</td>
-              <td>{l.company}</td>
-              <td>Sep 08, 2026</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
-  </div>
-);
+/* ─── 18. Saved People View ─── */
+export { SavedPeopleView };
 
-export const SavedCompaniesView = ({ showToast }) => (
-  <div className="dash-view-content">
-    <div className="dash-view-header">
-      <div className="dash-view-title-group">
-        <h1>Saved Records — Companies</h1>
-        <p>Your saved account records and target enterprise lists.</p>
-      </div>
-    </div>
-    <div className="dash-card-section">
-      <table className="dash-leads-table">
-        <thead>
-          <tr><th>Company Name</th><th>Employees</th><th>Industry</th><th>Saved Date</th></tr>
-        </thead>
-        <tbody>
-          <tr><td style={{ fontWeight: 700 }}>Apollo.io</td><td>500-1000</td><td>Sales Tech</td><td>Sep 08, 2026</td></tr>
-          <tr><td style={{ fontWeight: 700 }}>Stripe</td><td>5000+</td><td>FinTech</td><td>Sep 08, 2026</td></tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-);
+/* ─── 19. Saved Companies View ─── */
+export { SavedCompaniesView };
 
 /* ─── 20. Email Health View ─── */
 export const EmailHealthView = ({ showToast }) => (

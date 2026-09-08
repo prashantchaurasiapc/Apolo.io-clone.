@@ -1,0 +1,903 @@
+/* ==========================================================================
+   AnalyticsView.css — Apollo.io Analytics Page Styling (Matching Screenshot 1:1)
+   ========================================================================== */
+
+.av-view-container {
+  display: flex;
+  flex-direction: column;
+  background-color: #f8fafc;
+  min-height: calc(100% + 48px);
+  margin: -24px -36px;
+  width: calc(100% + 72px);
+  box-sizing: border-box;
+  color: #0f172a;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+/* ─── Top Header ─── */
+.av-header {
+  position: sticky;
+  top: -24px;
+  z-index: 100;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 28px 14px 28px;
+  background: #ffffff;
+  border-bottom: 1px solid #e2e8f0;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+.av-header-left {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.av-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+
+.av-tabs {
+  display: flex;
+  gap: 20px;
+}
+
+.av-tab-btn {
+  background: none;
+  border: none;
+  outline: none;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #64748b;
+  padding: 0 0 10px 0;
+  cursor: pointer;
+  position: relative;
+  transition: color 0.15s ease;
+}
+
+.av-tab-btn:hover {
+  color: #0f172a;
+}
+
+.av-tab-btn.active {
+  color: #0f172a;
+}
+
+.av-tab-btn.active::after {
+  content: '';
+  position: absolute;
+  bottom: -15px;
+  left: 0;
+  right: 0;
+  height: 2.5px;
+  background-color: #0f172a;
+  border-radius: 2px 2px 0 0;
+}
+
+.av-header-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  position: relative;
+}
+
+.av-btn-create {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #efff04;
+  border: 1px solid #d9e600;
+  color: #0f172a;
+  font-size: 13.5px;
+  font-weight: 700;
+  padding: 7px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  transition: all 0.15s ease;
+}
+
+.av-btn-create:hover {
+  background: #e4f500;
+  transform: translateY(-0.5px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.av-dropdown-menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 6px;
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+  z-index: 100;
+  width: 180px;
+  padding: 6px;
+  animation: fadeInDown 0.15s ease;
+}
+
+.av-dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  font-size: 13px;
+  color: #334155;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.av-dropdown-item:hover {
+  background: #f1f5f9;
+  color: #0f172a;
+}
+
+/* ─── Main Content Layout ─── */
+.av-layout {
+  display: flex;
+  padding: 20px 28px;
+  gap: 24px;
+  align-items: flex-start;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* ─── Left Sidebar Panel ─── */
+.av-sidebar {
+  width: 260px;
+  flex-shrink: 0;
+  position: sticky;
+  top: 89px;
+  align-self: flex-start;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  z-index: 20;
+}
+
+/* 3 Big Action Cards */
+.av-action-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
+}
+
+.av-action-card:hover {
+  border-color: #cbd5e1;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  transform: translateY(-1px);
+}
+
+.av-action-icon-wrap {
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.av-action-icon-wrap.teal {
+  background: #f0fdfa;
+  color: #0d9488;
+}
+
+.av-action-icon-wrap.pink {
+  background: #fdf2f8;
+  color: #db2777;
+}
+
+.av-action-icon-wrap.purple {
+  background: #faf5ff;
+  color: #9333ea;
+}
+
+.av-action-title {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #1e293b;
+  margin: 0;
+}
+
+/* Recent Section */
+.av-recent-box {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.av-recent-heading {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #64748b;
+  margin: 0;
+}
+
+.av-recent-subtabs {
+  display: flex;
+  gap: 6px;
+}
+
+.av-recent-subtab {
+  background: none;
+  border: none;
+  font-size: 12px;
+  font-weight: 500;
+  color: #64748b;
+  padding: 4px 10px;
+  border-radius: 14px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.av-recent-subtab.active {
+  background: #f1f5f9;
+  color: #0f172a;
+  font-weight: 600;
+}
+
+.av-recent-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.av-recent-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  border-radius: 6px;
+  font-size: 12.5px;
+  font-weight: 500;
+  color: #334155;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.av-recent-item:hover {
+  background: #f8fafc;
+  color: #0f172a;
+}
+
+.av-recent-item-icon {
+  color: #64748b;
+}
+
+/* ─── Right Main Dashboard Area ─── */
+.av-main {
+  flex: 1;
+  min-width: 0;
+  width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+/* Dashboard Selector Top Bar */
+.av-dashboard-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.av-dash-select-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  padding: 7px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #1e293b;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.av-dash-select-btn:hover {
+  background: #f8fafc;
+  border-color: #94a3b8;
+}
+
+.av-dash-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.av-btn-action {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  padding: 6.5px 12px;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #334155;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.av-btn-action:hover {
+  background: #f8fafc;
+  border-color: #94a3b8;
+  color: #0f172a;
+}
+
+/* ─── Grid of Charts (2 equal cards row 1) ─── */
+.av-charts-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.av-chart-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 18px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
+}
+
+.av-chart-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.av-chart-title {
+  font-size: 14.5px;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0;
+}
+
+.av-btn-dots {
+  background: none;
+  border: none;
+  color: #64748b;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.av-btn-dots:hover {
+  background: #f1f5f9;
+  color: #0f172a;
+}
+
+/* Horizontal Multi-Bar Chart (Emails sent by Sales Rep) */
+.av-hbar-chart {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  position: relative;
+}
+
+.av-hbar-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.av-hbar-user {
+  width: 120px;
+  font-size: 11.5px;
+  color: #475569;
+  text-align: right;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-weight: 500;
+}
+
+.av-hbar-bars-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2.5px;
+  position: relative;
+  background: #fafafa;
+  border-left: 1px solid #cbd5e1;
+  padding: 2px 0;
+}
+
+.av-hbar-bar {
+  height: 5.5px;
+  border-radius: 0 3px 3px 0;
+  transition: width 0.4s ease;
+}
+
+.av-hbar-bar.scheduled { background: #818cf8; }
+.av-hbar-bar.sent { background: #38bdf8; }
+.av-hbar-bar.calls { background: #1e40af; }
+
+.av-hbar-axis-x {
+  display: flex;
+  justify-content: space-between;
+  padding-left: 132px;
+  font-size: 10.5px;
+  color: #94a3b8;
+  margin-top: 6px;
+  border-top: 1px solid #e2e8f0;
+  padding-top: 4px;
+}
+
+.av-hbar-legend {
+  display: flex;
+  gap: 16px;
+  font-size: 11.5px;
+  color: #475569;
+  justify-content: center;
+  margin-top: 4px;
+}
+
+.av-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.av-legend-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+/* Donut Chart (Calls made by Sales Rep) */
+.av-donut-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  gap: 20px;
+  padding: 10px 0;
+}
+
+.av-donut-wrap {
+  position: relative;
+  width: 180px;
+  height: 180px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.av-donut-center-label {
+  position: absolute;
+  font-size: 26px;
+  font-weight: 700;
+  color: #0f172a;
+  text-align: center;
+}
+
+.av-donut-legend {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 6px;
+}
+
+.av-donut-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11.5px;
+  color: #475569;
+}
+
+.av-donut-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* ─── Global Bottom Fade Paywall Overlay (Matching Screenshot 1:1) ─── */
+.av-layout-wrapper {
+  position: relative;
+  width: 100%;
+  min-height: calc(100vh - 120px);
+  overflow: hidden;
+}
+
+.av-layout {
+  display: flex;
+  padding: 20px 28px 160px 28px;
+  gap: 24px;
+  align-items: flex-start;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.av-global-fade-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 280px;
+  background: linear-gradient(180deg, rgba(248, 250, 252, 0) 0%, rgba(248, 250, 252, 0.72) 30%, rgba(248, 250, 252, 0.96) 65%, #f8fafc 100%);
+  pointer-events: none;
+  z-index: 25;
+}
+
+.av-global-cta-banner {
+  position: absolute;
+  bottom: 36px;
+  left: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  z-index: 30;
+  padding: 0 20px;
+}
+
+.av-overlay-title {
+  font-size: 22px;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0 0 10px 0;
+  letter-spacing: -0.015em;
+}
+
+.av-overlay-subtitle {
+  font-size: 13.5px;
+  color: #475569;
+  max-width: 620px;
+  line-height: 1.55;
+  margin: 0 0 20px 0;
+}
+
+.av-overlay-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.av-btn-learn {
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  padding: 8px 18px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #0f172a;
+  cursor: pointer;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+  transition: all 0.15s ease;
+}
+
+.av-btn-learn:hover {
+  background: #f8fafc;
+  border-color: #94a3b8;
+}
+
+.av-btn-try {
+  background: #efff04;
+  border: 1px solid #d9e600;
+  border-radius: 6px;
+  padding: 8px 20px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #0f172a;
+  cursor: pointer;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  transition: all 0.15s ease;
+}
+
+.av-btn-try:hover {
+  background: #e4f500;
+  transform: translateY(-0.5px);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.12);
+}
+
+/* ─── Confirm Access to Analytics Modal & Trial Timeline (Screenshot 1:1) ─── */
+.av-confirm-card {
+  background: #ffffff;
+  border-radius: 14px;
+  width: 100%;
+  max-width: 580px;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: modalScale 0.18s ease-out;
+}
+
+@keyframes modalScale {
+  from { opacity: 0; transform: scale(0.96); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.av-confirm-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 24px 16px 24px;
+}
+
+.av-confirm-title {
+  font-size: 16.5px;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0;
+}
+
+.av-confirm-close {
+  background: none;
+  border: none;
+  color: #64748b;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.av-confirm-close:hover {
+  background: #f1f5f9;
+  color: #0f172a;
+}
+
+.av-confirm-body {
+  padding: 0 24px 24px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.av-confirm-desc {
+  font-size: 13.5px;
+  color: #475569;
+  line-height: 1.55;
+  margin: 0;
+}
+
+/* Trial Timeline Strip */
+.av-trial-strip {
+  background: #fefce8;
+  border: 1px solid #fef08a;
+  border-radius: 12px;
+  padding: 20px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  position: relative;
+}
+
+.av-trial-line {
+  position: absolute;
+  top: 38px;
+  left: 55px;
+  right: 55px;
+  height: 2px;
+  background: #fde047;
+  z-index: 1;
+}
+
+.av-trial-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  position: relative;
+  z-index: 2;
+  width: 110px;
+  text-align: center;
+}
+
+.av-trial-step-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+}
+
+.av-trial-step-icon.green {
+  background: #dcfce7;
+  color: #16a34a;
+  border: 1.5px solid #86efac;
+}
+
+.av-trial-step-icon.yellow {
+  background: #fef3c7;
+  color: #d97706;
+  border: 1.5px solid #fde68a;
+}
+
+.av-trial-step-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.av-trial-step-title {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.av-trial-step-date {
+  font-size: 12px;
+  color: #475569;
+  font-weight: 500;
+}
+
+.av-confirm-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 16px 24px;
+  border-top: 1px solid #f1f5f9;
+  background: #ffffff;
+}
+
+.av-btn-cancel {
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  padding: 7px 18px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #0f172a;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.av-btn-cancel:hover {
+  background: #f8fafc;
+  border-color: #94a3b8;
+}
+
+.av-btn-confirm {
+  background: #efff04;
+  border: 1px solid #d9e600;
+  border-radius: 6px;
+  padding: 7px 22px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #0f172a;
+  cursor: pointer;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
+  transition: all 0.15s ease;
+}
+
+.av-btn-confirm:hover {
+  background: #e4f500;
+  transform: translateY(-0.5px);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.12);
+}
+
+/* Modals General */
+.av-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.55);
+  backdrop-filter: blur(3px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  padding: 20px;
+}
+
+.av-modal-card {
+  background: #ffffff;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 540px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+}
+
+.av-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 22px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.av-modal-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0;
+}
+
+.av-modal-body {
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.av-modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 14px 22px;
+  border-top: 1px solid #e2e8f0;
+  background: #f8fafc;
+  border-radius: 0 0 12px 12px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1100px) {
+  .av-charts-row {
+    grid-template-columns: 1fr;
+  }
+  .av-layout {
+    flex-direction: column;
+  }
+  .av-sidebar {
+    width: 100%;
+    position: static;
+  }
+}
+
+@media (max-width: 768px) {
+  .av-view-container {
+    margin: -12px -14px !important;
+    width: calc(100% + 28px) !important;
+  }
+  .av-header {
+    top: -12px !important;
+    padding: 14px 16px !important;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .av-header-right {
+    width: 100%;
+    justify-content: space-between;
+  }
+  .av-layout {
+    padding: 14px 12px;
+  }
+  .av-charts-row {
+    grid-template-columns: 1fr !important;
+  }
+  .av-subnav-row {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .av-subnav-row::-webkit-scrollbar {
+    display: none;
+  }
+}
+

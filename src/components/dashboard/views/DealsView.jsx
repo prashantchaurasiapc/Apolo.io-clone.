@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { 
   Layers, LayoutGrid, SlidersHorizontal, Search, ChevronDown, ChevronUp,
   ArrowUpDown, Settings, Plus, Upload, X, DollarSign, Calendar, 
   Building2, User, TrendingUp, BarChart3, CheckCircle2, Check,
   GitFork, ListFilter, MapPin, Users, Briefcase, FileText, Filter,
-  ChevronRight, Lock
+  ChevronRight, Lock, ArrowUp, Download
 } from 'lucide-react';
 import './DealsView.css';
 
@@ -103,20 +103,57 @@ export default function DealsView({ showToast }) {
   const [showFilters, setShowFilters] = useState(false);
   const [openAccordions, setOpenAccordions] = useState({ stage: true });
 
-  // Modals
-  const [showCreateModal, setShowCreateModal] = useState(false);
-  const [showImportModal, setShowImportModal] = useState(false);
+  // Modals & Drawers
+  const [showCreateDrawer, setShowCreateDrawer] = useState(false);
+  const [showCustomFields, setShowCustomFields] = useState(false);
+  const [dealForm, setDealForm] = useState({
+    name: '',
+    company: '',
+    pipeline: 'Pipeline 1',
+    stage: '',
+    closeDate: '',
+    owner: 'Shivam Ahirwar (You)',
+    amount: '',
+    dealType: '',
+    leadSource: ''
+  });
+  const [isImportPage, setIsImportPage] = useState(false);
+  const fileInputRef = useRef(null);
   const [showManagePipelinesModal, setShowManagePipelinesModal] = useState(false);
   const [dealsList, setDealsList] = useState([]);
-  
-  // New Deal Form State
-  const [newDeal, setNewDeal] = useState({
-    name: '',
-    amount: '',
-    stage: 'Discovery',
-    company: '',
-    contact: ''
-  });
+
+  const handleDownloadTemplate = () => {
+    const csvContent = "data:text/csv;charset=utf-8," + 
+      "Deal name,Amount,Account,Account domain,Closed date\n" +
+      "Enterprise Expansion,50000,Acme Corp,acme.com,2026-11-30\n" +
+      "Global Platform License,85000,Stripe Inc,stripe.com,2026-12-15\n" +
+      "Cloud Integration Pilot,30000,Notion Labs,notion.so,2026-10-20\n";
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", "apollo_deals_import_template.csv");
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    if (showToast) showToast('Downloaded: apollo_deals_import_template.csv');
+  };
+
+  const handleFileSelect = (e) => {
+    const file = e.target.files && e.target.files[0];
+    if (file) {
+      if (showToast) showToast(`Uploading and validating ${file.name}...`);
+      setTimeout(() => {
+        const imported = [
+          { id: Date.now() + 1, name: 'Acme Corp Enterprise Deal', amount: '$50,000', stage: 'Discovery', company: 'Acme Corp', pipeline: 'Pipeline 1', closeDate: '2026-11-30', owner: 'Shivam Ahirwar (You)', createdAt: 'Just now' },
+          { id: Date.now() + 2, name: 'Stripe Global Platform License', amount: '$85,000', stage: 'Proposal', company: 'Stripe Inc', pipeline: 'Pipeline 1', closeDate: '2026-12-15', owner: 'Shivam Ahirwar (You)', createdAt: 'Just now' },
+          { id: Date.now() + 3, name: 'Notion Cloud Integration', amount: '$30,000', stage: 'Qualification', company: 'Notion Labs', pipeline: 'Pipeline 1', closeDate: '2026-10-20', owner: 'Shivam Ahirwar (You)', createdAt: 'Just now' },
+        ];
+        setDealsList(prev => [...imported, ...prev]);
+        setIsImportPage(false);
+        if (showToast) showToast(`Successfully imported 3 deals from ${file.name}!`);
+      }, 1000);
+    }
+  };
 
   const toggleAccordion = (name) => {
     setOpenAccordions(prev => ({
@@ -125,22 +162,58 @@ export default function DealsView({ showToast }) {
     }));
   };
 
-  const handleCreateDeal = (e) => {
-    e.preventDefault();
-    if (!newDeal.name) return;
+  const handleCreateDeal = (e, createAnother = false) => {
+    if (e && e.preventDefault) e.preventDefault();
+    if (!dealForm.name.trim()) {
+      if (showToast) showToast('Please enter a deal name');
+      return;
+    }
 
     const created = {
       id: Date.now(),
-      ...newDeal,
-      amount: newDeal.amount ? `$${newDeal.amount}` : '$25,000',
+      name: dealForm.name,
+      amount: dealForm.amount ? `$${Number(dealForm.amount).toLocaleString()}` : '$25,000',
+      stage: dealForm.stage || 'Discovery',
+      company: dealForm.company || 'New Enterprise Account',
+      pipeline: dealForm.pipeline || 'Pipeline 1',
+      closeDate: dealForm.closeDate || '2026-10-15',
+      owner: dealForm.owner || 'Shivam Ahirwar (You)',
       createdAt: 'Just now'
     };
 
     setDealsList(prev => [created, ...prev]);
-    setShowCreateModal(false);
-    setNewDeal({ name: '', amount: '', stage: 'Discovery', company: '', contact: '' });
-    if (showToast) {
-      showToast(`Deal "${created.name}" created successfully!`);
+
+    if (createAnother) {
+      setDealForm({
+        name: '',
+        company: '',
+        pipeline: 'Pipeline 1',
+        stage: '',
+        closeDate: '',
+        owner: 'Shivam Ahirwar (You)',
+        amount: '',
+        dealType: '',
+        leadSource: ''
+      });
+      if (showToast) {
+        showToast(`Deal "${created.name}" created! Ready to create another.`);
+      }
+    } else {
+      setShowCreateDrawer(false);
+      setDealForm({
+        name: '',
+        company: '',
+        pipeline: 'Pipeline 1',
+        stage: '',
+        closeDate: '',
+        owner: 'Shivam Ahirwar (You)',
+        amount: '',
+        dealType: '',
+        leadSource: ''
+      });
+      if (showToast) {
+        showToast(`Deal "${created.name}" created successfully!`);
+      }
     }
   };
 
@@ -167,6 +240,151 @@ export default function DealsView({ showToast }) {
     { id: 'won', name: 'My won deals', icon: TableIcon, isSystem: false },
   ];
 
+  if (isImportPage) {
+    return (
+      <div className="deals-view-wrapper deals-import-view-root">
+        {/* Top Header Breadcrumb & Title */}
+        <div className="deals-import-header">
+          <div className="deals-breadcrumb">
+            <button 
+              type="button" 
+              className="deals-breadcrumb-link" 
+              onClick={() => setIsImportPage(false)}
+            >
+              Deals
+            </button>
+            <span className="deals-breadcrumb-sep">&gt;</span>
+            <span className="deals-breadcrumb-current">Import Deals</span>
+          </div>
+          <h1 className="deals-import-title">Bulk import from CSV</h1>
+        </div>
+
+        {/* Center Canvas */}
+        <div className="deals-import-canvas">
+          {/* Main Card (Matches Screenshot 1:1) */}
+          <div className="deals-import-card">
+            {/* Dollar circle with blue upload arrow badge */}
+            <div className="deals-import-icon-badge">
+              <div className="deals-dollar-circle">
+                <span>$</span>
+              </div>
+              <div className="deals-arrow-circle">
+                <ArrowUp size={14} color="#ffffff" strokeWidth={3} />
+              </div>
+            </div>
+
+            <h2 className="deals-import-card-title">Import deals</h2>
+            <p className="deals-import-card-subtitle">You can import up to 10,000 records at a time</p>
+
+            <div className="deals-import-instructions">
+              <p className="deals-inst-lead">When importing deals, your file must include the following columns:</p>
+              <p className="deals-inst-cols">Deal name, Amount, Account, Account domain, and Closed date</p>
+            </div>
+
+            <p className="deals-import-disclaimer">
+              By clicking &quot;Select CSV file&quot; below, I acknowledge that business deals data submitted from my CSV file to Apollo may be used to provide and improve Apollo&apos;s services as further described in our{' '}
+              <a 
+                href="#terms" 
+                onClick={(e) => { e.preventDefault(); showToast && showToast('Opening Terms of Service'); }}
+                className="deals-import-link"
+              >
+                Terms of Service
+              </a>
+              .{' '}
+              <a 
+                href="#learn-more" 
+                onClick={(e) => { e.preventDefault(); showToast && showToast('Learn more about data sharing'); }}
+                className="deals-import-link"
+              >
+                Learn more
+              </a>{' '}
+              about data sharing.
+            </p>
+
+            {/* Action buttons row */}
+            <div className="deals-import-actions-row">
+              <button 
+                type="button" 
+                className="btn-sample-template"
+                onClick={handleDownloadTemplate}
+              >
+                <Download size={15} color="#334155" />
+                <span>Sample template</span>
+              </button>
+
+              <input 
+                type="file" 
+                ref={fileInputRef} 
+                onChange={handleFileSelect} 
+                accept=".csv" 
+                style={{ display: 'none' }} 
+              />
+
+              <button 
+                type="button" 
+                className="btn-select-csv-yellow"
+                onClick={() => fileInputRef.current && fileInputRef.current.click()}
+              >
+                Select CSV file
+              </button>
+            </div>
+          </div>
+
+          {/* Alternative Import Options Row */}
+          <div className="deals-import-alt-row">
+            <span className="deals-import-alt-text">Or you can choose to:</span>
+            <button 
+              type="button" 
+              className="deals-import-alt-btn"
+              onClick={() => showToast && showToast('Redirecting to Import contacts')}
+            >
+              <Users size={16} color="#475569" />
+              <span>Import contacts</span>
+            </button>
+            <button 
+              type="button" 
+              className="deals-import-alt-btn"
+              onClick={() => showToast && showToast('Redirecting to Import accounts')}
+            >
+              <Building2 size={16} color="#475569" />
+              <span>Import accounts</span>
+            </button>
+          </div>
+
+          {/* Help and FAQs footer */}
+          <div className="deals-import-help-footer">
+            <span className="deals-help-text">Need help getting started?</span>
+            <a 
+              href="#help" 
+              className="deals-help-link"
+              onClick={(e) => { e.preventDefault(); showToast && showToast('Opening Apollo Help Center'); }}
+            >
+              Visit our help center
+            </a>
+            <span className="deals-help-sep">|</span>
+            <a 
+              href="#faqs" 
+              className="deals-help-link"
+              onClick={(e) => { e.preventDefault(); showToast && showToast('Opening Deals Import FAQs'); }}
+            >
+              View FAQs
+            </a>
+          </div>
+        </div>
+
+        {/* Floating Help Button */}
+        <button 
+          type="button"
+          className="deals-floating-help-btn"
+          onClick={() => showToast && showToast('Help & Guidance')}
+          title="Help"
+        >
+          ?
+        </button>
+      </div>
+    );
+  }
+
   return (
     <div className="deals-view-wrapper" onClick={closeAllDropdowns}>
       {/* ─── 1. Header Row (Title & Action Buttons) ─── */}
@@ -184,13 +402,13 @@ export default function DealsView({ showToast }) {
             <>
               <button 
                 className="btn-import-csv"
-                onClick={() => setShowImportModal(true)}
+                onClick={() => setIsImportPage(true)}
               >
                 Import CSV
               </button>
               <button 
                 className="btn-create-deal-yellow"
-                onClick={() => setShowCreateModal(true)}
+                onClick={() => setShowCreateDrawer(true)}
               >
                 Create deal
               </button>
@@ -717,7 +935,7 @@ export default function DealsView({ showToast }) {
 
               <button 
                 className="btn-empty-create-deal"
-                onClick={() => setShowCreateModal(true)}
+                onClick={() => setShowCreateDrawer(true)}
               >
                 Create deal
               </button>
@@ -1308,118 +1526,263 @@ export default function DealsView({ showToast }) {
         )}
       </div>
 
-      {/* ─── MODAL: Create Deal ─── */}
-      {showCreateModal && (
-        <div className="deal-modal-backdrop" onClick={() => setShowCreateModal(false)}>
-          <div className="deal-modal-container" onClick={(e) => e.stopPropagation()}>
-            <div className="deal-modal-header">
-              <h3>Create new deal</h3>
-              <button className="deal-modal-close" onClick={() => setShowCreateModal(false)}>
+      {/* ─── SLIDE-OVER DRAWER: Create Deal (1:1 with Screenshot) ─── */}
+      {showCreateDrawer && (
+        <div className="cdeal-drawer-overlay" onClick={() => setShowCreateDrawer(false)}>
+          <aside className="cdeal-drawer-panel" onClick={(e) => e.stopPropagation()}>
+            {/* Drawer Header */}
+            <div className="cdeal-drawer-header">
+              <h2 className="cdeal-drawer-title">Create deal</h2>
+              <button 
+                className="cdeal-drawer-close"
+                onClick={() => setShowCreateDrawer(false)}
+                title="Close"
+              >
                 <X size={18} />
               </button>
             </div>
-            <form onSubmit={handleCreateDeal}>
-              <div className="deal-modal-body">
-                <div className="deal-form-group">
-                  <label className="deal-form-label">Deal Name *</label>
-                  <input 
-                    type="text" 
-                    className="deal-form-input" 
-                    placeholder="e.g. Acme Corp Enterprise License"
-                    required
-                    value={newDeal.name}
-                    onChange={(e) => setNewDeal({ ...newDeal, name: e.target.value })}
-                  />
-                </div>
 
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
-                  <div className="deal-form-group">
-                    <label className="deal-form-label">Amount ($)</label>
-                    <input 
-                      type="number" 
-                      className="deal-form-input" 
-                      placeholder="50000"
-                      value={newDeal.amount}
-                      onChange={(e) => setNewDeal({ ...newDeal, amount: e.target.value })}
-                    />
-                  </div>
-
-                  <div className="deal-form-group">
-                    <label className="deal-form-label">Stage</label>
-                    <select 
-                      className="deal-form-select"
-                      value={newDeal.stage}
-                      onChange={(e) => setNewDeal({ ...newDeal, stage: e.target.value })}
-                    >
-                      <option value="Discovery">Discovery</option>
-                      <option value="Qualification">Qualification</option>
-                      <option value="Proposal">Proposal</option>
-                      <option value="Closed Won">Closed Won</option>
-                    </select>
-                  </div>
-                </div>
-
-                <div className="deal-form-group">
-                  <label className="deal-form-label">Associated Company / Account</label>
-                  <input 
-                    type="text" 
-                    className="deal-form-input" 
-                    placeholder="e.g. Stripe, Notion, Figma"
-                    value={newDeal.company}
-                    onChange={(e) => setNewDeal({ ...newDeal, company: e.target.value })}
-                  />
-                </div>
-              </div>
-              <div className="deal-modal-footer">
+            {/* Drawer Scrollable Body */}
+            <div className="cdeal-drawer-body">
+              {/* Customize deal form link */}
+              <div className="cdeal-top-actions">
                 <button 
                   type="button" 
-                  className="btn-modal-cancel"
-                  onClick={() => setShowCreateModal(false)}
+                  className="cdeal-customize-link"
+                  onClick={() => showToast && showToast('Deal form customization settings')}
+                >
+                  <Settings size={15} color="#2563eb" />
+                  <span>Customize deal form</span>
+                </button>
+              </div>
+
+              <form id="create-deal-drawer-form" onSubmit={(e) => handleCreateDeal(e, false)}>
+                {/* Deal name */}
+                <div className="cdeal-field-group">
+                  <label className="cdeal-label">
+                    Deal name <span className="cdeal-star">*</span>
+                  </label>
+                  <input 
+                    type="text" 
+                    className="cdeal-input" 
+                    placeholder="Deal name"
+                    value={dealForm.name}
+                    onChange={(e) => setDealForm({ ...dealForm, name: e.target.value })}
+                    required
+                  />
+                </div>
+
+                {/* Company */}
+                <div className="cdeal-field-group">
+                  <label className="cdeal-label">Company</label>
+                  <div className="cdeal-select-wrap">
+                    <select 
+                      className="cdeal-select"
+                      value={dealForm.company}
+                      onChange={(e) => setDealForm({ ...dealForm, company: e.target.value })}
+                    >
+                      <option value="">Select...</option>
+                      <option value="Acme Corp">Acme Corp</option>
+                      <option value="Stripe Inc">Stripe Inc</option>
+                      <option value="Notion Labs">Notion Labs</option>
+                      <option value="Figma Systems">Figma Systems</option>
+                      <option value="Scale AI">Scale AI</option>
+                    </select>
+                    <ChevronDown size={14} className="cdeal-select-chevron" />
+                  </div>
+                  <div className="cdeal-create-account-row">
+                    <button 
+                      type="button" 
+                      className="cdeal-create-account-btn"
+                      onClick={() => showToast && showToast('Create account modal')}
+                    >
+                      + Create account
+                    </button>
+                  </div>
+                </div>
+
+                {/* Pipeline */}
+                <div className="cdeal-field-group">
+                  <label className="cdeal-label">
+                    Pipeline <span className="cdeal-star">*</span>
+                  </label>
+                  <div className="cdeal-select-wrap">
+                    <select 
+                      className="cdeal-select"
+                      value={dealForm.pipeline}
+                      onChange={(e) => setDealForm({ ...dealForm, pipeline: e.target.value })}
+                      required
+                    >
+                      <option value="Pipeline 1">Pipeline 1</option>
+                      <option value="Enterprise Sales">Enterprise Sales</option>
+                      <option value="Inbound Mid-Market">Inbound Mid-Market</option>
+                      <option value="Partnership Channel">Partnership Channel</option>
+                    </select>
+                    <ChevronDown size={14} className="cdeal-select-chevron" />
+                  </div>
+                </div>
+
+                {/* Stage */}
+                <div className="cdeal-field-group">
+                  <label className="cdeal-label">
+                    Stage <span className="cdeal-star">*</span>
+                  </label>
+                  <div className="cdeal-select-wrap">
+                    <select 
+                      className="cdeal-select"
+                      value={dealForm.stage}
+                      onChange={(e) => setDealForm({ ...dealForm, stage: e.target.value })}
+                      required
+                    >
+                      <option value="">Select...</option>
+                      <option value="Discovery">Discovery</option>
+                      <option value="Qualification">Qualification</option>
+                      <option value="Demo / Pitch">Demo / Pitch</option>
+                      <option value="Proposal">Proposal</option>
+                      <option value="Closed Won">Closed Won</option>
+                      <option value="Closed Lost">Closed Lost</option>
+                    </select>
+                    <ChevronDown size={14} className="cdeal-select-chevron" />
+                  </div>
+                </div>
+
+                {/* Estimated close date */}
+                <div className="cdeal-field-group">
+                  <label className="cdeal-label">
+                    Estimated close date <span className="cdeal-star">*</span>
+                  </label>
+                  <div className="cdeal-date-wrap">
+                    <input 
+                      type="date"
+                      className="cdeal-input cdeal-date-input"
+                      value={dealForm.closeDate}
+                      onChange={(e) => setDealForm({ ...dealForm, closeDate: e.target.value })}
+                      placeholder="dd/mm/yyyy"
+                      required
+                    />
+                  </div>
+                </div>
+
+                {/* Owner */}
+                <div className="cdeal-field-group">
+                  <label className="cdeal-label">Owner</label>
+                  <div className="cdeal-owner-picker">
+                    <div className="cdeal-owner-chip">
+                      <span>Shivam Ahirwar (You)</span>
+                      <button 
+                        type="button" 
+                        className="cdeal-owner-clear"
+                        onClick={() => showToast && showToast('Owner cleared')}
+                        title="Clear owner"
+                      >
+                        <X size={12} />
+                      </button>
+                    </div>
+                    <ChevronDown size={14} color="#64748b" />
+                  </div>
+                </div>
+
+                {/* Amount ($) */}
+                <div className="cdeal-field-group">
+                  <label className="cdeal-label">Amount ($)</label>
+                  <input 
+                    type="number"
+                    className="cdeal-input"
+                    placeholder=""
+                    value={dealForm.amount}
+                    onChange={(e) => setDealForm({ ...dealForm, amount: e.target.value })}
+                  />
+                </div>
+
+                {/* Collapsible custom fields */}
+                <div className="cdeal-toggle-row">
+                  <button 
+                    type="button" 
+                    className="cdeal-toggle-link"
+                    onClick={() => setShowCustomFields(!showCustomFields)}
+                  >
+                    <span className="cdeal-toggle-icon">{showCustomFields ? '▾' : '▸'}</span>
+                    <span>{showCustomFields ? 'Hide custom fields (2)' : 'Show custom fields (2)'}</span>
+                  </button>
+                </div>
+
+                {showCustomFields && (
+                  <div className="cdeal-custom-panel">
+                    <div className="cdeal-field-group">
+                      <label className="cdeal-label">Deal type</label>
+                      <div className="cdeal-select-wrap">
+                        <select 
+                          className="cdeal-select"
+                          value={dealForm.dealType}
+                          onChange={(e) => setDealForm({ ...dealForm, dealType: e.target.value })}
+                        >
+                          <option value="">Select...</option>
+                          <option value="New Business">New Business</option>
+                          <option value="Existing Business">Existing Business</option>
+                          <option value="Renewal">Renewal</option>
+                          <option value="Expansion">Expansion</option>
+                        </select>
+                        <ChevronDown size={14} className="cdeal-select-chevron" />
+                      </div>
+                    </div>
+
+                    <div className="cdeal-field-group">
+                      <label className="cdeal-label">Lead source</label>
+                      <div className="cdeal-select-wrap">
+                        <select 
+                          className="cdeal-select"
+                          value={dealForm.leadSource}
+                          onChange={(e) => setDealForm({ ...dealForm, leadSource: e.target.value })}
+                        >
+                          <option value="">Select...</option>
+                          <option value="Inbound Website">Inbound Website</option>
+                          <option value="SDR Outbound">SDR Outbound</option>
+                          <option value="Referral">Referral</option>
+                          <option value="Partner">Partner</option>
+                          <option value="Conference / Event">Conference / Event</option>
+                        </select>
+                        <ChevronDown size={14} className="cdeal-select-chevron" />
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </form>
+            </div>
+
+            {/* Sticky Drawer Footer matching Screenshot 1:1 */}
+            <div className="cdeal-drawer-footer">
+              <div className="cdeal-footer-left">
+                <button 
+                  type="submit" 
+                  form="create-deal-drawer-form"
+                  className="cdeal-btn-yellow"
+                  onClick={(e) => handleCreateDeal(e, false)}
+                >
+                  Save
+                </button>
+                <button 
+                  type="button" 
+                  className="cdeal-btn-yellow"
+                  onClick={(e) => handleCreateDeal(e, true)}
+                >
+                  Save and create another
+                </button>
+              </div>
+              <div className="cdeal-footer-right">
+                <button 
+                  type="button" 
+                  className="cdeal-btn-cancel"
+                  onClick={() => setShowCreateDrawer(false)}
                 >
                   Cancel
                 </button>
-                <button type="submit" className="btn-modal-submit">
-                  Save Deal
-                </button>
               </div>
-            </form>
-          </div>
+            </div>
+          </aside>
         </div>
       )}
 
-      {/* ─── MODAL: Import CSV ─── */}
-      {showImportModal && (
-        <div className="deal-modal-backdrop" onClick={() => setShowImportModal(false)}>
-          <div className="deal-modal-container" onClick={(e) => e.stopPropagation()}>
-            <div className="deal-modal-header">
-              <h3>Import Deals via CSV</h3>
-              <button className="deal-modal-close" onClick={() => setShowImportModal(false)}>
-                <X size={18} />
-              </button>
-            </div>
-            <div className="deal-modal-body">
-              <div style={{ border: '2px dashed #cbd5e1', borderRadius: 10, padding: 30, textAlign: 'center', background: '#f8fafc' }}>
-                <Upload size={30} color="#64748b" style={{ margin: '0 auto 10px auto' }} />
-                <div style={{ fontWeight: 600, fontSize: 14, color: '#0f172a', marginBottom: 4 }}>
-                  Drag and drop your deals CSV file here
-                </div>
-                <div style={{ fontSize: 12, color: '#94a3b8', marginBottom: 14 }}>
-                  Supported fields: Deal Name, Amount, Stage, Close Date, Contact
-                </div>
-                <button 
-                  className="btn-import-csv" 
-                  onClick={() => {
-                    setShowImportModal(false);
-                    showToast && showToast('CSV uploaded and processed! 3 deals imported.');
-                  }}
-                >
-                  Select file from computer
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
+
 
       {/* ─── MODAL: Manage Pipelines ─── */}
       {showManagePipelinesModal && (

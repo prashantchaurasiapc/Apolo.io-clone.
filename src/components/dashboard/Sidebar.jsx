@@ -12,7 +12,7 @@ const ApolloStarIcon = () => (
   </svg>
 );
 
-export default function Sidebar({ activeTab, onSelectTab, onUpgradeClick, showToast }) {
+export default function Sidebar({ activeTab, onSelectTab, onUpgradeClick, showToast, mobileOpen, onCloseMobile }) {
   const [collapsed, setCollapsed] = useState(false);
   const [showAdminPopup, setShowAdminPopup] = useState(false);
   const [openGroups, setOpenGroups] = useState({
@@ -28,28 +28,40 @@ export default function Sidebar({ activeTab, onSelectTab, onUpgradeClick, showTo
     setOpenGroups(prev => ({ ...prev, [key]: !prev[key] }));
   };
 
+  const handleSelect = (tab) => {
+    onSelectTab(tab);
+    if (onCloseMobile) onCloseMobile();
+  };
+
   return (
-    <aside className={`apollo-sidebar-container ${collapsed ? 'collapsed' : ''}`}>
-      {/* Sidebar Header Logo & Toggle (Matches Screenshot) */}
-      <div className="sidebar-header">
-        <div className="sidebar-logo-group" onClick={() => onSelectTab('home')}>
-          <ApolloStarIcon />
+    <>
+      {mobileOpen && (
+        <div className="sidebar-mobile-overlay" onClick={onCloseMobile} />
+      )}
+      <aside className={`apollo-sidebar-container ${collapsed ? 'collapsed' : ''} ${mobileOpen ? 'mobile-open' : ''}`}>
+        {/* Sidebar Header Logo & Toggle (Matches Screenshot) */}
+        <div className="sidebar-header">
+          <div className="sidebar-logo-group" onClick={() => handleSelect('home')}>
+            <ApolloStarIcon />
+          </div>
+          <button 
+            className="sidebar-collapse-btn" 
+            onClick={() => setCollapsed(!collapsed)}
+            title={collapsed ? "Expand sidebar" : "Collapse sidebar"}
+          >
+            {collapsed ? <ChevronsRight size={16} /> : <ChevronsLeft size={16} />}
+          </button>
         </div>
-        <button 
-          className="sidebar-collapse-btn" 
-          onClick={() => setCollapsed(!collapsed)}
-          title={collapsed ? "Expand sidebar" : "Collapse sidebar"}
-        >
-          {collapsed ? <ChevronsRight size={16} /> : <ChevronsLeft size={16} />}
-        </button>
-      </div>
 
       {/* Main Nav Items Scrollable */}
       <div className="sidebar-nav-scroll">
         {/* Home Row (with Phone Dialer Icon on Right matching Screenshot) */}
-        <button 
+        <div 
           className={`sidebar-item ${activeTab === 'home' ? 'active' : ''}`}
-          onClick={() => onSelectTab('home')}
+          onClick={() => handleSelect('home')}
+          role="button"
+          tabIndex={0}
+          onKeyDown={(e) => { if (e.key === 'Enter') handleSelect('home'); }}
         >
           <div className="sidebar-item-left">
             <Home size={17} className="sidebar-item-icon" />
@@ -64,12 +76,12 @@ export default function Sidebar({ activeTab, onSelectTab, onUpgradeClick, showTo
               <Phone size={15} color="#64748b" />
             </button>
           )}
-        </button>
+        </div>
 
         {/* AI Assistant */}
         <button 
           className={`sidebar-item ${activeTab === 'ai_assistant' ? 'active' : ''}`}
-          onClick={() => onSelectTab('ai_assistant')}
+          onClick={() => handleSelect('ai_assistant')}
         >
           <div className="sidebar-item-left">
             <Sparkles size={17} className="sidebar-item-icon" />
@@ -97,25 +109,25 @@ export default function Sidebar({ activeTab, onSelectTab, onUpgradeClick, showTo
             <div className="sidebar-sub-group">
               <button 
                 className={`sidebar-sub-item ${activeTab === 'prospect_people' ? 'active' : ''}`}
-                onClick={() => onSelectTab('prospect_people')}
+                onClick={() => handleSelect('prospect_people')}
               >
                 People
               </button>
               <button 
                 className={`sidebar-sub-item ${activeTab === 'prospect_companies' ? 'active' : ''}`}
-                onClick={() => onSelectTab('prospect_companies')}
+                onClick={() => handleSelect('prospect_companies')}
               >
                 Companies
               </button>
               <button 
                 className={`sidebar-sub-item ${activeTab === 'lists' ? 'active' : ''}`}
-                onClick={() => onSelectTab('lists')}
+                onClick={() => handleSelect('lists')}
               >
                 Lists
               </button>
               <button 
                 className={`sidebar-sub-item ${activeTab === 'enrichment' ? 'active' : ''}`}
-                onClick={() => onSelectTab('enrichment')}
+                onClick={() => handleSelect('enrichment')}
               >
                 Data enrichment
               </button>
@@ -141,25 +153,25 @@ export default function Sidebar({ activeTab, onSelectTab, onUpgradeClick, showTo
             <div className="sidebar-sub-group">
               <button 
                 className={`sidebar-sub-item ${activeTab === 'sequences' ? 'active' : ''}`}
-                onClick={() => onSelectTab('sequences')}
+                onClick={() => handleSelect('sequences')}
               >
                 Sequences
               </button>
               <button 
                 className={`sidebar-sub-item ${activeTab === 'emails' ? 'active' : ''}`}
-                onClick={() => onSelectTab('emails')}
+                onClick={() => handleSelect('emails')}
               >
                 Emails
               </button>
               <button 
                 className={`sidebar-sub-item ${activeTab === 'calls' ? 'active' : ''}`}
-                onClick={() => onSelectTab('calls')}
+                onClick={() => handleSelect('calls')}
               >
                 Calls
               </button>
               <button 
                 className={`sidebar-sub-item ${activeTab === 'tasks' ? 'active' : ''}`}
-                onClick={() => onSelectTab('tasks')}
+                onClick={() => handleSelect('tasks')}
               >
                 Tasks
               </button>
@@ -185,19 +197,19 @@ export default function Sidebar({ activeTab, onSelectTab, onUpgradeClick, showTo
             <div className="sidebar-sub-group">
               <button 
                 className={`sidebar-sub-item ${activeTab === 'meetings' ? 'active' : ''}`}
-                onClick={() => onSelectTab('meetings')}
+                onClick={() => handleSelect('meetings')}
               >
                 Meetings
               </button>
               <button 
                 className={`sidebar-sub-item ${activeTab === 'conversations' ? 'active' : ''}`}
-                onClick={() => onSelectTab('conversations')}
+                onClick={() => handleSelect('conversations')}
               >
                 Conversations
               </button>
               <button 
                 className={`sidebar-sub-item ${activeTab === 'deals' ? 'active' : ''}`}
-                onClick={() => onSelectTab('deals')}
+                onClick={() => handleSelect('deals')}
               >
                 Deals
               </button>
@@ -223,13 +235,13 @@ export default function Sidebar({ activeTab, onSelectTab, onUpgradeClick, showTo
             <div className="sidebar-sub-group">
               <button 
                 className={`sidebar-sub-item ${activeTab === 'workflows' ? 'active' : ''}`}
-                onClick={() => onSelectTab('workflows')}
+                onClick={() => handleSelect('workflows')}
               >
                 Workflows
               </button>
               <button 
                 className={`sidebar-sub-item ${activeTab === 'analytics' ? 'active' : ''}`}
-                onClick={() => onSelectTab('analytics')}
+                onClick={() => handleSelect('analytics')}
               >
                 Analytics
               </button>
@@ -255,14 +267,14 @@ export default function Sidebar({ activeTab, onSelectTab, onUpgradeClick, showTo
             <div className="sidebar-sub-group">
               <button 
                 className={`sidebar-sub-item ${activeTab === 'website_visitors' ? 'active' : ''}`}
-                onClick={() => onSelectTab('website_visitors')}
+                onClick={() => handleSelect('website_visitors')}
               >
                 <span>Website visitors</span>
                 <span className="sidebar-badge-new">New</span>
               </button>
               <button 
                 className={`sidebar-sub-item ${activeTab === 'forms' ? 'active' : ''}`}
-                onClick={() => onSelectTab('forms')}
+                onClick={() => handleSelect('forms')}
               >
                 Forms
               </button>
@@ -288,13 +300,13 @@ export default function Sidebar({ activeTab, onSelectTab, onUpgradeClick, showTo
             <div className="sidebar-sub-group">
               <button 
                 className={`sidebar-sub-item ${activeTab === 'saved_people' ? 'active' : ''}`}
-                onClick={() => onSelectTab('saved_people')}
+                onClick={() => handleSelect('saved_people')}
               >
                 People
               </button>
               <button 
                 className={`sidebar-sub-item ${activeTab === 'saved_companies' ? 'active' : ''}`}
-                onClick={() => onSelectTab('saved_companies')}
+                onClick={() => handleSelect('saved_companies')}
               >
                 Companies
               </button>
@@ -312,7 +324,7 @@ export default function Sidebar({ activeTab, onSelectTab, onUpgradeClick, showTo
         )}
         <button 
           className={`sidebar-bottom-item ${activeTab === 'email_health' ? 'active' : ''}`}
-          onClick={() => onSelectTab('email_health')}
+          onClick={() => handleSelect('email_health')}
         >
           <ShieldCheck size={17} className="sidebar-item-icon" />
           {!collapsed && <span>Email setup and health</span>}
@@ -342,7 +354,7 @@ export default function Sidebar({ activeTab, onSelectTab, onUpgradeClick, showTo
                 </div>
               </div>
               <div className="admin-flyout-menu">
-                <button className="admin-flyout-item" onClick={() => { onSelectTab('admin_settings'); setShowAdminPopup(false); }}>
+                <button className="admin-flyout-item" onClick={() => { handleSelect('admin_settings'); setShowAdminPopup(false); }}>
                   <Users size={15} /> <span>Users and teams</span>
                 </button>
                 <button className="admin-flyout-item" onClick={() => { showToast('Opening System Activity logs'); setShowAdminPopup(false); }}>
@@ -358,7 +370,7 @@ export default function Sidebar({ activeTab, onSelectTab, onUpgradeClick, showTo
                   <PackageCheck size={15} /> <span>Integrations</span>
                 </button>
                 <div className="admin-flyout-divider" />
-                <button className="admin-flyout-item bold-item" onClick={() => { onSelectTab('admin_settings'); setShowAdminPopup(false); }}>
+                <button className="admin-flyout-item bold-item" onClick={() => { handleSelect('admin_settings'); setShowAdminPopup(false); }}>
                   <Settings size={15} /> <span>All settings</span>
                 </button>
               </div>
@@ -367,5 +379,6 @@ export default function Sidebar({ activeTab, onSelectTab, onUpgradeClick, showTo
         </div>
       </div>
     </aside>
+    </>
   );
 }

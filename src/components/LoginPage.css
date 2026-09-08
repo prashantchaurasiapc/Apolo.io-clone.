@@ -40,7 +40,6 @@
   color: #ffffff;
 }
 
-
 /* ── Apollo Top-Left Logo ── */
 .login-top-logo {
   position: absolute;
@@ -351,7 +350,6 @@
   overflow: hidden;
 }
 
-/* Pentagon / trapezoid dark teal shape */
 .login-right-shape {
   position: absolute;
   top: 40px;
@@ -375,13 +373,11 @@
   text-align: center;
 }
 
-/* Browser extension mockup */
 .login-extension-mockup {
   position: relative;
   width: 340px;
 }
 
-/* Main card */
 .ext-card {
   background: #fff;
   border-radius: 12px;
@@ -416,17 +412,6 @@
   font-size: 13px;
   font-weight: 600;
   color: #111;
-}
-
-.ext-close-btn {
-  width: 16px;
-  height: 16px;
-  background: #ddd;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: default;
 }
 
 .ext-tabs {
@@ -481,15 +466,6 @@
   padding: 3px 8px;
   border-radius: 4px;
   text-transform: uppercase;
-  letter-spacing: 0.04em;
-}
-
-.ext-match-badge::before {
-  content: '';
-  width: 6px;
-  height: 6px;
-  background: #4caf50;
-  border-radius: 50%;
 }
 
 .ext-actions {
@@ -508,16 +484,10 @@
   font-size: 10px;
   color: #555;
   border-right: 1px solid #f0f0f0;
-  cursor: default;
 }
 
 .ext-action-btn:last-child {
   border-right: none;
-}
-
-.ext-action-icon {
-  font-size: 14px;
-  color: #333;
 }
 
 .ext-contact-rows {
@@ -533,40 +503,12 @@
   gap: 10px;
 }
 
-.ext-contact-icon {
-  width: 16px;
-  height: 16px;
-  color: #888;
-  flex-shrink: 0;
-  margin-top: 1px;
-}
-
 .ext-contact-value {
   font-size: 12px;
   color: #111;
   font-weight: 500;
 }
 
-.ext-contact-type {
-  font-size: 10px;
-  color: #aaa;
-}
-
-.ext-social-row {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 0 14px 12px;
-}
-
-.ext-social-icon {
-  width: 18px;
-  height: 18px;
-  color: #888;
-  cursor: default;
-}
-
-/* Background browser window behind the card */
 .ext-bg-window {
   position: absolute;
   left: -20px;
@@ -596,7 +538,6 @@
   background: rgba(255,255,255,0.2);
 }
 
-/* Stat section */
 .login-right-stat {
   color: #fff;
 }
@@ -605,7 +546,6 @@
   font-size: 36px;
   font-weight: 800;
   color: #fff;
-  letter-spacing: -0.02em;
   margin-bottom: 6px;
 }
 
@@ -629,16 +569,165 @@
   font-size: 13px;
   font-weight: 600;
   cursor: pointer;
-  font-family: 'Inter', sans-serif;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   DUMMY LOGIN INTERACTIVE MODAL OVERLAYS
+   ───────────────────────────────────────────────────────────── */
+.login-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(6px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  animation: fadeInModal 0.2s ease-out;
+}
+
+@keyframes fadeInModal {
+  from { opacity: 0; transform: scale(0.96); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.login-modal-box {
+  background: #18181b;
+  border: 1px solid #27272a;
+  border-radius: 16px;
+  padding: 32px;
+  width: 100%;
+  max-width: 440px;
+  position: relative;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+  color: #ffffff;
+}
+
+.login-modal-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: #27272a;
+  border: none;
+  color: #a1a1aa;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+}
+
+.login-modal-close:hover {
+  background: #3f3f46;
+  color: #fff;
+}
+
+.dummy-auth-brand {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.dummy-auth-brand h3 {
+  font-size: 18px;
+  font-weight: 700;
+  margin: 12px 0 4px 0;
+  color: #ffffff;
+}
+
+.dummy-auth-brand p {
+  font-size: 13px;
+  color: #a1a1aa;
+  margin: 0;
+}
+
+.dummy-acc-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.dummy-acc-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  background: #27272a;
+  border: 1px solid #3f3f46;
+  border-radius: 10px;
+  cursor: pointer;
   transition: all 0.2s ease;
 }
 
-.login-ext-cta-btn:hover {
-  background: #252525;
-  border-color: #444;
+.dummy-acc-item:hover {
+  background: #3f3f46;
+  border-color: #d4ff00;
 }
 
-/* Responsive */
+.dummy-acc-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  color: #ffffff;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+.dummy-acc-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.dummy-acc-email {
+  font-size: 12px;
+  color: #a1a1aa;
+}
+
+.dummy-acc-item.add-new {
+  color: #d4ff00;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 600;
+  border-style: dashed;
+}
+
+.dummy-loading-wrap {
+  text-align: center;
+  padding: 24px 0;
+}
+
+.login-spinner {
+  animation: spin 1s linear infinite;
+  color: #d4ff00;
+  margin-bottom: 16px;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.dummy-loading-wrap h3 {
+  font-size: 16px;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 6px;
+}
+
+.dummy-loading-wrap p {
+  font-size: 13px;
+  color: #a1a1aa;
+  margin: 0;
+}
+
 @media (max-width: 900px) {
   .login-right {
     display: none;

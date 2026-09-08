@@ -7,10 +7,23 @@ import {
 } from 'lucide-react';
 import './SignupPage.css';
 
-export default function SignupPage({ onClose, onLoginClick }) {
+export default function SignupPage({ onClose, onLoginClick, onLoginSuccess }) {
   const [email, setEmail] = useState('');
   const [view, setView] = useState('form'); // 'form' | 'google' | 'microsoft' | 'loading' | 'success'
   const [selectedUser, setSelectedUser] = useState(null);
+
+  const handleDashboardRedirect = () => {
+    if (onLoginSuccess) {
+      onLoginSuccess({
+        name: selectedUser?.name || 'Explorer',
+        email: selectedUser?.email || email || 'user@apollo.io',
+        provider: 'Apollo Signup',
+        avatar: (selectedUser?.name || 'E').substring(0, 1).toUpperCase()
+      });
+    } else if (onClose) {
+      onClose();
+    }
+  };
 
   // Close on Escape key
   useEffect(() => {
@@ -605,7 +618,7 @@ export default function SignupPage({ onClose, onLoginClick }) {
               <button 
                 type="button" 
                 className="signup-yellow-cta-btn" 
-                onClick={onClose}
+                onClick={handleDashboardRedirect}
                 style={{ marginTop: 24, width: '100%' }}
               >
                 Go to Dashboard

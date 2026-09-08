@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
-import { Eye, EyeOff, Mail, Phone, Link2, List, GitBranch, MailOpen } from 'lucide-react';
+import { 
+  Eye, EyeOff, Mail, Phone, Link2, List, GitBranch, MailOpen,
+  ArrowLeft, Check, Loader2, UserPlus, Shield, KeyRound, Building2
+} from 'lucide-react';
 import './LoginPage.css';
 
 /* ─── SVG Icons ─── */
@@ -62,7 +65,6 @@ const ChromeIcon = () => (
 /* ─── Extension Mockup Card ─── */
 const ExtensionMockup = () => (
   <div className="login-extension-mockup">
-    {/* Background browser window */}
     <div className="ext-bg-window">
       <div className="ext-bg-dots">
         <div className="ext-bg-dot" />
@@ -70,10 +72,7 @@ const ExtensionMockup = () => (
         <div className="ext-bg-dot" />
       </div>
     </div>
-
-    {/* Main Apollo extension card */}
     <div className="ext-card">
-      {/* Header */}
       <div className="ext-card-header">
         <div className="ext-header-left">
           <svg className="ext-logo-icon" viewBox="0 0 24 24" fill="none">
@@ -81,105 +80,74 @@ const ExtensionMockup = () => (
           </svg>
           <span className="ext-logo-text">Apollo</span>
         </div>
-        <div className="ext-close-btn">
-          <svg width="8" height="8" viewBox="0 0 8 8">
-            <line x1="1" y1="1" x2="7" y2="7" stroke="#999" strokeWidth="1.5"/>
-            <line x1="7" y1="1" x2="1" y2="7" stroke="#999" strokeWidth="1.5"/>
-          </svg>
-        </div>
       </div>
-
-      {/* Person / Company Tabs */}
       <div className="ext-tabs">
-        <div className="ext-tab active-tab">
-          <svg width="10" height="10" viewBox="0 0 24 24" fill="white" style={{marginRight: 4}}>
-            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" stroke="white" strokeWidth="2" fill="none"/>
-            <circle cx="12" cy="7" r="4" stroke="white" strokeWidth="2" fill="none"/>
-          </svg>
-          Person
-        </div>
-        <div className="ext-tab inactive-tab">
-          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" style={{marginRight: 4}}>
-            <rect x="2" y="7" width="20" height="14" rx="2" stroke="#888" strokeWidth="2"/>
-            <path d="M16 7V5a2 2 0 0 0-4 0v2" stroke="#888" strokeWidth="2"/>
-          </svg>
-          Company
-        </div>
+        <div className="ext-tab active-tab">Person</div>
+        <div className="ext-tab inactive-tab">Company</div>
       </div>
-
-      {/* Person info */}
       <div className="ext-person-info">
         <div className="ext-person-name">Matt Curl</div>
         <div className="ext-person-role">CEO at Apollo</div>
         <div className="ext-match-badge">Excellent match</div>
       </div>
-
-      {/* Action buttons */}
       <div className="ext-actions">
-        <div className="ext-action-btn">
-          <List size={13} color="#444" />
-          <span>Add to list</span>
-        </div>
-        <div className="ext-action-btn">
-          <GitBranch size={13} color="#444" />
-          <span>Add to Sequence</span>
-        </div>
-        <div className="ext-action-btn">
-          <MailOpen size={13} color="#444" />
-          <span>Compose email</span>
-        </div>
+        <div className="ext-action-btn"><List size={13} color="#444" /><span>Add to list</span></div>
+        <div className="ext-action-btn"><GitBranch size={13} color="#444" /><span>Sequence</span></div>
+        <div className="ext-action-btn"><MailOpen size={13} color="#444" /><span>Email</span></div>
       </div>
-
-      {/* Contact info */}
       <div className="ext-contact-rows">
         <div className="ext-contact-row">
           <Mail size={13} color="#888" />
-          <div>
-            <div className="ext-contact-value">mc@apollo.io</div>
-            <div className="ext-contact-type">Work</div>
-          </div>
+          <div><div className="ext-contact-value">mc@apollo.io</div></div>
         </div>
-        <div className="ext-contact-row">
-          <Phone size={13} color="#888" />
-          <div>
-            <div className="ext-contact-value">(123) 456-7890</div>
-            <div className="ext-contact-type">Mobile</div>
-          </div>
-        </div>
-      </div>
-
-      {/* Social icons */}
-      <div className="ext-social-row">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="#D4FF00">
-          <path d="M12 2L13.5 8.5L20 7L15.5 12L20 17L13.5 15.5L12 22L10.5 15.5L4 17L8.5 12L4 7L10.5 8.5L12 2Z"/>
-        </svg>
-        {/* LinkedIn */}
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="#888">
-          <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
-          <rect x="2" y="9" width="4" height="12"/>
-          <circle cx="4" cy="4" r="2"/>
-        </svg>
-        <Link2 size={14} color="#888" />
-        {/* X / Twitter */}
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="#888">
-          <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.742l7.727-8.835L1.254 2.25H8.08l4.259 5.631 5.905-5.631zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-        </svg>
       </div>
     </div>
   </div>
 );
 
-/* ─── Main Component ─── */
-export default function LoginPage({ onClose, onSignupClick }) {
+export default function LoginPage({ onClose, onSignupClick, onLoginSuccess }) {
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [keepSigned, setKeepSigned] = useState(true);
-  const [activeTab, setActiveTab] = useState('login'); // 'login' | 'signup'
+  const [activeTab, setActiveTab] = useState('login');
+  const [loginStep, setLoginStep] = useState('none'); // 'none' | 'google' | 'microsoft' | 'apple' | 'org' | 'loading'
+  const [loadingMsg, setLoadingMsg] = useState('');
+  const [orgDomain, setOrgDomain] = useState('');
+  const [appleEmail, setAppleEmail] = useState('user@apple.com');
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const executeDummyLogin = (userObj) => {
+    setLoginStep('loading');
+    setLoadingMsg(`Authenticating with ${userObj.provider}...`);
+    setTimeout(() => {
+      if (onLoginSuccess) {
+        onLoginSuccess(userObj);
+      }
+    }, 1000);
   };
+
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
+    if (!email.trim()) return;
+    const name = email.split('@')[0];
+    const formattedName = name.charAt(0).toUpperCase() + name.slice(1);
+    executeDummyLogin({
+      name: formattedName || 'Apollo User',
+      email: email,
+      provider: 'Email/Password',
+      avatar: (formattedName || 'A').substring(0, 1).toUpperCase()
+    });
+  };
+
+  const googleAccounts = [
+    { name: 'Shivam Ahirwar', email: 'shivamahirwar@gmail.com', avatarBg: '#8b5cf6', initial: 'S', provider: 'Google Account' },
+    { name: 'Shivam (Work)', email: 'shivam@apollo-sales.io', avatarBg: '#0d9488', initial: 'S', provider: 'Google Workspace' }
+  ];
+
+  const microsoftAccounts = [
+    { name: 'Shivam Ahirwar', email: 'shivam@outlook.com', avatarBg: '#0284c7', initial: 'M', provider: 'Microsoft Live' },
+    { name: 'Shivam (Enterprise)', email: 'shivam.a@enterprise.com', avatarBg: '#4f46e5', initial: 'M', provider: 'Microsoft Azure AD' }
+  ];
 
   return (
     <div className="login-page">
@@ -202,11 +170,7 @@ export default function LoginPage({ onClose, onSignupClick }) {
           <button
             className={`login-tab ${activeTab === 'signup' ? 'active' : 'inactive'}`}
             onClick={() => {
-              if (onSignupClick) {
-                onSignupClick();
-              } else {
-                setActiveTab('signup');
-              }
+              if (onSignupClick) onSignupClick();
             }}
           >
             <PencilIcon />
@@ -216,19 +180,19 @@ export default function LoginPage({ onClose, onSignupClick }) {
 
         {/* Social auth buttons */}
         <div className="login-social-btns">
-          <button className="login-social-btn" type="button">
+          <button className="login-social-btn" type="button" onClick={() => setLoginStep('google')}>
             <GoogleIcon />
             Log In with Google
           </button>
-          <button className="login-social-btn" type="button">
+          <button className="login-social-btn" type="button" onClick={() => setLoginStep('microsoft')}>
             <MicrosoftIcon />
             Log In with Microsoft
           </button>
-          <button className="login-social-btn" type="button">
+          <button className="login-social-btn" type="button" onClick={() => setLoginStep('apple')}>
             <AppleIcon />
             Sign in with Apple
           </button>
-          <button className="login-social-btn" type="button">
+          <button className="login-social-btn" type="button" onClick={() => setLoginStep('org')}>
             <OrgIcon />
             Log In with your Organization
           </button>
@@ -242,7 +206,7 @@ export default function LoginPage({ onClose, onSignupClick }) {
         </div>
 
         {/* Email & Password form */}
-        <form className="login-form" onSubmit={handleSubmit}>
+        <form className="login-form" onSubmit={handleFormSubmit}>
           <div className="login-field">
             <label className="login-label" htmlFor="login-email">Email</label>
             <input
@@ -274,7 +238,6 @@ export default function LoginPage({ onClose, onSignupClick }) {
                 type="button"
                 className="login-eye-btn"
                 onClick={() => setShowPassword(!showPassword)}
-                aria-label={showPassword ? 'Hide password' : 'Show password'}
               >
                 {showPassword ? <EyeOff size={15} /> : <Eye size={15} />}
               </button>
@@ -323,6 +286,142 @@ export default function LoginPage({ onClose, onSignupClick }) {
           </div>
         </div>
       </div>
+
+      {/* ─────────────────────────────────────────────────────────────
+          DUMMY AUTHENTICATION INTERACTIVE MODAL OVERLAYS
+         ───────────────────────────────────────────────────────────── */}
+      {loginStep !== 'none' && (
+        <div className="login-modal-overlay" onClick={() => setLoginStep('none')}>
+          <div className="login-modal-box" onClick={(e) => e.stopPropagation()}>
+            <button className="login-modal-close" onClick={() => setLoginStep('none')}>✕</button>
+
+            {/* Google Chooser */}
+            {loginStep === 'google' && (
+              <div className="dummy-auth-wrap">
+                <div className="dummy-auth-brand">
+                  <GoogleIcon />
+                  <h3>Choose a Google Account</h3>
+                  <p>to continue to <strong>Apollo.io</strong></p>
+                </div>
+                <div className="dummy-acc-list">
+                  {googleAccounts.map((acc, i) => (
+                    <div 
+                      key={i} 
+                      className="dummy-acc-item"
+                      onClick={() => executeDummyLogin({ name: acc.name, email: acc.email, provider: 'Google OAuth', avatar: acc.initial })}
+                    >
+                      <div className="dummy-acc-avatar" style={{ background: acc.avatarBg }}>{acc.initial}</div>
+                      <div>
+                        <div className="dummy-acc-name">{acc.name}</div>
+                        <div className="dummy-acc-email">{acc.email}</div>
+                      </div>
+                    </div>
+                  ))}
+                  <div 
+                    className="dummy-acc-item add-new"
+                    onClick={() => executeDummyLogin({ name: 'Google User', email: 'user.google@gmail.com', provider: 'Google OAuth', avatar: 'G' })}
+                  >
+                    <UserPlus size={16} />
+                    <span>Use another Google account</span>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Microsoft Chooser */}
+            {loginStep === 'microsoft' && (
+              <div className="dummy-auth-wrap">
+                <div className="dummy-auth-brand">
+                  <MicrosoftIcon />
+                  <h3>Pick a Microsoft Account</h3>
+                  <p>to sign into <strong>Apollo.io Software</strong></p>
+                </div>
+                <div className="dummy-acc-list">
+                  {microsoftAccounts.map((acc, i) => (
+                    <div 
+                      key={i} 
+                      className="dummy-acc-item"
+                      onClick={() => executeDummyLogin({ name: acc.name, email: acc.email, provider: 'Microsoft OAuth', avatar: acc.initial })}
+                    >
+                      <div className="dummy-acc-avatar" style={{ background: acc.avatarBg }}>{acc.initial}</div>
+                      <div>
+                        <div className="dummy-acc-name">{acc.name}</div>
+                        <div className="dummy-acc-email">{acc.email}</div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Apple ID Auth */}
+            {loginStep === 'apple' && (
+              <div className="dummy-auth-wrap">
+                <div className="dummy-auth-brand">
+                  <AppleIcon />
+                  <h3>Sign in with Apple ID</h3>
+                  <p>Use your Apple ID to sign in to Apollo.io</p>
+                </div>
+                <div style={{ marginTop: 16 }}>
+                  <input 
+                    type="email" 
+                    className="login-input" 
+                    value={appleEmail}
+                    onChange={(e) => setAppleEmail(e.target.value)}
+                    placeholder="Apple ID Email" 
+                    style={{ marginBottom: 12 }}
+                  />
+                  <button 
+                    className="login-submit-btn" 
+                    onClick={() => executeDummyLogin({ name: 'Apple User', email: appleEmail, provider: 'Apple ID', avatar: '' })}
+                  >
+                    Continue with Touch ID / Face ID
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {/* Organization SSO */}
+            {loginStep === 'org' && (
+              <div className="dummy-auth-wrap">
+                <div className="dummy-auth-brand">
+                  <Building2 size={28} color="#d4ff00" />
+                  <h3>Organization SSO Single Sign-On</h3>
+                  <p>Enter your enterprise domain to authenticate</p>
+                </div>
+                <div style={{ marginTop: 16 }}>
+                  <input 
+                    type="text" 
+                    className="login-input" 
+                    value={orgDomain}
+                    onChange={(e) => setOrgDomain(e.target.value)}
+                    placeholder="company.com or work email" 
+                    style={{ marginBottom: 12 }}
+                  />
+                  <button 
+                    className="login-submit-btn" 
+                    onClick={() => {
+                      const domain = orgDomain || 'enterprise.com';
+                      executeDummyLogin({ name: 'Enterprise Admin', email: `admin@${domain}`, provider: `SSO (${domain})`, avatar: 'O' });
+                    }}
+                  >
+                    Log In with Enterprise SSO
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {/* Loading */}
+            {loginStep === 'loading' && (
+              <div className="dummy-loading-wrap">
+                <Loader2 size={40} className="login-spinner" />
+                <h3>{loadingMsg}</h3>
+                <p>Opening Apollo Software Workspace...</p>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

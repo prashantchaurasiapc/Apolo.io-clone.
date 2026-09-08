@@ -510,6 +510,7 @@ export default function DealsView({ showToast }) {
           </button>
         </div>
       </div>
+      )}
 
       {/* ─── 4. Main Body: Split Layout with Side Filters Panel (Screenshot 3) ─── */}
       <div className="deals-body-layout">

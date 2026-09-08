@@ -1,0 +1,530 @@
+/* ─── ConversationsView.css ─── */
+
+.conversations-view-wrapper {
+  display: flex;
+  flex-direction: column;
+  background-color: #ffffff;
+  border-radius: 10px;
+  border: 1px solid #e2e8f0;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  min-height: calc(100vh - 120px);
+}
+
+/* 1. Page Header */
+.conversations-page-header {
+  padding: 18px 28px;
+  background: #ffffff;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.conversations-page-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+
+/* 2. Main Split Section */
+.conversations-split-layout {
+  display: flex;
+  flex: 1;
+  min-height: 640px;
+}
+
+/* ─── LEFT: Dark Navy Container with Floating UI Cards ─── */
+.conversations-illustration-col {
+  flex: 1.25;
+  background-color: #0c1829;
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+  border-right: 1px solid #1e293b;
+}
+
+/* ── Top Floating Card: AI Summary & Transcript ── */
+.conversations-summary-card {
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+  width: 92%;
+  max-width: 440px;
+  padding: 14px 16px;
+  z-index: 1;
+  font-size: 11px;
+  color: #334155;
+  margin-bottom: -90px; /* overlapping with video card */
+}
+
+.conv-summary-tabs {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  border-bottom: 1px solid #e2e8f0;
+  padding-bottom: 8px;
+  margin-bottom: 10px;
+}
+
+.conv-tab-item {
+  font-size: 10.5px;
+  font-weight: 600;
+  color: #64748b;
+  cursor: pointer;
+  padding-bottom: 4px;
+  position: relative;
+}
+
+.conv-tab-item.active {
+  color: #0f172a;
+  font-weight: 700;
+}
+
+.conv-tab-item.active::after {
+  content: '';
+  position: absolute;
+  bottom: -9px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: #7c3aed;
+  border-radius: 2px;
+}
+
+.conv-tab-badge {
+  font-size: 8.5px;
+  background: #f1f5f9;
+  color: #475569;
+  padding: 1px 4px;
+  border-radius: 10px;
+  margin-left: 3px;
+}
+
+/* Purple AI Button */
+.btn-ask-ai-meeting {
+  width: 100%;
+  background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%);
+  color: #ffffff;
+  border: none;
+  padding: 7px 12px;
+  border-radius: 8px;
+  font-size: 10.5px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  cursor: pointer;
+  margin-bottom: 10px;
+  box-shadow: 0 2px 8px rgba(124, 58, 237, 0.25);
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.btn-ask-ai-meeting:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(124, 58, 237, 0.35);
+}
+
+.beta-pill {
+  background: #a855f7;
+  color: #ffffff;
+  font-size: 8px;
+  font-weight: 700;
+  padding: 1px 4px;
+  border-radius: 4px;
+  text-transform: uppercase;
+}
+
+.conv-subtitle-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.conv-sections-count {
+  font-size: 9px;
+  color: #94a3b8;
+  font-weight: 500;
+}
+
+.conv-action-icons {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #94a3b8;
+}
+
+/* Summary Sections Boxes */
+.conv-summary-section {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  padding: 8px 10px;
+  margin-bottom: 6px;
+}
+
+.conv-section-title {
+  font-size: 9.5px;
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 4px;
+}
+
+.conv-section-text {
+  font-size: 9px;
+  color: #475569;
+  line-height: 1.4;
+}
+
+.conv-bullet-item {
+  font-size: 9px;
+  color: #475569;
+  line-height: 1.35;
+  margin-top: 2px;
+}
+
+.conv-speaker-tag {
+  font-weight: 700;
+  color: #1e293b;
+  margin-right: 4px;
+}
+
+.conv-timestamp-badge {
+  font-size: 8px;
+  font-weight: 700;
+  background: #f1f5f9;
+  color: #334155;
+  padding: 1px 4px;
+  border-radius: 3px;
+  margin-right: 4px;
+}
+
+.conv-feedback-footer {
+  font-size: 8px;
+  color: #94a3b8;
+  margin-top: 6px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* ── Bottom Floating Overlapping Card: Video Player & Audio Talk-Tracks ── */
+.conversations-video-card {
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.4);
+  width: 96%;
+  max-width: 460px;
+  z-index: 2;
+  overflow: hidden;
+  align-self: flex-end;
+  border: 1px solid #334155;
+}
+
+.video-frame-container {
+  position: relative;
+  width: 100%;
+  height: 245px;
+  background: #0f172a;
+  overflow: hidden;
+}
+
+.video-participant-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 15%;
+  display: block;
+}
+
+/* Video controls bar overlay */
+.video-controls-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0) 100%);
+  padding: 8px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.video-progress-bar-track {
+  width: 100%;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 2px;
+  overflow: hidden;
+  position: relative;
+}
+
+.video-progress-bar-fill {
+  height: 100%;
+  width: 25%;
+  background: #eab308;
+  border-radius: 2px;
+}
+
+.video-controls-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #ffffff;
+  font-size: 9.5px;
+}
+
+.video-controls-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.video-control-btn {
+  background: none;
+  border: none;
+  color: #ffffff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  padding: 0;
+  opacity: 0.9;
+}
+
+.video-control-btn:hover {
+  opacity: 1;
+}
+
+.video-time-text {
+  font-size: 9px;
+  color: #cbd5e1;
+  font-weight: 500;
+}
+
+.video-controls-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Talk-Track Analytics Section */
+.talk-track-container {
+  padding: 10px 14px;
+  background: #ffffff;
+}
+
+.talk-track-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #f1f5f9;
+  margin-bottom: 8px;
+}
+
+.talk-track-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.talk-track-action-btn {
+  font-size: 9.5px;
+  font-weight: 600;
+  color: #475569;
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.talk-track-action-btn:hover {
+  color: #0f172a;
+}
+
+.speaker-rows-list {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.speaker-item-row {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.speaker-meta-info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 9px;
+}
+
+.speaker-name {
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.speaker-stats {
+  color: #64748b;
+  font-size: 8.5px;
+}
+
+.speaker-segmented-bar {
+  display: flex;
+  gap: 3px;
+  height: 6px;
+  width: 100%;
+}
+
+.bar-segment {
+  height: 100%;
+  border-radius: 3px;
+}
+
+.bar-segment.gray { background: #334155; }
+.bar-segment.blue { background: #2563eb; }
+.bar-segment.orange { background: #f59e0b; }
+.bar-segment.purple { background: #8b5cf6; }
+
+/* ─── RIGHT CONTENT COLUMN ─── */
+.conversations-content-col {
+  flex: 1;
+  padding: 48px 56px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-color: #ffffff;
+}
+
+.conversations-content-inner {
+  max-width: 490px;
+}
+
+.conversations-hero-heading {
+  font-size: 30px;
+  font-weight: 800;
+  color: #0f172a;
+  line-height: 1.24;
+  letter-spacing: -0.02em;
+  margin: 0 0 24px 0;
+}
+
+.conversations-conferencing-title {
+  font-size: 14.5px;
+  font-weight: 600;
+  color: #334155;
+  margin: 0 0 14px 0;
+}
+
+.conferencing-apps-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 28px;
+}
+
+.conferencing-app-icon-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.15s ease;
+  cursor: pointer;
+}
+
+.conferencing-app-icon-wrap:hover {
+  transform: translateY(-2px);
+}
+
+.conversations-features-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 34px;
+}
+
+.conversations-feature-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.conversations-check-circle {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.conversations-feature-text {
+  font-size: 14px;
+  color: #334155;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+/* Action Buttons Row */
+.conversations-cta-group {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.btn-get-started-yellow {
+  background-color: #d8ff00;
+  color: #0f172a;
+  font-size: 14px;
+  font-weight: 700;
+  padding: 12px 24px;
+  border-radius: 8px;
+  border: 1px solid #caef00;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  font-family: inherit;
+  box-shadow: 0 2px 6px rgba(216, 255, 0, 0.3);
+}
+
+.btn-get-started-yellow:hover {
+  background-color: #c9f200;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(216, 255, 0, 0.45);
+}
+
+.btn-explore-demo-white {
+  background-color: #ffffff;
+  color: #334155;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 12px 20px;
+  border-radius: 8px;
+  border: 1px solid #cbd5e1;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  font-family: inherit;
+}
+
+.btn-explore-demo-white:hover {
+  background-color: #f8fafc;
+  border-color: #94a3b8;
+  color: #0f172a;
+}
+
+@media (max-width: 1024px) {
+  .conversations-split-layout {
+    flex-direction: column;
+  }
+  .conversations-illustration-col {
+    border-right: none;
+    border-bottom: 1px solid #1e293b;
+  }
+  .conversations-content-col {
+    padding: 36px 24px;
+  }
+}

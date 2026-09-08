@@ -7,6 +7,12 @@ import {
   HelpCircle, ChevronDown, ChevronUp, Lock, Activity, CreditCard, PackageCheck, Layers,
   LayoutGrid
 } from 'lucide-react';
+import MeetingsView from './MeetingsView';
+import ConversationsView from './ConversationsView';
+import DealsView from './DealsView';
+
+
+
 
 /* ─── 1. Home View (1:1 Exact Match to authentic Apollo app.apollo.io/#/home screenshot) ─── */
 export const HomeView = ({ user, showToast, onSelectTab }) => {
@@ -494,102 +500,16 @@ export const TasksView = ({ showToast }) => (
 );
 
 /* ─── 11. Meetings View ─── */
-export const MeetingsView = ({ showToast }) => (
-  <div className="dash-view-content">
-    <div className="dash-view-header">
-      <div className="dash-view-title-group">
-        <h1>Win Deals — Meetings & Scheduling</h1>
-        <p>Calendar integration and upcoming sales discovery calls.</p>
-      </div>
-    </div>
-    <div className="dash-card-section">
-      <table className="dash-leads-table">
-        <thead>
-          <tr><th>Meeting Name</th><th>Attendee</th><th>Time</th><th>Status</th></tr>
-        </thead>
-        <tbody>
-          <tr><td style={{ fontWeight: 700 }}>Apollo Platform Demo & Pricing Overview</td><td>Sarah Jenkins (Stripe)</td><td>Today, 3:30 PM - 4:00 PM</td><td><span className="dash-metric-badge green">Confirmed</span></td></tr>
-          <tr><td style={{ fontWeight: 700 }}>Discovery Call: Enterprise Lead Enrichment</td><td>David Chen (Notion)</td><td>Tomorrow, 10:00 AM - 10:30 AM</td><td><span className="dash-metric-badge green">Confirmed</span></td></tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-);
+export { MeetingsView };
+
 
 /* ─── 12. Conversations View ─── */
-export const ConversationsView = ({ showToast }) => (
-  <div className="dash-view-content">
-    <div className="dash-view-header">
-      <div className="dash-view-title-group">
-        <h1>Win Deals — Call Conversations Intelligence</h1>
-        <p>Call recordings, key talk tracks, and buyer sentiment analysis.</p>
-      </div>
-    </div>
-    <div className="dash-card-section">
-      <table className="dash-leads-table">
-        <thead>
-          <tr><th>Recording Title</th><th>Participants</th><th>Duration</th><th>Key Topics</th><th>Action</th></tr>
-        </thead>
-        <tbody>
-          <tr><td style={{ fontWeight: 700 }}>Stripe - Enterprise Pricing Review</td><td>Sarah Jenkins, You</td><td>28m 10s</td><td>Budget, Security, API Limits</td><td><button className="dash-btn-secondary" onClick={()=>showToast('Loading Call Recording Transcript...')}>Listen Call</button></td></tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-);
+export { ConversationsView };
 
-/* ─── 13. Deals View (Kanban) ─── */
-export const DealsView = ({ showToast }) => (
-  <div className="dash-view-content">
-    <div className="dash-view-header">
-      <div className="dash-view-title-group">
-        <h1>Win Deals — Opportunity Pipeline</h1>
-        <p>Manage active deals across pipeline stages.</p>
-      </div>
-      <button className="dash-btn-primary" onClick={() => showToast('New Deal Created')}>
-        <Plus size={14} /> New Deal Opportunity
-      </button>
-    </div>
-    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 16 }}>
-      <div className="dash-card-section">
-        <div style={{ fontWeight: 700, fontSize: 14, marginBottom: 12, borderBottom: '2px solid #3b82f6', paddingBottom: 6 }}>
-          Discovery (3)
-        </div>
-        <div style={{ background: '#f8fafc', border: '1px solid #cbd5e1', padding: 12, borderRadius: 8, marginBottom: 10 }}>
-          <div style={{ fontWeight: 700 }}>Figma Enterprise</div>
-          <div style={{ fontSize: 12, color: '#64748b' }}>$45,000 • Value</div>
-        </div>
-      </div>
-      <div className="dash-card-section">
-        <div style={{ fontWeight: 700, fontSize: 14, marginBottom: 12, borderBottom: '2px solid #eab308', paddingBottom: 6 }}>
-          Proposal Sent (2)
-        </div>
-        <div style={{ background: '#f8fafc', border: '1px solid #cbd5e1', padding: 12, borderRadius: 8, marginBottom: 10 }}>
-          <div style={{ fontWeight: 700 }}>Stripe RevOps</div>
-          <div style={{ fontSize: 12, color: '#64748b' }}>$120,000 • Value</div>
-        </div>
-      </div>
-      <div className="dash-card-section">
-        <div style={{ fontWeight: 700, fontSize: 14, marginBottom: 12, borderBottom: '2px solid #a855f7', paddingBottom: 6 }}>
-          Negotiation (1)
-        </div>
-        <div style={{ background: '#f8fafc', border: '1px solid #cbd5e1', padding: 12, borderRadius: 8, marginBottom: 10 }}>
-          <div style={{ fontWeight: 700 }}>Notion Growth Team</div>
-          <div style={{ fontSize: 12, color: '#64748b' }}>$83,500 • Value</div>
-        </div>
-      </div>
-      <div className="dash-card-section">
-        <div style={{ fontWeight: 700, fontSize: 14, marginBottom: 12, borderBottom: '2px solid #22c55e', paddingBottom: 6 }}>
-          Closed Won (5)
-        </div>
-        <div style={{ background: '#f0fdf4', border: '1px solid #bbf7d0', padding: 12, borderRadius: 8, marginBottom: 10 }}>
-          <div style={{ fontWeight: 700, color: '#166534' }}>Apollo.io Upgrade</div>
-          <div style={{ fontSize: 12, color: '#15803d' }}>$250,000 • Closed</div>
-        </div>
-      </div>
-    </div>
-  </div>
-);
+
+/* ─── 13. Deals View ─── */
+export { DealsView };
+
 
 /* ─── 14. Workflows View ─── */
 export const WorkflowsView = ({ showToast }) => (

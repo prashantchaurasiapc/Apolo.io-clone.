@@ -375,3 +375,162 @@
   font-weight: 700;
   color: #0f172a;
 }
+
+/* ─── Dialer Modal Overlay & Content ─── */
+.dialer-modal-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dialer-modal-content {
+  background: #ffffff;
+  width: 480px;
+  border-radius: 12px;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  position: relative;
+  font-family: 'Inter', sans-serif;
+  overflow: hidden;
+  animation: modalFadeIn 0.2s ease-out;
+}
+
+@keyframes modalFadeIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.dialer-modal-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: transparent;
+  border: none;
+  font-size: 16px;
+  color: #64748b;
+  cursor: pointer;
+  z-index: 10;
+}
+
+.dialer-modal-graphic {
+  background: #eff6ff;
+  height: 220px;
+  margin: 16px 16px 0 16px;
+  border-radius: 8px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.dialer-wireframe {
+  width: 240px;
+  height: 160px;
+  background: #ffffff;
+  border: 2px solid #0f172a;
+  border-bottom: none;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  display: flex;
+  flex-direction: column;
+}
+
+.dialer-wireframe-header {
+  border-bottom: 2px solid #0f172a;
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.dialer-wireframe-header span {
+  font-size: 10px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.dialer-wireframe-pill {
+  width: 60px;
+  height: 12px;
+  border: 1px solid #0f172a;
+  border-radius: 8px;
+}
+
+.dialer-wireframe-body {
+  padding: 16px 12px;
+}
+
+.dw-line-short {
+  height: 4px;
+  width: 40%;
+  background: #e2e8f0;
+  border-radius: 4px;
+  margin-bottom: 12px;
+}
+
+.dw-line-long {
+  height: 6px;
+  width: 80%;
+  background: #475569;
+  border-radius: 4px;
+}
+
+.dialer-sparkle {
+  position: absolute;
+  color: #fbcfe8;
+  font-size: 24px;
+  -webkit-text-stroke: 1px #0f172a;
+}
+
+.s-top-right {
+  top: 40px;
+  right: 60px;
+}
+
+.s-bottom-left {
+  bottom: 60px;
+  left: 60px;
+  font-size: 32px;
+}
+
+.s-bottom-left-small {
+  bottom: 40px;
+  left: 90px;
+  font-size: 18px;
+}
+
+.dialer-modal-title {
+  font-size: 20px;
+  font-weight: 500;
+  color: #0f172a;
+  margin: 24px;
+  text-align: left;
+}
+
+.dialer-modal-footer {
+  border-top: 1px solid #e2e8f0;
+  padding: 16px 24px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.dialer-pricing-btn {
+  background: #d4ff00;
+  color: #0f172a;
+  border: none;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 10px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  transition: all 0.2s;
+}
+
+.dialer-pricing-btn:hover {
+  background: #bce600;
+}

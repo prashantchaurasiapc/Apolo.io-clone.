@@ -15,6 +15,7 @@ const ApolloStarIcon = () => (
 export default function Sidebar({ activeTab, onSelectTab, onUpgradeClick, showToast }) {
   const [collapsed, setCollapsed] = useState(false);
   const [showAdminPopup, setShowAdminPopup] = useState(false);
+  const [showDialerModal, setShowDialerModal] = useState(false);
   const [openGroups, setOpenGroups] = useState({
     prospect: true,
     engage: true,
@@ -58,7 +59,7 @@ export default function Sidebar({ activeTab, onSelectTab, onUpgradeClick, showTo
           {!collapsed && (
             <button 
               className="sidebar-phone-btn" 
-              onClick={(e) => { e.stopPropagation(); showToast('Opening Apollo Dialer...'); }}
+              onClick={(e) => { e.stopPropagation(); setShowDialerModal(true); }}
               title="Open Phone Dialer"
             >
               <Phone size={15} color="#64748b" />
@@ -366,6 +367,48 @@ export default function Sidebar({ activeTab, onSelectTab, onUpgradeClick, showTo
           )}
         </div>
       </div>
+
+      {/* Dialer Upgrade Modal */}
+      {showDialerModal && (
+        <div className="dialer-modal-overlay" onClick={() => setShowDialerModal(false)}>
+          <div className="dialer-modal-content" onClick={(e) => e.stopPropagation()}>
+            <button className="dialer-modal-close" onClick={() => setShowDialerModal(false)}>✕</button>
+            
+            <div className="dialer-modal-graphic">
+              {/* Fake Wireframe Graphic representing Call Participants */}
+              <div className="dialer-wireframe">
+                <div className="dialer-wireframe-header">
+                  <span>Call participants</span>
+                  <div className="dialer-wireframe-pill"></div>
+                </div>
+                <div className="dialer-wireframe-body">
+                  <div className="dw-line-short"></div>
+                  <div className="dw-line-long"></div>
+                  <div className="dw-line-short" style={{marginTop: 10}}></div>
+                  <div className="dw-line-long"></div>
+                </div>
+              </div>
+              <span className="dialer-sparkle s-top-right">✦</span>
+              <span className="dialer-sparkle s-bottom-left">✦</span>
+              <span className="dialer-sparkle s-bottom-left-small">✦</span>
+            </div>
+
+            <h2 className="dialer-modal-title">Dialer isn't included in your plan</h2>
+            
+            <div className="dialer-modal-footer">
+              <button 
+                className="dialer-pricing-btn"
+                onClick={() => {
+                  setShowDialerModal(false);
+                  if(onUpgradeClick) onUpgradeClick();
+                }}
+              >
+                View pricing plans
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </aside>
   );
 }

@@ -15,6 +15,7 @@ const ApolloStarIcon = () => (
 export default function Sidebar({ activeTab, onSelectTab, onUpgradeClick, showToast, mobileOpen, onCloseMobile }) {
   const [collapsed, setCollapsed] = useState(false);
   const [showAdminPopup, setShowAdminPopup] = useState(false);
+  const [showDialerModal, setShowDialerModal] = useState(false);
   const [openGroups, setOpenGroups] = useState({
     prospect: true,
     engage: true,
@@ -70,7 +71,7 @@ export default function Sidebar({ activeTab, onSelectTab, onUpgradeClick, showTo
           {!collapsed && (
             <button 
               className="sidebar-phone-btn" 
-              onClick={(e) => { e.stopPropagation(); showToast('Opening Apollo Dialer...'); }}
+              onClick={(e) => { e.stopPropagation(); setShowDialerModal(true); }}
               title="Open Phone Dialer"
             >
               <Phone size={15} color="#64748b" />
@@ -353,24 +354,23 @@ export default function Sidebar({ activeTab, onSelectTab, onUpgradeClick, showTo
                   <div className="admin-progress-line"><div className="admin-progress-fill" style={{ width: '11%' }} /></div>
                 </div>
               </div>
-              <div className="admin-flyout-menu">
-                <button className="admin-flyout-item" onClick={() => { handleSelect('admin_settings'); setShowAdminPopup(false); }}>
+                <button className={`admin-flyout-item ${activeTab === 'admin_users' ? 'active' : ''}`} onClick={() => { handleSelect('admin_users'); setShowAdminPopup(false); }}>
                   <Users size={15} /> <span>Users and teams</span>
                 </button>
-                <button className="admin-flyout-item" onClick={() => { showToast('Opening System Activity logs'); setShowAdminPopup(false); }}>
+                <button className={`admin-flyout-item ${activeTab === 'admin_activity' ? 'active' : ''}`} onClick={() => { handleSelect('admin_activity'); setShowAdminPopup(false); }}>
                   <Activity size={15} /> <span>System activity</span>
                 </button>
-                <button className="admin-flyout-item" onClick={() => { showToast('Security & SAML SSO configuration'); setShowAdminPopup(false); }}>
+                <button className={`admin-flyout-item ${activeTab === 'admin_security' ? 'active' : ''}`} onClick={() => { handleSelect('admin_security'); setShowAdminPopup(false); }}>
                   <Lock size={15} /> <span>Security</span>
                 </button>
-                <button className="admin-flyout-item" onClick={() => { showToast('Enterprise Plan Overview'); setShowAdminPopup(false); }}>
+                <button className={`admin-flyout-item ${activeTab === 'admin_plan' ? 'active' : ''}`} onClick={() => { handleSelect('admin_plan'); setShowAdminPopup(false); }}>
                   <CreditCard size={15} /> <span>Plan overview</span>
                 </button>
-                <button className="admin-flyout-item" onClick={() => { showToast('CRM & API Integrations'); setShowAdminPopup(false); }}>
+                <button className={`admin-flyout-item ${activeTab === 'admin_integrations' ? 'active' : ''}`} onClick={() => { handleSelect('admin_integrations'); setShowAdminPopup(false); }}>
                   <PackageCheck size={15} /> <span>Integrations</span>
                 </button>
                 <div className="admin-flyout-divider" />
-                <button className="admin-flyout-item bold-item" onClick={() => { handleSelect('admin_settings'); setShowAdminPopup(false); }}>
+                <button className={`admin-flyout-item bold-item ${activeTab === 'admin_settings' ? 'active' : ''}`} onClick={() => { handleSelect('admin_settings'); setShowAdminPopup(false); }}>
                   <Settings size={15} /> <span>All settings</span>
                 </button>
               </div>
@@ -378,6 +378,48 @@ export default function Sidebar({ activeTab, onSelectTab, onUpgradeClick, showTo
           )}
         </div>
       </div>
+
+      {/* Dialer Upgrade Modal */}
+      {showDialerModal && (
+        <div className="dialer-modal-overlay" onClick={() => setShowDialerModal(false)}>
+          <div className="dialer-modal-content" onClick={(e) => e.stopPropagation()}>
+            <button className="dialer-modal-close" onClick={() => setShowDialerModal(false)}>✕</button>
+            
+            <div className="dialer-modal-graphic">
+              {/* Fake Wireframe Graphic representing Call Participants */}
+              <div className="dialer-wireframe">
+                <div className="dialer-wireframe-header">
+                  <span>Call participants</span>
+                  <div className="dialer-wireframe-pill"></div>
+                </div>
+                <div className="dialer-wireframe-body">
+                  <div className="dw-line-short"></div>
+                  <div className="dw-line-long"></div>
+                  <div className="dw-line-short" style={{marginTop: 10}}></div>
+                  <div className="dw-line-long"></div>
+                </div>
+              </div>
+              <span className="dialer-sparkle s-top-right">✦</span>
+              <span className="dialer-sparkle s-bottom-left">✦</span>
+              <span className="dialer-sparkle s-bottom-left-small">✦</span>
+            </div>
+
+            <h2 className="dialer-modal-title">Dialer isn't included in your plan</h2>
+            
+            <div className="dialer-modal-footer">
+              <button 
+                className="dialer-pricing-btn"
+                onClick={() => {
+                  setShowDialerModal(false);
+                  if(onUpgradeClick) onUpgradeClick();
+                }}
+              >
+                View pricing plans
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </aside>
     </>
   );

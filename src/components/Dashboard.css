@@ -1,3 +1,17 @@
+/* ─── Master Dashboard CSS Entrypoint (Modularized Page CSS) ─── */
+@import './dashboard/css/dashboard-base.css';
+@import './dashboard/css/home-view.css';
+@import './dashboard/css/ai-assistant.css';
+@import './dashboard/css/people-prospect.css';
+@import './dashboard/css/companies-prospect.css';
+@import './dashboard/css/lists-view.css';
+@import './dashboard/css/enrichment-view.css';
+@import './dashboard/css/sequences-view.css';
+@import './dashboard/css/tasks-view.css';
+@import './dashboard/css/calls-view.css';
+@import './dashboard/css/emails-view.css';
+@import './dashboard/css/settings-view.css';
+
 /* ─── Dashboard.css (White / Light Theme) ─── */
 
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
@@ -680,4 +694,3 @@
     right: 16px;
   }
 }
-

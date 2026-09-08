@@ -8,7 +8,9 @@ import {
   ListsView, DataEnrichmentView, SequencesView, EmailsView, CallsView,
   TasksView, MeetingsView, ConversationsView, DealsView, WorkflowsView,
   AnalyticsView, WebsiteVisitorsView, FormsView, SavedPeopleView,
-  SavedCompaniesView, EmailHealthView, AdminSettingsView
+  SavedCompaniesView, EmailHealthView, AdminSettingsView,
+  AdminUsersTeamsView, AdminSystemActivityView, AdminSecurityView,
+  AdminPlanOverviewView, AdminIntegrationsView
 } from './dashboard/views/ViewContainer';
 import './Dashboard.css';
 
@@ -100,6 +102,16 @@ export default function Dashboard({ user, activeTab = 'home', onSelectTab, onLog
         return <SavedCompaniesView showToast={showToast} />;
       case 'email_health':
         return <EmailHealthView showToast={showToast} />;
+      case 'admin_users':
+        return <AdminUsersTeamsView showToast={showToast} />;
+      case 'admin_activity':
+        return <AdminSystemActivityView showToast={showToast} />;
+      case 'admin_security':
+        return <AdminSecurityView showToast={showToast} />;
+      case 'admin_plan':
+        return <AdminPlanOverviewView showToast={showToast} />;
+      case 'admin_integrations':
+        return <AdminIntegrationsView showToast={showToast} />;
       case 'admin_settings':
         return <AdminSettingsView user={currentUser} onLogout={onLogout} />;
       default:

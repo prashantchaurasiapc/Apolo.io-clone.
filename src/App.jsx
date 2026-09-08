@@ -47,6 +47,11 @@ export const TAB_TO_HASH = {
   saved_people: '#/app/saved/people',
   saved_companies: '#/app/saved/companies',
   email_health: '#/app/email-health',
+  admin_users: '#/app/admin/users',
+  admin_activity: '#/app/admin/activity',
+  admin_security: '#/app/admin/security',
+  admin_plan: '#/app/admin/plan',
+  admin_integrations: '#/app/admin/integrations',
   admin_settings: '#/app/admin-settings',
 };
 

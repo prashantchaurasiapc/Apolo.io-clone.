@@ -107,35 +107,46 @@ const ExtensionMockup = () => (
 
 export default function LoginPage({ onClose, onSignupClick, onLoginSuccess }) {
   const [showPassword, setShowPassword] = useState(false);
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('shivamahirwar@gmail.com');
+  const [password, setPassword] = useState('shivam123');
   const [keepSigned, setKeepSigned] = useState(true);
   const [activeTab, setActiveTab] = useState('login');
-  const [loginStep, setLoginStep] = useState('none'); // 'none' | 'google' | 'microsoft' | 'apple' | 'org' | 'loading'
+  const [loginStep, setLoginStep] = useState('none');
   const [loadingMsg, setLoadingMsg] = useState('');
   const [orgDomain, setOrgDomain] = useState('');
   const [appleEmail, setAppleEmail] = useState('user@apple.com');
 
+  React.useEffect(() => {
+    if (loginStep !== 'none') {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [loginStep]);
+
   const executeDummyLogin = (userObj) => {
     setLoginStep('loading');
-    setLoadingMsg(`Authenticating with ${userObj.provider}...`);
+    setLoadingMsg(`Authenticating as ${userObj.name || 'User'}...`);
     setTimeout(() => {
       if (onLoginSuccess) {
         onLoginSuccess(userObj);
       }
-    }, 1000);
+    }, 300);
   };
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
-    if (!email.trim()) return;
-    const name = email.split('@')[0];
+    const currentEmail = email.trim() || 'shivamahirwar@gmail.com';
+    const name = currentEmail.split('@')[0];
     const formattedName = name.charAt(0).toUpperCase() + name.slice(1);
     executeDummyLogin({
-      name: formattedName || 'Apollo User',
-      email: email,
+      name: formattedName || 'Shivam Ahirwar',
+      email: currentEmail,
       provider: 'Email/Password',
-      avatar: (formattedName || 'A').substring(0, 1).toUpperCase()
+      avatar: (formattedName || 'S').substring(0, 1).toUpperCase()
     });
   };
 
@@ -216,7 +227,6 @@ export default function LoginPage({ onClose, onSignupClick, onLoginSuccess }) {
               placeholder="Work Email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              required
               autoComplete="email"
             />
           </div>
@@ -231,7 +241,6 @@ export default function LoginPage({ onClose, onSignupClick, onLoginSuccess }) {
                 placeholder="Enter your password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                required
                 autoComplete="current-password"
               />
               <button
@@ -385,7 +394,7 @@ export default function LoginPage({ onClose, onSignupClick, onLoginSuccess }) {
             {loginStep === 'org' && (
               <div className="dummy-auth-wrap">
                 <div className="dummy-auth-brand">
-                  <Building2 size={28} color="#d4ff00" />
+                  <Building2 size={28} color="#2563eb" />
                   <h3>Organization SSO Single Sign-On</h3>
                   <p>Enter your enterprise domain to authenticate</p>
                 </div>

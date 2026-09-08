@@ -27,27 +27,27 @@ document.head.appendChild(styleSheet);
 const NAV_HEIGHT = 72;
 
 export const TAB_TO_HASH = {
-  home: '#/home',
-  ai_assistant: '#/ai-assistant',
-  prospect_people: '#/prospect/people',
-  prospect_companies: '#/prospect/companies',
-  lists: '#/prospect/lists',
-  enrichment: '#/prospect/enrichment',
-  sequences: '#/engage/sequences',
-  emails: '#/engage/emails',
-  calls: '#/engage/calls',
-  tasks: '#/engage/tasks',
-  meetings: '#/win/meetings',
-  conversations: '#/win/conversations',
-  deals: '#/win/deals',
-  workflows: '#/tools/workflows',
-  analytics: '#/tools/analytics',
-  website_visitors: '#/inbound/website-visitors',
-  forms: '#/inbound/forms',
-  saved_people: '#/saved/people',
-  saved_companies: '#/saved/companies',
-  email_health: '#/email-health',
-  admin_settings: '#/admin-settings',
+  home: '#/app/home',
+  ai_assistant: '#/app/ai-assistant',
+  prospect_people: '#/app/prospect/people',
+  prospect_companies: '#/app/prospect/companies',
+  lists: '#/app/prospect/lists',
+  enrichment: '#/app/prospect/enrichment',
+  sequences: '#/app/engage/sequences',
+  emails: '#/app/engage/emails',
+  calls: '#/app/engage/calls',
+  tasks: '#/app/engage/tasks',
+  meetings: '#/app/win/meetings',
+  conversations: '#/app/win/conversations',
+  deals: '#/app/win/deals',
+  workflows: '#/app/tools/workflows',
+  analytics: '#/app/tools/analytics',
+  website_visitors: '#/app/inbound/website-visitors',
+  forms: '#/app/inbound/forms',
+  saved_people: '#/app/saved/people',
+  saved_companies: '#/app/saved/companies',
+  email_health: '#/app/email-health',
+  admin_settings: '#/app/admin-settings',
 };
 
 export const HASH_TO_TAB = Object.fromEntries(
@@ -55,77 +55,71 @@ export const HASH_TO_TAB = Object.fromEntries(
 );
 
 export default function App() {
-  const [currentPage, setCurrentPage] = useState('dashboard'); // 'landing' | 'login' | 'pricing' | 'signup' | 'dashboard'
+  const [viewMode, setViewMode] = useState('website'); // 'website' | 'login' | 'signup' | 'pricing' | 'dashboard'
   const [activeTab, setActiveTab] = useState('home');
   const [user, setUser] = useState(null);
   const [key, setKey] = useState(0);
   const [demoOpen, setDemoOpen] = useState(false);
   const [signupOpen, setSignupOpen] = useState(false);
 
-  // Sync route state with window.location.hash
+  // Sync route mode with window.location.hash
   useEffect(() => {
     const handleHashChange = () => {
-      const hash = window.location.hash || '#/home';
-      
+      const hash = window.location.hash || '';
+
       if (hash === '#/login') {
-        setCurrentPage('login');
+        setViewMode('login');
       } else if (hash === '#/signup') {
-        setCurrentPage('signup');
+        setViewMode('signup');
       } else if (hash === '#/pricing') {
-        setCurrentPage('pricing');
-      } else if (hash === '#/landing') {
-        setCurrentPage('landing');
-      } else {
-        setCurrentPage('dashboard');
+        setViewMode('pricing');
+      } else if (hash.startsWith('#/app/')) {
+        setViewMode('dashboard');
         const matchedTab = HASH_TO_TAB[hash] || 'home';
         setActiveTab(matchedTab);
+      } else {
+        setViewMode('website');
       }
       setKey(k => k + 1);
     };
 
-    // Initial check
-    if (!window.location.hash) {
-      window.location.hash = '#/home';
-    } else {
-      handleHashChange();
-    }
-
+    handleHashChange();
     window.addEventListener('hashchange', handleHashChange);
     return () => window.removeEventListener('hashchange', handleHashChange);
   }, []);
 
-  const navigateTo = (pageOrHash) => {
-    if (pageOrHash === 'login') {
+  const navigateTo = (destination) => {
+    if (destination === 'login') {
       window.location.hash = '#/login';
-    } else if (pageOrHash === 'signup') {
+    } else if (destination === 'signup') {
       window.location.hash = '#/signup';
-    } else if (pageOrHash === 'pricing') {
+    } else if (destination === 'pricing') {
       window.location.hash = '#/pricing';
-    } else if (pageOrHash === 'landing') {
-      window.location.hash = '#/landing';
-    } else if (TAB_TO_HASH[pageOrHash]) {
-      window.location.hash = TAB_TO_HASH[pageOrHash];
+    } else if (destination === 'website' || destination === 'landing' || destination === 'home_website') {
+      window.location.hash = '';
+    } else if (TAB_TO_HASH[destination]) {
+      window.location.hash = TAB_TO_HASH[destination];
     } else {
-      window.location.hash = '#/home';
+      window.location.hash = '#/app/home';
     }
   };
 
   const handleLoginSuccess = (userData) => {
     setUser(userData);
-    window.location.hash = '#/home';
+    window.location.hash = '#/app/home';
   };
 
   const handleLogout = () => {
     setUser(null);
-    window.location.hash = '#/login';
+    window.location.hash = '';
   };
 
-  // Login page — full screen
-  if (currentPage === 'login') {
+  // 1. LOGIN PAGE (Full screen, no navbar)
+  if (viewMode === 'login') {
     return (
       <div key={key} style={fadeStyle}>
         <LoginPage 
-          onClose={() => navigateTo('landing')} 
+          onClose={() => navigateTo('website')} 
           onSignupClick={() => navigateTo('signup')}
           onLoginSuccess={handleLoginSuccess}
         />
@@ -133,8 +127,8 @@ export default function App() {
     );
   }
 
-  // Signup page
-  if (currentPage === 'signup') {
+  // 2. SIGNUP PAGE (Popup over background)
+  if (viewMode === 'signup') {
     return (
       <div key={key} style={fadeStyle}>
         <SignupPage 
@@ -146,8 +140,8 @@ export default function App() {
     );
   }
 
-  // Pricing page
-  if (currentPage === 'pricing') {
+  // 3. PRICING PAGE
+  if (viewMode === 'pricing') {
     return (
       <>
         <Navbar 
@@ -157,7 +151,7 @@ export default function App() {
           onSignupClick={() => navigateTo('signup')}
         />
         <div key={key} style={{ ...fadeStyle, paddingTop: NAV_HEIGHT }}>
-          <Pricing onBack={() => navigateTo('landing')} />
+          <Pricing onBack={() => navigateTo('website')} />
           <Footer 
             onSignupClick={() => navigateTo('signup')}
             onPricingClick={() => navigateTo('pricing')}
@@ -170,47 +164,47 @@ export default function App() {
     );
   }
 
-  // Marketing Landing page
-  if (currentPage === 'landing') {
+  // 4. SOFTWARE APP DASHBOARD (When logged in or visiting #/app/...)
+  if (viewMode === 'dashboard') {
     return (
-      <>
-        <Navbar 
-          onLoginClick={() => navigateTo('login')} 
-          onPricingClick={() => navigateTo('pricing')} 
-          onDemoClick={() => setDemoOpen(true)}
-          onSignupClick={() => navigateTo('signup')}
+      <div key={key} style={fadeStyle}>
+        <Dashboard 
+          user={user}
+          activeTab={activeTab}
+          onSelectTab={(tab) => navigateTo(tab)}
+          onLogout={handleLogout}
         />
-        <div key={key} style={{ ...fadeStyle, paddingTop: NAV_HEIGHT, minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
-          <main style={{ flex: 1 }}>
-            <Hero onSignupClick={() => navigateTo('signup')} />
-            <SocialProof />
-            <InteractiveTabs />
-            <FastestGrowing />
-            <SecurityCompliance />
-            <ComparisonBanner onSignupClick={() => navigateTo('signup')} />
-            <FAQAccordion />
-          </main>
-          <Footer 
-            onSignupClick={() => navigateTo('signup')}
-            onPricingClick={() => navigateTo('pricing')}
-            onDemoClick={() => setDemoOpen(true)}
-          />
-        </div>
-        {demoOpen && <DemoModal onClose={() => setDemoOpen(false)} />}
-        {signupOpen && <SignupModal onClose={() => { setSignupOpen(false); navigateTo('login'); }} />}
-      </>
+      </div>
     );
   }
 
-  // Default Dashboard / Software App View with hash routing
+  // 5. DEFAULT WEBSITE MARKETING LANDING PAGE (Hero, SocialProof, InteractiveTabs, Pricing link, Log In button, Sign Up button)
   return (
-    <div key={key} style={fadeStyle}>
-      <Dashboard 
-        user={user}
-        activeTab={activeTab}
-        onSelectTab={(tab) => navigateTo(tab)}
-        onLogout={handleLogout}
+    <>
+      <Navbar 
+        onLoginClick={() => navigateTo('login')} 
+        onPricingClick={() => navigateTo('pricing')} 
+        onDemoClick={() => setDemoOpen(true)}
+        onSignupClick={() => navigateTo('signup')}
       />
-    </div>
+      <div key={key} style={{ ...fadeStyle, paddingTop: NAV_HEIGHT, minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+        <main style={{ flex: 1 }}>
+          <Hero onSignupClick={() => navigateTo('signup')} />
+          <SocialProof />
+          <InteractiveTabs />
+          <FastestGrowing />
+          <SecurityCompliance />
+          <ComparisonBanner onSignupClick={() => navigateTo('signup')} />
+          <FAQAccordion />
+        </main>
+        <Footer 
+          onSignupClick={() => navigateTo('signup')}
+          onPricingClick={() => navigateTo('pricing')}
+          onDemoClick={() => setDemoOpen(true)}
+        />
+      </div>
+      {demoOpen && <DemoModal onClose={() => setDemoOpen(false)} />}
+      {signupOpen && <SignupModal onClose={() => { setSignupOpen(false); navigateTo('login'); }} />}
+    </>
   );
 }

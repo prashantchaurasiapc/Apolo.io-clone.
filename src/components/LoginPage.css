@@ -9,38 +9,14 @@
 .login-page {
   display: flex;
   min-height: 100vh;
+  width: 100%;
   background: #111111;
   font-family: 'Inter', sans-serif;
   position: relative;
+  overflow-y: auto;
 }
 
-/* ── Back Button ── */
-.login-back-btn {
-  position: absolute;
-  top: 24px;
-  right: 28px;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  color: rgba(255, 255, 255, 0.75);
-  font-size: 13px;
-  font-weight: 500;
-  padding: 7px 14px;
-  border-radius: 8px;
-  cursor: pointer;
-  z-index: 10;
-  transition: background 0.2s ease, color 0.2s ease;
-  font-family: 'Inter', sans-serif;
-}
-
-.login-back-btn:hover {
-  background: rgba(255, 255, 255, 0.14);
-  color: #ffffff;
-}
-
-/* ── Apollo Top-Left Logo ── */
+/* Apollo Top-Left Logo */
 .login-top-logo {
   position: absolute;
   top: 24px;
@@ -69,7 +45,7 @@
   letter-spacing: -0.01em;
 }
 
-/* ── Left Panel (Form) ── */
+/* Left Panel (Form) */
 .login-left {
   flex: 0 0 460px;
   display: flex;
@@ -77,6 +53,7 @@
   align-items: flex-start;
   justify-content: center;
   padding: 80px 56px 56px 56px;
+  min-height: 100vh;
 }
 
 /* Log In / Sign Up Tabs */
@@ -340,7 +317,7 @@
   color: #888;
 }
 
-/* ── Right Panel ── */
+/* Right Panel */
 .login-right {
   flex: 1;
   display: flex;
@@ -350,6 +327,7 @@
   overflow: hidden;
 }
 
+/* Pentagon / trapezoid dark teal shape */
 .login-right-shape {
   position: absolute;
   top: 40px;
@@ -373,6 +351,7 @@
   text-align: center;
 }
 
+/* Extension Mockup */
 .login-extension-mockup {
   position: relative;
   width: 340px;
@@ -466,6 +445,15 @@
   padding: 3px 8px;
   border-radius: 4px;
   text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.ext-match-badge::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  background: #4caf50;
+  border-radius: 50%;
 }
 
 .ext-actions {
@@ -484,6 +472,7 @@
   font-size: 10px;
   color: #555;
   border-right: 1px solid #f0f0f0;
+  cursor: default;
 }
 
 .ext-action-btn:last-child {
@@ -546,6 +535,7 @@
   font-size: 36px;
   font-weight: 800;
   color: #fff;
+  letter-spacing: -0.02em;
   margin-bottom: 6px;
 }
 
@@ -569,48 +559,72 @@
   font-size: 13px;
   font-weight: 600;
   cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  transition: all 0.2s ease;
+}
+
+.login-ext-cta-btn:hover {
+  background: #252525;
+  border-color: #444;
 }
 
 /* ─────────────────────────────────────────────────────────────
-   DUMMY LOGIN INTERACTIVE MODAL OVERLAYS
+   CLEAN WHITE DUMMY AUTH MODAL OVERLAY (No Page Scroll)
    ───────────────────────────────────────────────────────────── */
 .login-modal-overlay {
   position: fixed;
-  inset: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100vw;
+  height: 100vh;
   background: rgba(0, 0, 0, 0.75);
-  backdrop-filter: blur(6px);
-  z-index: 1000;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 999999;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 20px;
-  animation: fadeInModal 0.2s ease-out;
+  animation: fadeInModal 0.15s ease-out;
 }
 
 @keyframes fadeInModal {
-  from { opacity: 0; transform: scale(0.96); }
+  from { opacity: 0; transform: scale(0.97); }
   to { opacity: 1; transform: scale(1); }
 }
 
 .login-modal-box {
-  background: #18181b;
-  border: 1px solid #27272a;
+  background: #ffffff !important;
+  border: 1px solid #e2e8f0 !important;
   border-radius: 16px;
   padding: 32px;
   width: 100%;
   max-width: 440px;
   position: relative;
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
-  color: #ffffff;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
+  color: #0f172a !important;
+  margin: auto;
+}
+
+.login-modal-box .login-input {
+  background: #ffffff !important;
+  border: 1px solid #cbd5e1 !important;
+  color: #0f172a !important;
+}
+
+.login-modal-box .login-input::placeholder {
+  color: #94a3b8 !important;
 }
 
 .login-modal-close {
   position: absolute;
   top: 16px;
   right: 16px;
-  background: #27272a;
+  background: #f1f5f9;
   border: none;
-  color: #a1a1aa;
+  color: #64748b;
   width: 28px;
   height: 28px;
   border-radius: 50%;
@@ -619,11 +633,12 @@
   align-items: center;
   justify-content: center;
   font-size: 14px;
+  transition: all 0.15s;
 }
 
 .login-modal-close:hover {
-  background: #3f3f46;
-  color: #fff;
+  background: #e2e8f0;
+  color: #0f172a;
 }
 
 .dummy-auth-brand {
@@ -633,14 +648,14 @@
 
 .dummy-auth-brand h3 {
   font-size: 18px;
-  font-weight: 700;
+  font-weight: 800;
   margin: 12px 0 4px 0;
-  color: #ffffff;
+  color: #0f172a;
 }
 
 .dummy-auth-brand p {
   font-size: 13px;
-  color: #a1a1aa;
+  color: #64748b;
   margin: 0;
 }
 
@@ -655,16 +670,16 @@
   align-items: center;
   gap: 12px;
   padding: 12px 14px;
-  background: #27272a;
-  border: 1px solid #3f3f46;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
   border-radius: 10px;
   cursor: pointer;
   transition: all 0.2s ease;
 }
 
 .dummy-acc-item:hover {
-  background: #3f3f46;
-  border-color: #d4ff00;
+  background: #eff6ff;
+  border-color: #2563eb;
 }
 
 .dummy-acc-avatar {
@@ -682,21 +697,22 @@
 
 .dummy-acc-name {
   font-size: 14px;
-  font-weight: 600;
-  color: #ffffff;
+  font-weight: 700;
+  color: #0f172a;
 }
 
 .dummy-acc-email {
   font-size: 12px;
-  color: #a1a1aa;
+  color: #64748b;
 }
 
 .dummy-acc-item.add-new {
-  color: #d4ff00;
+  color: #2563eb;
   justify-content: center;
   font-size: 13px;
   font-weight: 600;
   border-style: dashed;
+  background: #ffffff;
 }
 
 .dummy-loading-wrap {
@@ -706,7 +722,7 @@
 
 .login-spinner {
   animation: spin 1s linear infinite;
-  color: #d4ff00;
+  color: #2563eb;
   margin-bottom: 16px;
 }
 
@@ -718,13 +734,13 @@
 .dummy-loading-wrap h3 {
   font-size: 16px;
   font-weight: 700;
-  color: #fff;
+  color: #0f172a;
   margin-bottom: 6px;
 }
 
 .dummy-loading-wrap p {
   font-size: 13px;
-  color: #a1a1aa;
+  color: #64748b;
   margin: 0;
 }
 

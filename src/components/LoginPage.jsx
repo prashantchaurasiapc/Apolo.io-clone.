@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { 
   Eye, EyeOff, Mail, Phone, Link2, List, GitBranch, MailOpen,
-  ArrowLeft, Check, Loader2, UserPlus, Shield, KeyRound, Building2
+  ArrowLeft, Check, Loader2, UserRound, Shield, KeyRound, Building2
 } from 'lucide-react';
 import './LoginPage.css';
 
@@ -301,37 +301,46 @@ export default function LoginPage({ onClose, onSignupClick, onLoginSuccess }) {
          ───────────────────────────────────────────────────────────── */}
       {loginStep !== 'none' && (
         <div className="login-modal-overlay" onClick={() => setLoginStep('none')}>
-          <div className="login-modal-box" onClick={(e) => e.stopPropagation()}>
+          <div className={`login-modal-box ${loginStep === 'google' ? 'google-account-chooser' : ''} ${loginStep === 'microsoft' ? 'microsoft-account-chooser' : ''} ${loginStep === 'apple' ? 'apple-auth-chooser' : ''} ${loginStep === 'org' ? 'sso-auth-chooser' : ''}`} onClick={(e) => e.stopPropagation()}>
             <button className="login-modal-close" onClick={() => setLoginStep('none')}>✕</button>
 
             {/* Google Chooser */}
             {loginStep === 'google' && (
               <div className="dummy-auth-wrap">
-                <div className="dummy-auth-brand">
-                  <GoogleIcon />
-                  <h3>Choose a Google Account</h3>
-                  <p>to continue to <strong>Apollo.io</strong></p>
+                <div className="google-chooser-header">
+                  <div className="google-chooser-brand"><GoogleIcon /><span>Sign in with Google</span></div>
                 </div>
-                <div className="dummy-acc-list">
-                  {googleAccounts.map((acc, i) => (
-                    <div 
-                      key={i} 
-                      className="dummy-acc-item"
-                      onClick={() => executeDummyLogin({ name: acc.name, email: acc.email, provider: 'Google OAuth', avatar: acc.initial })}
-                    >
-                      <div className="dummy-acc-avatar" style={{ background: acc.avatarBg }}>{acc.initial}</div>
-                      <div>
-                        <div className="dummy-acc-name">{acc.name}</div>
-                        <div className="dummy-acc-email">{acc.email}</div>
-                      </div>
+                <div className="google-chooser-content">
+                  <div className="google-chooser-intro">
+                    <h3>Choose an account</h3>
+                    <p>to continue to <strong>Apollo</strong></p>
+                  </div>
+                  <div className="google-chooser-options">
+                    <div className="dummy-acc-list">
+                      {googleAccounts.map((acc, i) => (
+                        <button
+                          type="button"
+                          key={i}
+                          className="dummy-acc-item"
+                          onClick={() => executeDummyLogin({ name: acc.name, email: acc.email, provider: 'Google OAuth', avatar: acc.initial })}
+                        >
+                          <div className="dummy-acc-avatar" style={{ background: acc.avatarBg }}>{acc.initial}</div>
+                          <div className="google-account-details">
+                            <div className="dummy-acc-name">{acc.name}</div>
+                            <div className="dummy-acc-email">{acc.email}</div>
+                          </div>
+                        </button>
+                      ))}
+                      <button
+                        type="button"
+                        className="dummy-acc-item add-new"
+                        onClick={() => executeDummyLogin({ name: 'Google User', email: 'user.google@gmail.com', provider: 'Google OAuth', avatar: 'G' })}
+                      >
+                        <span className="google-another-account-icon"><UserRound size={20} /></span>
+                        <span>Use another account</span>
+                      </button>
                     </div>
-                  ))}
-                  <div 
-                    className="dummy-acc-item add-new"
-                    onClick={() => executeDummyLogin({ name: 'Google User', email: 'user.google@gmail.com', provider: 'Google OAuth', avatar: 'G' })}
-                  >
-                    <UserPlus size={16} />
-                    <span>Use another Google account</span>
+                    <p className="google-chooser-notice">Before using this app, you can review Apollo's <a href="#privacy">Privacy Policy</a> and <a href="#terms">Terms of Service</a>.</p>
                   </div>
                 </div>
               </div>
@@ -339,52 +348,64 @@ export default function LoginPage({ onClose, onSignupClick, onLoginSuccess }) {
 
             {/* Microsoft Chooser */}
             {loginStep === 'microsoft' && (
-              <div className="dummy-auth-wrap">
-                <div className="dummy-auth-brand">
-                  <MicrosoftIcon />
-                  <h3>Pick a Microsoft Account</h3>
-                  <p>to sign into <strong>Apollo.io Software</strong></p>
+              <div className="microsoft-auth-wrap">
+                <div className="microsoft-brand"><MicrosoftIcon /><span>Microsoft</span></div>
+                <div className="microsoft-auth-heading">
+                  <h3>Pick an account</h3>
+                  <p>to continue to <strong>Apollo</strong></p>
                 </div>
-                <div className="dummy-acc-list">
+                <div className="microsoft-account-list">
                   {microsoftAccounts.map((acc, i) => (
-                    <div 
-                      key={i} 
+                    <button
+                      type="button"
+                      key={i}
                       className="dummy-acc-item"
                       onClick={() => executeDummyLogin({ name: acc.name, email: acc.email, provider: 'Microsoft OAuth', avatar: acc.initial })}
                     >
                       <div className="dummy-acc-avatar" style={{ background: acc.avatarBg }}>{acc.initial}</div>
-                      <div>
+                      <div className="microsoft-account-details">
                         <div className="dummy-acc-name">{acc.name}</div>
                         <div className="dummy-acc-email">{acc.email}</div>
                       </div>
-                    </div>
+                    </button>
                   ))}
                 </div>
+                <button type="button" className="microsoft-use-another" onClick={() => executeDummyLogin({ name: 'Microsoft User', email: 'user@outlook.com', provider: 'Microsoft OAuth', avatar: 'M' })}>Use another account</button>
+                <p className="microsoft-legal">By continuing, you agree to Apollo's <a href="#terms">Terms of Service</a> and <a href="#privacy">Privacy Policy</a>.</p>
               </div>
             )}
 
             {/* Apple ID Auth */}
             {loginStep === 'apple' && (
-              <div className="dummy-auth-wrap">
-                <div className="dummy-auth-brand">
+              <div className="apple-auth-wrap">
+                <div className="apple-auth-topbar">
                   <AppleIcon />
-                  <h3>Sign in with Apple ID</h3>
-                  <p>Use your Apple ID to sign in to Apollo.io</p>
+                  <span>Apple Account</span>
+                  <span className="apple-auth-signin">Sign in</span>
                 </div>
-                <div style={{ marginTop: 16 }}>
-                  <input 
+                <div className="apple-auth-content">
+                  <div className="apple-auth-mark"><AppleIcon /></div>
+                  <h3>Sign in with Apple</h3>
+                  <p>Use your Apple Account to sign in to <strong>Apollo</strong>.</p>
+                  <label className="sr-only" htmlFor="apple-id-email">Email or phone number</label>
+                  <input
+                    id="apple-id-email"
                     type="email" 
-                    className="login-input" 
+                    className="apple-id-input"
                     value={appleEmail}
                     onChange={(e) => setAppleEmail(e.target.value)}
-                    placeholder="Apple ID Email" 
-                    style={{ marginBottom: 12 }}
+                    placeholder="Email or Phone Number"
                   />
-                  <button 
-                    className="login-submit-btn" 
+                  <p className="apple-privacy-note">Your Apple Account information is used only to sign you in securely.</p>
+                  <button
+                    type="button"
+                    className="apple-continue-btn"
                     onClick={() => executeDummyLogin({ name: 'Apple User', email: appleEmail, provider: 'Apple ID', avatar: '' })}
                   >
-                    Continue with Touch ID / Face ID
+                    Continue
+                  </button>
+                  <button type="button" className="apple-passkey-btn" onClick={() => executeDummyLogin({ name: 'Apple User', email: appleEmail, provider: 'Apple ID', avatar: '' })}>
+                    Sign in with Passkey
                   </button>
                 </div>
               </div>
@@ -392,30 +413,33 @@ export default function LoginPage({ onClose, onSignupClick, onLoginSuccess }) {
 
             {/* Organization SSO */}
             {loginStep === 'org' && (
-              <div className="dummy-auth-wrap">
-                <div className="dummy-auth-brand">
-                  <Building2 size={28} color="#2563eb" />
-                  <h3>Organization SSO Single Sign-On</h3>
-                  <p>Enter your enterprise domain to authenticate</p>
-                </div>
-                <div style={{ marginTop: 16 }}>
+              <div className="sso-auth-wrap">
+                <div className="sso-auth-brand"><ApolloStarIcon /><span>Apollo</span></div>
+                <div className="sso-auth-card">
+                  <button type="button" className="sso-back" onClick={() => setLoginStep('none')}><ArrowLeft size={17} /> Back</button>
+                  <div className="sso-icon"><Building2 size={25} /></div>
+                  <h3>Log in with SSO</h3>
+                  <p>Enter your work email to continue with your organization.</p>
+                  <label htmlFor="sso-domain">Work email or company domain</label>
                   <input 
+                    id="sso-domain"
                     type="text" 
-                    className="login-input" 
+                    className="sso-domain-input"
                     value={orgDomain}
                     onChange={(e) => setOrgDomain(e.target.value)}
-                    placeholder="company.com or work email" 
-                    style={{ marginBottom: 12 }}
+                    placeholder="name@company.com"
                   />
                   <button 
-                    className="login-submit-btn" 
+                    type="button"
+                    className="sso-submit-btn"
                     onClick={() => {
                       const domain = orgDomain || 'enterprise.com';
                       executeDummyLogin({ name: 'Enterprise Admin', email: `admin@${domain}`, provider: `SSO (${domain})`, avatar: 'O' });
                     }}
                   >
-                    Log In with Enterprise SSO
+                    Continue
                   </button>
+                  <p className="sso-help">Having trouble? <a href="#support">Contact your IT administrator</a></p>
                 </div>
               </div>
             )}

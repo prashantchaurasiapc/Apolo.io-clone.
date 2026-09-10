@@ -2,16 +2,19 @@
    10. 1:1 MY LISTS PAGE STYLES (Matching Latest User Screenshot)
    ───────────────────────────────────────────────────────────── */
 
-.apollo-my-lists-page {
-  background: #f8fafc;
-  min-height: calc(100vh - 60px);
+.dash-view-content.apollo-my-lists-page {
+  background: #ffffff;
+  min-height: 100%;
+  flex: 1;
   display: flex;
   flex-direction: column;
   position: relative;
+  /* Header/body spacing is handled inside this full-width route. */
+  padding: 0;
 }
 
 .my-lists-top-header {
-  padding: 16px 28px;
+  padding: 18px 24px 14px 24px;
   background: #ffffff;
   border-bottom: 1px solid #f1f5f9;
   display: flex;
@@ -20,10 +23,11 @@
 }
 
 .my-lists-title {
-  font-size: 22px;
+  font-size: 20px;
   font-weight: 700;
   color: #0f172a;
   margin: 0;
+  line-height: 1.2;
 }
 
 .view-existing-lists-btn {
@@ -79,7 +83,8 @@
 
 .my-lists-body-area {
   flex: 1;
-  padding: 20px 28px;
+  padding: 20px 24px;
+  background: #ffffff;
 }
 
 /* 1:1 Welcome Empty Card Container */

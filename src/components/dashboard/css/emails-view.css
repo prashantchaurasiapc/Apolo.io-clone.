@@ -2,18 +2,21 @@
    14. 1:1 EMAILS PAGE STYLES (Matching User Screenshots 1 & 2)
    ───────────────────────────────────────────────────────────── */
 
-.apollo-emails-page {
+.dash-view-content.apollo-emails-page {
   background: #ffffff;
-  min-height: calc(100vh - 56px);
+  min-height: 100%;
+  flex: 1;
   display: flex;
   flex-direction: column;
   position: relative;
   width: 100%;
+  /* Prevent the generic dashboard card inset beside the global sidebar. */
+  padding: 0;
 }
 
 /* Top Header */
 .emails-top-header {
-  padding: 18px 32px;
+  padding: 18px 24px 14px;
   background: #ffffff;
   border-bottom: 1px solid #f4f4f5;
   display: flex;
@@ -197,7 +200,7 @@
 /* Main Body Area */
 .emails-main-body-container {
   flex: 1;
-  padding: 40px 32px 60px 32px;
+  padding: 32px 24px 48px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -1020,4 +1023,3 @@
 }
 .legend-dot.blue { background: #93c5fd; }
 .legend-dot.cyan { background: #67e8f9; }
-

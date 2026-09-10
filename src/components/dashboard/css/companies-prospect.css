@@ -2,10 +2,13 @@
    7. 1:1 EXACT MATCH COMPANIES SEARCH PAGE STYLES
    ───────────────────────────────────────────────────────────── */
 
-.apollo-companies-prospect-page {
+.dash-view-content.apollo-companies-prospect-page {
   display: flex;
   flex-direction: column;
   height: 100%;
+  /* This route owns its header and workspace gutters; do not inherit the
+     generic card-page inset beside the global sidebar. */
+  padding: 0;
   background: #ffffff;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
 }

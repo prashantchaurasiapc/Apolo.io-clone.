@@ -61,6 +61,11 @@ export const HASH_TO_TAB = {
   ),
   '#/home': 'home',
   '#/dashboard': 'home',
+  '#/settings': 'admin_users',
+  '#/settings/users': 'admin_users',
+  '#/app/settings': 'admin_users',
+  '#/admin/users': 'admin_users',
+  '#/users': 'admin_users',
   '#/win/meetings': 'meetings',
   '#/win/conversations': 'conversations',
   '#/win/deals': 'deals',
@@ -88,7 +93,7 @@ export default function App() {
         setViewMode('signup');
       } else if (hash === '#/pricing') {
         setViewMode('pricing');
-      } else if (hash.startsWith('#/app/') || hash.startsWith('#/win/') || hash === '#/home' || hash === '#/deals' || hash === '#/meetings' || hash === '#/conversations' || hash === '#/dashboard') {
+      } else if (hash.startsWith('#/settings') || hash.startsWith('#/app/') || hash.startsWith('#/win/') || hash === '#/home' || hash === '#/deals' || hash === '#/meetings' || hash === '#/conversations' || hash === '#/dashboard') {
         setViewMode('dashboard');
         const matchedTab = HASH_TO_TAB[hash] || 'home';
         setActiveTab(matchedTab);
@@ -182,14 +187,12 @@ export default function App() {
   // 4. SOFTWARE APP DASHBOARD (When logged in or visiting #/app/...)
   if (viewMode === 'dashboard') {
     return (
-      <div key={key} style={fadeStyle}>
-        <Dashboard 
-          user={user}
-          activeTab={activeTab}
-          onSelectTab={(tab) => navigateTo(tab)}
-          onLogout={handleLogout}
-        />
-      </div>
+      <Dashboard
+        user={user}
+        activeTab={activeTab}
+        onSelectTab={(tab) => navigateTo(tab)}
+        onLogout={handleLogout}
+      />
     );
   }
 

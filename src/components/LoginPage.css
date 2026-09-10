@@ -744,6 +744,117 @@
   margin: 0;
 }
 
+/* Google account chooser: intentionally scoped to the Google OAuth state only. */
+.login-modal-box.google-account-chooser {
+  width: min(760px, calc(100vw - 40px)); max-width: 760px; min-height: 500px; margin: auto; padding: 0;
+  overflow: hidden; color: #e8eaed !important; background: #0f0f0f !important;
+  border: 1px solid #303134 !important; border-radius: 20px; box-shadow: 0 28px 72px rgba(0, 0, 0, .52);
+}
+.google-account-chooser .login-modal-close { display: none; }
+.google-chooser-header { height: 72px; display: flex; align-items: center; padding: 0 28px; border-bottom: 1px solid #343536; }
+.google-chooser-brand { display: flex; align-items: center; gap: 15px; color: #e8eaed; font-family: Arial, sans-serif; font-size: 18px; font-weight: 500; letter-spacing: -.2px; }
+.google-chooser-brand svg { width: 27px; height: 27px; }
+.google-chooser-content { display: grid; grid-template-columns: minmax(250px, 1fr) minmax(340px, 1.15fr); gap: 48px; padding: 88px 50px 48px; }
+.google-chooser-intro { padding-top: 30px; font-family: Arial, sans-serif; }
+.google-chooser-intro h3 { margin: 0 0 24px; color: #f1f3f4; font-size: 42px; font-weight: 400; letter-spacing: -1.35px; line-height: 1.1; }
+.google-chooser-intro p { margin: 0; color: #e8eaed; font-size: 19px; line-height: 1.45; }
+.google-chooser-intro strong, .google-chooser-notice a { color: #a8c7fa; font-weight: 600; }
+.google-account-chooser .dummy-acc-list { gap: 0; border-top: 1px solid #454647; }
+.google-account-chooser .dummy-acc-item { width: 100%; min-height: 96px; display: flex; align-items: center; gap: 16px; padding: 14px 0; text-align: left; font-family: Arial, sans-serif; color: #e8eaed; background: transparent; border: 0; border-bottom: 1px solid #454647; border-radius: 0; cursor: pointer; transition: background-color 120ms ease; }
+.google-account-chooser .dummy-acc-item:hover { background: #242424; border-color: #454647; }
+.google-account-chooser .dummy-acc-item:focus-visible { outline: 2px solid #a8c7fa; outline-offset: -2px; }
+.google-account-chooser .dummy-acc-avatar { width: 40px; height: 40px; margin-left: 2px; font-size: 17px; font-weight: 400; box-shadow: inset 0 0 0 1px rgba(255,255,255,.14); }
+.google-account-details { min-width: 0; }
+.google-account-chooser .dummy-acc-name { overflow: hidden; color: #f1f3f4; font-size: 17px; font-weight: 600; line-height: 1.35; text-overflow: ellipsis; white-space: nowrap; }
+.google-account-chooser .dummy-acc-email { overflow: hidden; margin-top: 3px; color: #c4c7c5; font-size: 15px; line-height: 1.35; text-overflow: ellipsis; white-space: nowrap; }
+.google-account-chooser .dummy-acc-item.add-new { min-height: 74px; justify-content: flex-start; color: #f1f3f4; font-size: 17px; font-weight: 600; border-style: solid; }
+.google-another-account-icon { width: 40px; display: grid; place-items: center; color: #c4c7c5; }
+.google-chooser-notice { margin: 56px 0 0; color: #c4c7c5; font-family: Arial, sans-serif; font-size: 14px; line-height: 1.45; }
+.google-chooser-notice a { text-decoration: none; }
+.google-chooser-notice a:hover { text-decoration: underline; }
+
+/* Microsoft account picker */
+.login-modal-box.microsoft-account-chooser { width: min(460px, calc(100vw - 40px)); max-width: 460px; padding: 0; overflow: hidden; border: 0 !important; border-radius: 4px; box-shadow: 0 18px 46px rgba(0,0,0,.34); }
+.microsoft-account-chooser .login-modal-close { top: 12px; right: 12px; background: transparent; color: #5f5f5f; }
+.microsoft-account-chooser .login-modal-close:hover { background: #f2f2f2; color: #1b1b1b; }
+.microsoft-auth-wrap { padding: 42px 44px 34px; font-family: "Segoe UI", Arial, sans-serif; color: #1b1b1b; }
+.microsoft-brand { display: flex; align-items: center; gap: 9px; color: #666; font-size: 20px; font-weight: 600; }
+.microsoft-brand svg { width: 24px; height: 24px; }
+.microsoft-auth-heading { margin-top: 27px; }
+.microsoft-auth-heading h3 { margin: 0 0 7px; color: #1b1b1b; font-size: 27px; font-weight: 600; letter-spacing: -.5px; }
+.microsoft-auth-heading p { margin: 0; color: #555; font-size: 15px; }
+.microsoft-auth-heading strong { color: #0067b8; font-weight: 600; }
+.microsoft-account-list { margin-top: 27px; border-top: 1px solid #e5e5e5; }
+.microsoft-account-chooser .dummy-acc-item { width: 100%; gap: 13px; padding: 14px 4px; text-align: left; background: transparent; border: 0; border-bottom: 1px solid #e5e5e5; border-radius: 0; }
+.microsoft-account-chooser .dummy-acc-item:hover { background: #f5f5f5; border-color: #e5e5e5; }
+.microsoft-account-chooser .dummy-acc-avatar { width: 36px; height: 36px; font-size: 15px; font-weight: 600; }
+.microsoft-account-details { min-width: 0; }
+.microsoft-account-chooser .dummy-acc-name { color: #1b1b1b; font-family: inherit; font-size: 15px; font-weight: 600; }
+.microsoft-account-chooser .dummy-acc-email { margin-top: 2px; color: #666; font-family: inherit; font-size: 13px; }
+.microsoft-use-another { width: 100%; margin-top: 20px; padding: 11px 14px; color: #0067b8; background: #fff; border: 1px solid #8a8886; border-radius: 2px; font: 600 14px "Segoe UI", Arial, sans-serif; cursor: pointer; transition: background .15s; }
+.microsoft-use-another:hover { background: #f3f2f1; }
+.microsoft-legal { margin: 23px 0 0; color: #666; font-size: 12px; line-height: 1.45; }
+.microsoft-legal a { color: #0067b8; text-decoration: none; }
+
+/* Apple sign-in panel */
+.login-modal-box.apple-auth-chooser { width: min(620px, calc(100vw - 40px)); max-width: 620px; min-height: 620px; padding: 0; overflow: hidden; border: 1px solid #dedede !important; border-radius: 14px; box-shadow: 0 24px 64px rgba(0,0,0,.3); }
+.apple-auth-chooser .login-modal-close { top: 13px; right: 14px; z-index: 2; background: #f5f5f7; color: #555; }
+.apple-auth-topbar { height: 70px; display: flex; align-items: center; gap: 10px; padding: 0 28px; color: #1d1d1f; border-bottom: 1px solid #d2d2d7; font-size: 18px; font-weight: 600; }
+.apple-auth-topbar svg { width: 19px; height: 19px; fill: #1d1d1f; }
+.apple-auth-signin { margin-left: auto; margin-right: 35px; color: #6e6e73; font-size: 15px; font-weight: 400; }
+.apple-auth-content { width: min(390px, calc(100% - 48px)); margin: 0 auto; padding: 52px 0 44px; text-align: center; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+.apple-auth-mark { display: grid; width: 62px; height: 62px; place-items: center; margin: 0 auto 18px; color: #1d1d1f; border-radius: 50%; background: #f5f5f7; }
+.apple-auth-mark svg { width: 34px; height: 34px; fill: currentColor; }
+.apple-auth-content h3 { margin: 0; color: #1d1d1f; font-size: 27px; font-weight: 600; letter-spacing: -.5px; }
+.apple-auth-content > p { margin: 12px auto 26px; color: #515154; font-size: 16px; line-height: 1.45; }
+.apple-id-input { box-sizing: border-box; width: 100%; height: 58px; padding: 0 17px; color: #1d1d1f; background: #fff; border: 1px solid #86868b; border-radius: 12px; font: 16px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; outline: 0; }
+.apple-id-input:focus { border: 2px solid #0071e3; padding: 0 16px; box-shadow: 0 0 0 4px rgba(0,113,227,.15); }
+.apple-id-input::placeholder { color: #86868b; }
+.apple-auth-content .apple-privacy-note { margin: 16px 0 26px; color: #6e6e73; font-size: 13px; text-align: left; }
+.apple-continue-btn, .apple-passkey-btn { width: 100%; height: 48px; border: 0; border-radius: 10px; font: 16px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; cursor: pointer; transition: transform .15s, background .15s; }
+.apple-continue-btn { color: #fff; background: #0071e3; font-weight: 600; }
+.apple-continue-btn:hover { background: #0077ed; }
+.apple-passkey-btn { margin-top: 12px; color: #fff; background: #1d1d1f; }
+.apple-passkey-btn:hover { background: #333336; }
+
+/* Apollo organization SSO panel */
+.login-modal-box.sso-auth-chooser { width: min(500px, calc(100vw - 40px)); max-width: 500px; padding: 0; overflow: hidden; color: #f5f5f5 !important; background: #151614 !important; border: 1px solid #393b35 !important; border-radius: 16px; box-shadow: 0 28px 70px rgba(0,0,0,.48); }
+.sso-auth-chooser .login-modal-close { display: none; }
+.sso-auth-wrap { min-height: 545px; padding: 28px 52px 42px; font-family: Inter, Arial, sans-serif; background: radial-gradient(circle at 90% 3%, rgba(212,255,0,.12), transparent 30%), #151614; }
+.sso-auth-brand { display: flex; align-items: center; gap: 9px; font-size: 19px; font-weight: 700; }
+.sso-auth-brand svg { width: 23px; height: 23px; }
+.sso-auth-card { margin-top: 38px; }
+.sso-back { display: inline-flex; align-items: center; gap: 7px; padding: 0; color: #c9cbc4; background: transparent; border: 0; font: 14px Inter, Arial, sans-serif; cursor: pointer; }
+.sso-back:hover { color: #d4ff00; }
+.sso-icon { display: grid; width: 48px; height: 48px; place-items: center; margin-top: 33px; color: #d4ff00; background: rgba(212,255,0,.12); border: 1px solid rgba(212,255,0,.24); border-radius: 12px; }
+.sso-auth-card h3 { margin: 18px 0 8px; color: #fff; font-size: 29px; font-weight: 650; letter-spacing: -.8px; }
+.sso-auth-card > p { margin: 0 0 28px; color: #b5b8af; font-size: 14px; line-height: 1.55; }
+.sso-auth-card label { display: block; margin-bottom: 8px; color: #e6e8df; font-size: 13px; font-weight: 600; }
+.sso-domain-input { box-sizing: border-box; width: 100%; height: 48px; padding: 0 14px; color: #fff; background: #20221f; border: 1px solid #55594f; border-radius: 8px; font: 15px Inter, Arial, sans-serif; outline: none; }
+.sso-domain-input::placeholder { color: #858a80; }
+.sso-domain-input:focus { border-color: #d4ff00; box-shadow: 0 0 0 3px rgba(212,255,0,.13); }
+.sso-submit-btn { width: 100%; height: 48px; margin-top: 14px; color: #12140e; background: #d4ff00; border: 0; border-radius: 8px; font: 700 15px Inter, Arial, sans-serif; cursor: pointer; }
+.sso-submit-btn:hover { background: #e0ff3d; }
+.sso-help { margin: 24px 0 0 !important; color: #969b91 !important; font-size: 12px !important; text-align: center; }
+.sso-help a { color: #d4ff00; text-decoration: none; }
+
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+
+@media (max-width: 680px) {
+  .login-modal-overlay { align-items: flex-start; overflow-y: auto; padding: 16px; }
+  .login-modal-box.google-account-chooser { width: 100%; min-height: 0; margin: 0; border-radius: 16px; }
+  .google-chooser-header { height: 64px; padding: 0 20px; }
+  .google-chooser-brand { font-size: 16px; }
+  .google-chooser-content { grid-template-columns: 1fr; gap: 32px; padding: 42px 24px 36px; }
+  .google-chooser-intro { padding-top: 0; }
+  .google-chooser-intro h3 { margin-bottom: 14px; font-size: 34px; }
+  .google-chooser-intro p { font-size: 17px; }
+  .google-chooser-notice { margin-top: 36px; }
+  .microsoft-auth-wrap { padding: 34px 27px 28px; }
+  .sso-auth-wrap { min-height: 0; padding: 24px 28px 34px; }
+  .apple-auth-content { padding-top: 43px; }
+}
+
 @media (max-width: 900px) {
   .login-right {
     display: none;

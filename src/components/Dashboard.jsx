@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { 
-  Search, Bell, ChevronDown, Settings, LogOut, CheckCircle2, Zap, Sparkles, Menu
+  Search, Bell, ChevronDown, Settings, LogOut, CheckCircle2, Menu, X
 } from 'lucide-react';
 import Sidebar from './dashboard/Sidebar';
+import SettingsLayout from './settings/SettingsLayout';
 import {
   HomeView, AIAssistantView, ProspectPeopleView, ProspectCompaniesView,
   ListsView, DataEnrichmentView, SequencesView, EmailsView, CallsView,
@@ -28,12 +29,16 @@ export default function Dashboard({ user, activeTab = 'home', onSelectTab, onLog
   const [revealedEmails, setRevealedEmails] = useState({});
   const [toastMessage, setToastMessage] = useState('');
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [showNotifications, setShowNotifications] = useState(false);
+  const searchInputRef = useRef(null);
+  const headerMenusRef = useRef(null);
 
   const currentUser = user || {
-    name: 'Abhishek Kumar',
-    email: 'abhishek@apollo-user.io',
+    name: 'Shivam Ahirwar',
+    email: 'shivamahirwar773@gmail.com',
     provider: 'Google Account',
-    avatar: 'AK'
+    avatar: 'SA'
   };
 
   const showToast = (msg) => {
@@ -50,6 +55,32 @@ export default function Dashboard({ user, activeTab = 'home', onSelectTab, onLog
       showToast(`Verified email unlocked: ${email}`);
     }
   };
+
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'k') {
+        event.preventDefault();
+        searchInputRef.current?.focus();
+      }
+      if (event.key === 'Escape') {
+        setShowUserMenu(false);
+        setShowNotifications(false);
+        setMobileSidebarOpen(false);
+      }
+    };
+    const handlePointerDown = (event) => {
+      if (!headerMenusRef.current?.contains(event.target)) {
+        setShowUserMenu(false);
+        setShowNotifications(false);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    document.addEventListener('pointerdown', handlePointerDown);
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+      document.removeEventListener('pointerdown', handlePointerDown);
+    };
+  }, []);
 
   // Mock Contacts Data
   const sampleLeads = [
@@ -119,6 +150,25 @@ export default function Dashboard({ user, activeTab = 'home', onSelectTab, onLog
     }
   };
 
+  const isSettingsActive = activeTab === 'settings' || activeTab === 'admin_settings' || activeTab.startsWith('admin_');
+  if (isSettingsActive) {
+    return (
+      <div className="apollo-dashboard-root light-theme">
+        <SettingsLayout 
+          user={currentUser} 
+          onBack={() => onSelectTab('home')} 
+          showToast={showToast} 
+        />
+        {toastMessage && (
+          <div className="apollo-toast" role="alert" aria-live="assertive">
+            <CheckCircle2 size={16} />
+            <span>{toastMessage}</span>
+          </div>
+        )}
+      </div>
+    );
+  }
+
   return (
     <div className="apollo-dashboard-root light-theme">
       {/* Left Full-Height Sidebar (Star Logo at top left) */}
@@ -129,6 +179,8 @@ export default function Dashboard({ user, activeTab = 'home', onSelectTab, onLog
         showToast={showToast}
         mobileOpen={mobileSidebarOpen}
         onCloseMobile={() => setMobileSidebarOpen(false)}
+        collapsed={sidebarCollapsed}
+        onCollapsedChange={setSidebarCollapsed}
       />
 
       {/* Right Main Content Area (Header at top of right area) */}
@@ -145,44 +197,68 @@ export default function Dashboard({ user, activeTab = 'home', onSelectTab, onLog
             >
               <Menu size={18} />
             </button>
-            <div className="dash-search-container">
-              <Search size={15} className="dash-search-icon" />
-              <input 
-                type="text" 
-                className="dash-search-input" 
-                placeholder="Search or ask a question in Apollo"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-              />
-              <span className="dash-search-shortcut">⌘ K</span>
-            </div>
           </div>
 
-          <div className="dash-topbar-right">
+          <div className="dash-search-container">
+            <Search size={15} className="dash-search-icon" />
+            <input
+              type="text"
+              className="dash-search-input"
+              placeholder="Search or ask a question in Apollo"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              ref={searchInputRef}
+              onKeyDown={(event) => {
+                if (event.key === 'Enter' && searchQuery.trim()) {
+                  showToast(`Searching Apollo for “${searchQuery.trim()}”`);
+                }
+              }}
+            />
+            <span className="dash-search-shortcut">⌘ K</span>
+          </div>
+
+          <div className="dash-topbar-right" ref={headerMenusRef}>
             <button className="dash-credits-pill" onClick={() => showToast('80 credits remaining')}>
               80 credits
             </button>
 
-            <button className="dash-ai-badge-btn" onClick={() => onSelectTab('ai_assistant')}>
+            <button className="dash-ai-badge-btn" onClick={() => { onSelectTab('ai_assistant'); setShowUserMenu(false); }}>
               <OrbitIcon />
               <span>AI Assistant</span>
             </button>
 
-            <button className="dash-icon-btn" title="Notifications" onClick={() => showToast('You have 3 new notifications')}>
+            <button
+              className={`dash-icon-btn ${showNotifications ? 'selected' : ''}`}
+              title="Notifications"
+              aria-label="Notifications"
+              aria-expanded={showNotifications}
+              onClick={() => { setShowNotifications(!showNotifications); setShowUserMenu(false); }}
+            >
               <Bell size={17} />
               <span className="dash-notif-dot" />
             </button>
+
+            {showNotifications && (
+              <div className="dash-notifications-dropdown" role="status">
+                <div className="dash-popover-heading"><strong>Notifications</strong><button type="button" onClick={() => setShowNotifications(false)} aria-label="Close notifications"><X size={15} /></button></div>
+                <button type="button" className="dash-notification-item" onClick={() => { showToast('Your email health report is ready'); setShowNotifications(false); }}><span className="dash-notification-dot" />Your email health report is ready</button>
+                <button type="button" className="dash-notification-item" onClick={() => { onSelectTab('tasks'); setShowNotifications(false); }}>3 tasks need your attention</button>
+              </div>
+            )}
 
             {/* User Account Dropdown */}
             <div className="dash-user-menu-wrap">
               <button 
                 className="dash-user-trigger"
-                onClick={() => setShowUserMenu(!showUserMenu)}
+                onClick={() => { setShowUserMenu(!showUserMenu); setShowNotifications(false); }}
                 title="Account Settings"
+                aria-label="Open account menu"
+                aria-expanded={showUserMenu}
               >
                 <div className="dash-user-avatar-badge">
                   {currentUser.avatar || 'AK'}
                 </div>
+                <ChevronDown size={14} className={`dash-user-chevron ${showUserMenu ? 'open' : ''}`} />
               </button>
 
               {showUserMenu && (
@@ -201,7 +277,7 @@ export default function Dashboard({ user, activeTab = 'home', onSelectTab, onLog
                   </button>
                   <button 
                     className="dash-dropdown-item logout-red"
-                    onClick={onLogout}
+                    onClick={() => { setShowUserMenu(false); onLogout(); }}
                   >
                     <LogOut size={15} />
                     <span>Log Out of Software</span>

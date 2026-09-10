@@ -1,7 +1,7 @@
 /* ─── Generic Dashboard Views & Settings Styles ─── */
 
 .dash-view-content {
-  padding: 32px 40px;
+  padding: 24px;
   background-color: #fafafa;
   min-height: 100%;
   font-family: 'Inter', sans-serif;

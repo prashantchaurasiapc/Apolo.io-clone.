@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { 
   Home, Sparkles, Search, Send, DollarSign, Wrench, LogIn, Bookmark, 
   Settings, ChevronDown, ChevronsLeft, ChevronsRight, ShieldCheck,
@@ -12,27 +12,87 @@ const ApolloStarIcon = () => (
   </svg>
 );
 
-export default function Sidebar({ activeTab, onSelectTab, onUpgradeClick, showToast, mobileOpen, onCloseMobile }) {
-  const [collapsed, setCollapsed] = useState(false);
+const GROUP_TABS = {
+  prospect: ['prospect_people', 'prospect_companies', 'lists', 'enrichment'],
+  engage: ['sequences', 'emails', 'calls', 'tasks'],
+  win_deals: ['meetings', 'conversations', 'deals'],
+  tools: ['workflows', 'analytics'],
+  inbound: ['website_visitors', 'forms'],
+  saved: ['saved_people', 'saved_companies'],
+};
+
+const CLOSED_GROUPS = Object.freeze({
+  prospect: false,
+  engage: false,
+  win_deals: false,
+  tools: false,
+  inbound: false,
+  saved: false,
+});
+
+const readSavedGroups = () => {
+  try {
+    const saved = window.sessionStorage.getItem('apollo-sidebar-open-groups');
+    return saved ? { ...CLOSED_GROUPS, ...JSON.parse(saved) } : { ...CLOSED_GROUPS };
+  } catch {
+    return { ...CLOSED_GROUPS };
+  }
+};
+
+export default function Sidebar({ activeTab, onSelectTab, onUpgradeClick, showToast, mobileOpen, onCloseMobile, collapsed: controlledCollapsed, onCollapsedChange }) {
+  const [internalCollapsed, setInternalCollapsed] = useState(false);
   const [showAdminPopup, setShowAdminPopup] = useState(false);
   const [showDialerModal, setShowDialerModal] = useState(false);
-  const [openGroups, setOpenGroups] = useState({
-    prospect: true,
-    engage: true,
-    win_deals: true,
-    tools: true,
-    inbound: true,
-    saved: true
-  });
+  const [openGroups, setOpenGroups] = useState(readSavedGroups);
+  const collapsed = controlledCollapsed ?? internalCollapsed;
+  const setCollapsed = (nextCollapsed) => {
+    if (controlledCollapsed === undefined) {
+      setInternalCollapsed(nextCollapsed);
+    }
+    onCollapsedChange?.(nextCollapsed);
+  };
 
   const toggleGroup = (key) => {
+    if (collapsed) {
+      setCollapsed(false);
+      setOpenGroups(prev => ({ ...prev, [key]: true }));
+      return;
+    }
     setOpenGroups(prev => ({ ...prev, [key]: !prev[key] }));
   };
 
   const handleSelect = (tab) => {
+    setShowAdminPopup(false);
     onSelectTab(tab);
     if (onCloseMobile) onCloseMobile();
   };
+
+  useEffect(() => {
+    try {
+      window.sessionStorage.setItem('apollo-sidebar-open-groups', JSON.stringify(openGroups));
+    } catch {
+      // Sidebar navigation remains fully functional when storage is unavailable.
+    }
+  }, [openGroups]);
+
+  useEffect(() => {
+    if (mobileOpen) setCollapsed(false);
+  }, [mobileOpen]);
+
+  const groupProps = (key) => ({
+    role: 'button',
+    tabIndex: 0,
+    'aria-expanded': !collapsed && openGroups[key],
+    onClick: () => toggleGroup(key),
+    onKeyDown: (event) => {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        toggleGroup(key);
+      }
+    },
+  });
+
+  const isAdminActive = ['admin_settings', 'admin_users', 'admin_activity', 'admin_security', 'admin_plan', 'admin_integrations'].includes(activeTab);
 
   return (
     <>
@@ -42,12 +102,12 @@ export default function Sidebar({ activeTab, onSelectTab, onUpgradeClick, showTo
       <aside className={`apollo-sidebar-container ${collapsed ? 'collapsed' : ''} ${mobileOpen ? 'mobile-open' : ''}`}>
         {/* Sidebar Header Logo & Toggle (Matches Screenshot) */}
         <div className="sidebar-header">
-          <div className="sidebar-logo-group" onClick={() => handleSelect('home')}>
+          <button type="button" className="sidebar-logo-group" onClick={() => handleSelect('home')} aria-label="Apollo home">
             <ApolloStarIcon />
-          </div>
+          </button>
           <button 
             className="sidebar-collapse-btn" 
-            onClick={() => setCollapsed(!collapsed)}
+            onClick={() => { setCollapsed(!collapsed); setShowAdminPopup(false); }}
             title={collapsed ? "Expand sidebar" : "Collapse sidebar"}
           >
             {collapsed ? <ChevronsRight size={16} /> : <ChevronsLeft size={16} />}
@@ -94,10 +154,7 @@ export default function Sidebar({ activeTab, onSelectTab, onUpgradeClick, showTo
 
         {/* ── Category 1: Prospect and enrich ── */}
         <div className="sidebar-group">
-          <div 
-            className="sidebar-category-header"
-            onClick={() => toggleGroup('prospect')}
-          >
+          <div className={`sidebar-category-header ${GROUP_TABS.prospect.includes(activeTab) ? 'has-active' : ''}`} {...groupProps('prospect')}>
             <div className="sidebar-category-title">
               <Search size={17} className="sidebar-item-icon" />
               {!collapsed && <span>Prospect and enrich</span>}
@@ -138,10 +195,7 @@ export default function Sidebar({ activeTab, onSelectTab, onUpgradeClick, showTo
 
         {/* ── Category 2: Engage ── */}
         <div className="sidebar-group">
-          <div 
-            className="sidebar-category-header"
-            onClick={() => toggleGroup('engage')}
-          >
+          <div className={`sidebar-category-header ${GROUP_TABS.engage.includes(activeTab) ? 'has-active' : ''}`} {...groupProps('engage')}>
             <div className="sidebar-category-title">
               <Send size={17} className="sidebar-item-icon" />
               {!collapsed && <span>Engage</span>}
@@ -182,10 +236,7 @@ export default function Sidebar({ activeTab, onSelectTab, onUpgradeClick, showTo
 
         {/* ── Category 3: Win deals ── */}
         <div className="sidebar-group">
-          <div 
-            className="sidebar-category-header"
-            onClick={() => toggleGroup('win_deals')}
-          >
+          <div className={`sidebar-category-header ${GROUP_TABS.win_deals.includes(activeTab) ? 'has-active' : ''}`} {...groupProps('win_deals')}>
             <div className="sidebar-category-title">
               <DollarSign size={17} className="sidebar-item-icon" />
               {!collapsed && <span>Win deals</span>}
@@ -220,10 +271,7 @@ export default function Sidebar({ activeTab, onSelectTab, onUpgradeClick, showTo
 
         {/* ── Category 4: Tools and automation ── */}
         <div className="sidebar-group">
-          <div 
-            className="sidebar-category-header"
-            onClick={() => toggleGroup('tools')}
-          >
+          <div className={`sidebar-category-header ${GROUP_TABS.tools.includes(activeTab) ? 'has-active' : ''}`} {...groupProps('tools')}>
             <div className="sidebar-category-title">
               <Wrench size={17} className="sidebar-item-icon" />
               {!collapsed && <span>Tools and automation</span>}
@@ -252,10 +300,7 @@ export default function Sidebar({ activeTab, onSelectTab, onUpgradeClick, showTo
 
         {/* ── Category 5: Inbound ── */}
         <div className="sidebar-group">
-          <div 
-            className="sidebar-category-header"
-            onClick={() => toggleGroup('inbound')}
-          >
+          <div className={`sidebar-category-header ${GROUP_TABS.inbound.includes(activeTab) ? 'has-active' : ''}`} {...groupProps('inbound')}>
             <div className="sidebar-category-title">
               <LogIn size={17} className="sidebar-item-icon" />
               {!collapsed && <span>Inbound</span>}
@@ -285,10 +330,7 @@ export default function Sidebar({ activeTab, onSelectTab, onUpgradeClick, showTo
 
         {/* ── Category 6: Saved records ── */}
         <div className="sidebar-group">
-          <div 
-            className="sidebar-category-header"
-            onClick={() => toggleGroup('saved')}
-          >
+          <div className={`sidebar-category-header ${GROUP_TABS.saved.includes(activeTab) ? 'has-active' : ''}`} {...groupProps('saved')}>
             <div className="sidebar-category-title">
               <Bookmark size={17} className="sidebar-item-icon" />
               {!collapsed && <span>Saved records</span>}
@@ -334,8 +376,9 @@ export default function Sidebar({ activeTab, onSelectTab, onUpgradeClick, showTo
         {/* Admin Settings with Flyout Sub-menu matching Screenshot */}
         <div style={{ position: 'relative' }}>
           <button 
-            className={`sidebar-bottom-item ${activeTab === 'admin_settings' ? 'active' : ''}`}
+            className={`sidebar-bottom-item ${isAdminActive ? 'active' : ''}`}
             onClick={() => setShowAdminPopup(!showAdminPopup)}
+            aria-expanded={showAdminPopup}
           >
             <div style={{ display: 'flex', alignItems: 'center', gap: 10, flex: 1 }}>
               <Settings size={17} className="sidebar-item-icon" />

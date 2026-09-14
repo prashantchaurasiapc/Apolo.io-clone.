@@ -13,7 +13,7 @@ const ApolloStarIcon = () => (
 );
 
 const GROUP_TABS = {
-  prospect: ['prospect_people', 'prospect_companies', 'lists', 'enrichment'],
+  prospect: ['prospect_people', 'prospect_companies', 'prospect_scraper', 'lists', 'enrichment'],
   engage: ['sequences', 'emails', 'calls', 'tasks'],
   win_deals: ['meetings', 'conversations', 'deals'],
   tools: ['workflows', 'analytics'],
@@ -176,6 +176,24 @@ export default function Sidebar({ activeTab, onSelectTab, onUpgradeClick, showTo
                 onClick={() => handleSelect('prospect_companies')}
               >
                 Companies
+              </button>
+              <button 
+                className={`sidebar-sub-item ${activeTab === 'prospect_scraper' ? 'active' : ''}`}
+                onClick={() => handleSelect('prospect_scraper')}
+                style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}
+              >
+                <span>Web & Social Scraper</span>
+                <span style={{ 
+                  background: 'var(--apollo-yellow)', 
+                  color: '#0F0F0F', 
+                  fontSize: '9.5px', 
+                  fontWeight: '700', 
+                  padding: '1px 5px', 
+                  borderRadius: '4px',
+                  lineHeight: 1.2
+                }}>
+                  LIVE
+                </span>
               </button>
               <button 
                 className={`sidebar-sub-item ${activeTab === 'lists' ? 'active' : ''}`}

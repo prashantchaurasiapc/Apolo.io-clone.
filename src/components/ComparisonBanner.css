@@ -6,18 +6,19 @@
 .why-buy-five-section {
   width: 100%;
   background-color: #FFFFFF;
-  padding: 110px 0 120px 0;
+  padding: 100px 0 110px 0;
   position: relative;
 }
 
 .why-buy-five-container {
-  max-width: 1320px;
+  max-width: 1360px;
   margin: 0 auto;
-  padding: 0 40px;
+  padding: 0 32px;
   display: grid;
   grid-template-columns: 1fr 1.15fr;
-  gap: 80px;
+  gap: 72px;
   align-items: center;
+  box-sizing: border-box;
 }
 
 /* ── Left Column ── */
@@ -29,26 +30,26 @@
 
 .why-buy-five-title {
   font-family: var(--font-serif, 'Playfair Display', Georgia, serif);
-  font-size: 58px;
+  font-size: 52px;
   font-weight: 500;
-  line-height: 1.06;
-  letter-spacing: -0.03em;
+  line-height: 1.08;
+  letter-spacing: -0.025em;
   color: #111111;
-  margin: 0 0 32px 0;
+  margin: 0 0 24px 0;
 }
 
 .why-buy-five-desc {
-  font-size: 14.5px;
-  color: #222222;
+  font-size: 15px;
+  color: #333333;
   line-height: 1.55;
-  max-width: 380px;
-  margin: 0 0 28px 0;
+  max-width: 400px;
+  margin: 0 0 24px 0;
 }
 
 /* Form Container */
 .why-buy-five-form-wrap {
   width: 100%;
-  max-width: 360px;
+  max-width: 380px;
 }
 
 .why-buy-five-form {
@@ -62,17 +63,18 @@
   width: 100%;
   padding: 13px 16px;
   border: 1px solid #D5D1C8;
-  border-radius: 6px;
+  border-radius: 8px;
   font-size: 14px;
   color: #111111;
   background-color: #FFFFFF;
   box-sizing: border-box;
+  height: 48px;
   outline: none;
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .why-buy-five-input::placeholder {
-  color: #999999;
+  color: #888888;
 }
 
 .why-buy-five-input:focus {
@@ -86,15 +88,21 @@
   color: #FFFFFF;
   font-size: 14px;
   font-weight: 600;
-  padding: 13px 20px;
-  border-radius: 6px;
+  padding: 0 20px;
+  border-radius: 8px;
+  height: 48px;
   border: none;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   transition: background-color 0.2s ease, transform 0.15s ease;
+  box-sizing: border-box;
 }
 
 .why-buy-five-submit:hover {
   background-color: #222222;
+  transform: translateY(-1px);
 }
 
 .why-buy-five-success {
@@ -102,7 +110,7 @@
   border: 1px solid #B8E6B8;
   color: #1A7F37;
   padding: 14px 16px;
-  border-radius: 6px;
+  border-radius: 8px;
   font-size: 14px;
   font-weight: 600;
   text-align: center;
@@ -113,7 +121,7 @@
 .why-buy-five-divider {
   position: relative;
   text-align: center;
-  margin: 16px 0;
+  margin: 14px 0;
 }
 
 .why-buy-five-divider::before {
@@ -149,13 +157,14 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 42px;
+  height: 44px;
   background-color: #FFFFFF;
   border: 1px solid #D5D1C8;
-  border-radius: 6px;
+  border-radius: 8px;
   cursor: pointer;
   transition: background-color 0.2s ease, border-color 0.2s ease;
   outline: none;
+  box-sizing: border-box;
 }
 
 .why-buy-five-social-btn:hover {

@@ -15,6 +15,10 @@ export default function FAQAccordion() {
       answer: "Apollo's living data network uses real-time verification algorithms to deliver 99.2% email deliverability. Our data is continuously updated through crowdsourced updates, public registries, and direct contributor networks, offering fresh data at a fraction of ZoomInfo's cost."
     },
     {
+      question: "How does the built-in Web & Social Scraper work compared to static B2B databases?",
+      answer: "Unlike traditional static databases that go stale, our built-in web and social scraping engine lets you crawl LinkedIn, Google Maps, and company websites in real time using rotating residential proxies. It extracts fresh executive rosters, contact emails, direct dials, and tech stack footprints with automated on-the-fly SMTP verification."
+    },
+    {
       question: "Can I get started for free?",
       answer: "Yes! Apollo offers a Free Forever plan that includes unlimited email sending, 60 mobile credits per year, 120 export credits per year, basic filter access, and sequence automation with no credit card required."
     },

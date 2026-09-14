@@ -136,6 +136,7 @@ export default function Navbar({ onLoginClick, onPricingClick, onDemoClick, onSi
                       <ul className="link-list link-list-plain">
                         <li className="link-item"><a href="#apollo-data">Apollo Data</a></li>
                         <li className="link-item"><a href="#ai-assistant">AI Assistant</a></li>
+                        <li className="link-item"><a href="#/app/prospect/scraper">Live Web Scraper</a></li>
                         <li className="link-item"><a href="#mcp">Apollo MCP</a></li>
                         <li className="link-item"><a href="#integrations">Integrations</a></li>
                         <li className="link-item"><a href="#chrome-extension">Chrome Extension</a></li>
@@ -340,10 +341,10 @@ export default function Navbar({ onLoginClick, onPricingClick, onDemoClick, onSi
         {/* Right Section: Action Buttons */}
         <div className="nav-right">
           <button onClick={onLoginClick} className="login-link nav-desktop-only" style={{ background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'inherit' }}>Log in</button>
-          <button onClick={onDemoClick} className="btn-apollo-secondary nav-desktop-only" style={{ padding: '8px 18px', fontSize: '14px', border: '1px solid #111', background: '#fff', cursor: 'pointer' }}>
+          <button onClick={onDemoClick} className="btn-apollo-secondary nav-desktop-only" style={{ padding: '8px 16px', fontSize: '14px', borderRadius: '8px', border: '1px solid #D5D1C8', background: '#fff', cursor: 'pointer' }}>
             Get a demo
           </button>
-          <button onClick={onSignupClick} className="btn-apollo-primary nav-desktop-only" style={{ padding: '8px 18px', fontSize: '14px', border: 'none', cursor: 'pointer' }}>
+          <button onClick={onSignupClick} className="btn-apollo-primary nav-desktop-only" style={{ padding: '8px 16px', fontSize: '14px', borderRadius: '8px', border: '1px solid rgba(0, 0, 0, 0.12)', cursor: 'pointer' }}>
             Sign up for free
           </button>
           <button 

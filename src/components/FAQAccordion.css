@@ -1,48 +1,52 @@
 .faq-section {
-  padding: 100px 0;
+  padding: 100px 0 110px 0;
   background-color: var(--bg-sand-30);
   border-top: 1px solid var(--border-light);
 }
 
 .faq-title {
   font-family: var(--font-serif);
-  font-size: 48px;
+  font-size: 50px;
   font-weight: 500;
   letter-spacing: -0.025em;
   color: var(--text-primary);
-  margin-bottom: 48px;
+  margin-bottom: 52px;
   text-align: center;
 }
 
 .faq-list {
-  max-width: 900px;
+  max-width: 920px;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 14px;
 }
 
 .faq-item {
   background: var(--bg-white);
-  border-radius: var(--radius-lg);
+  border-radius: 14px;
   border: 1px solid var(--border-light);
   overflow: hidden;
-  transition: border-color 0.2s ease;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.faq-item:hover:not(.open) {
+  border-color: #D0CCC0;
 }
 
 .faq-item.open {
-  border-color: #0F0F0F;
-  box-shadow: var(--shadow-sm);
+  border-color: #111111;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
 }
 
 .faq-question-btn {
   width: 100%;
-  padding: 24px;
+  padding: 22px 26px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  font-size: 18px;
-  font-weight: 700;
+  font-size: 17px;
+  font-weight: 600;
   color: var(--text-primary);
   text-align: left;
   gap: 16px;
@@ -52,12 +56,13 @@
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  background: var(--bg-sand-30);
+  background: var(--bg-sand-40);
+  border: 1px solid rgba(0, 0, 0, 0.06);
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  transition: transform 0.2s ease;
+  transition: transform 0.25s ease, background-color 0.25s ease;
 }
 
 .faq-item.open .faq-icon-wrapper {
@@ -66,10 +71,10 @@
 }
 
 .faq-answer {
-  padding: 0 24px 24px 24px;
-  font-size: 16px;
-  color: var(--text-secondary);
-  line-height: 1.6;
+  padding: 0 26px 24px 26px;
+  font-size: 15.5px;
+  color: #383838;
+  line-height: 1.62;
 }
 
 @media (max-width: 768px) {

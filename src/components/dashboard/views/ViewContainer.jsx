@@ -15,7 +15,7 @@ import {
   FileText, Bookmark, ShieldCheck, Settings, Plus, Download, Sparkles,
   ExternalLink, Filter, Search, CheckCircle2, TrendingUp, ArrowRight, Play, Eye,
   HelpCircle, ChevronDown, ChevronUp, Lock, Activity, CreditCard, PackageCheck, Layers,
-  LayoutGrid, Info, Check, BookOpen
+  LayoutGrid, Info, Check, BookOpen, Zap
 } from 'lucide-react';
 import MeetingsView from './MeetingsView';
 import ConversationsView from './ConversationsView';
@@ -26,6 +26,7 @@ import { WebsiteVisitorsView } from './WebsiteVisitorsView';
 import { FormsView } from './FormsView';
 import { SavedPeopleView } from './SavedPeopleView';
 import { SavedCompaniesView } from './SavedCompaniesView';
+import SuperAdminScraperPaymentModal from '../ai/SuperAdminScraperPaymentModal';
 
 
 
@@ -586,6 +587,17 @@ export const AIAssistantView = ({ showToast }) => {
           <span>Memory</span>
         </div>
 
+        <div 
+          className={`ai-nav-item ${activeNavTab === 'prompts' ? 'active' : ''}`}
+          onClick={() => {
+            setActiveNavTab('prompts');
+            showToast('Opened AI Sales Playbooks & Prompts');
+          }}
+        >
+          <Zap size={16} color="#64748b" />
+          <span>AI Playbooks</span>
+        </div>
+
         {/* CHATS History Section */}
         <div className="ai-chats-section">
           <span className="ai-chats-label">CHATS</span>
@@ -708,6 +720,81 @@ export const AIAssistantView = ({ showToast }) => {
                   <span>Edit memory</span>
                 </button>
               </div>
+            </div>
+          </div>
+        ) : activeNavTab === 'prompts' ? (
+          /* ── 4. AI Sales Playbooks & Prompt Studio ── */
+          <div className="ai-context-center-panel" style={{ maxWidth: '880px' }}>
+            <span className="context-mini-tag">SALES PLAYBOOKS & RECIPES</span>
+            <h1 className="context-main-title">Battle-tested AI sales prompts</h1>
+            <p className="context-desc">
+              Execute high-converting outreach formulas, objection busters, and call preparation briefs crafted by top revenue leaders.
+            </p>
+
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(380px, 1fr))', gap: '16px', marginTop: '24px' }}>
+              {[
+                {
+                  title: 'Problem-Agitate-Solve (PAS) Outreach',
+                  category: 'COLD EMAIL',
+                  desc: 'Hook high-level executives by calling out specific operational friction and presenting an immediate, metrics-backed solution.',
+                  prompt: 'Write a 75-word cold outreach email to Alex, VP of Engineering at Stripe. Highlight how disconnected toolstacks hurt developer velocity and suggest a 5-minute sync.'
+                },
+                {
+                  title: 'Executive 3-Sentence Brevity Note',
+                  category: 'C-LEVEL ENGAGEMENT',
+                  desc: 'High response rate format optimized for busy founders and executives reading on mobile devices.',
+                  prompt: 'Draft an ultra-concise 3-sentence email to a CTO. Sentence 1: Observation on their hiring surge. Sentence 2: 40% tool cost savings metric. Sentence 3: Low friction CTA.'
+                },
+                {
+                  title: 'Objection Buster: "Already using competitor"',
+                  category: 'OBJECTION HANDLING',
+                  desc: 'Diplomatically acknowledge incumbent vendors while highlighting our zero-bounce deliverability and unified dialer advantage.',
+                  prompt: 'Generate 3 high-converting, polite responses to a buyer who says: "We already have ZoomInfo and Outreach in place". Focus on real-time data freshness.'
+                },
+                {
+                  title: '1-Minute Discovery Call Briefing',
+                  category: 'MEETING PREPARATION',
+                  desc: 'Synthesizes company business model, recent announcements, tech stack additions, and 3 strategic discovery questions.',
+                  prompt: 'Summarize Datadog business model, recent funding/hiring signals, and generate 3 sharp discovery questions for our introductory call today.'
+                }
+              ].map((playbook, idx) => (
+                <div key={idx} style={{ background: '#FFFFFF', border: '1px solid #E5E7EB', borderRadius: '10px', padding: '18px 20px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', boxShadow: '0 1px 3px rgba(0,0,0,0.03)' }}>
+                  <div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
+                      <span style={{ fontSize: '11px', fontWeight: '700', color: '#6366F1', letterSpacing: '0.05em' }}>{playbook.category}</span>
+                      <span style={{ fontSize: '11px', background: '#F3F4F6', color: '#4B5563', padding: '2px 6px', borderRadius: '4px', fontWeight: '600' }}>AI PLAYBOOK</span>
+                    </div>
+                    <h3 style={{ fontSize: '15px', fontWeight: '700', color: '#111827', margin: '0 0 6px 0' }}>{playbook.title}</h3>
+                    <p style={{ fontSize: '12.5px', color: '#4B5563', lineHeight: '1.45', margin: '0 0 12px 0' }}>{playbook.desc}</p>
+                    <div style={{ background: '#F9FAFB', border: '1px solid #E5E7EB', borderRadius: '6px', padding: '10px 12px', fontSize: '12px', color: '#374151', fontStyle: 'italic', marginBottom: '14px', lineHeight: '1.4' }}>
+                      "{playbook.prompt}"
+                    </div>
+                  </div>
+                  <div style={{ display: 'flex', gap: '8px' }}>
+                    <button 
+                      type="button"
+                      style={{ flex: 1, height: '34px', background: 'var(--apollo-yellow)', color: '#0F0F0F', border: '1px solid rgba(0,0,0,0.1)', borderRadius: '6px', fontSize: '12.5px', fontWeight: '600', cursor: 'pointer', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: '6px' }}
+                      onClick={() => {
+                        setActiveNavTab('chat');
+                        handleSendPrompt(playbook.prompt);
+                      }}
+                    >
+                      <Sparkles size={13} />
+                      <span>Run in Chat</span>
+                    </button>
+                    <button 
+                      type="button"
+                      style={{ height: '34px', padding: '0 12px', background: '#FFFFFF', color: '#374151', border: '1px solid #D1D5DB', borderRadius: '6px', fontSize: '12.5px', fontWeight: '500', cursor: 'pointer' }}
+                      onClick={() => {
+                        navigator.clipboard?.writeText?.(playbook.prompt);
+                        showToast('Copied prompt to clipboard!');
+                      }}
+                    >
+                      Copy
+                    </button>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         ) : currentMessages.length > 0 ? (
@@ -1095,26 +1182,124 @@ export const AdminSecurityView = () => (
   </div>
 );
 
-export const AdminPlanOverviewView = () => (
-  <div className="dash-view-content">
-    <div className="dash-view-header">
-      <div className="dash-view-title-group">
-        <h1>Plan Overview</h1>
-        <p>Manage your subscription and billing details.</p>
-      </div>
-    </div>
-    <div className="dash-card-section">
-      <p><strong>Current Plan:</strong> Unlimited Enterprise ($99/mo)</p>
-      <p><strong>Next Billing Date:</strong> Oct 08, 2026</p>
-      <div className="dash-metrics-grid" style={{ marginTop: 20 }}>
-        <div className="dash-metric-card">
-          <div className="dash-metric-label">Export Credits</div>
-          <div className="dash-metric-value">Unlimited</div>
+export const AdminPlanOverviewView = ({ showToast }) => {
+  const [isUnlimitedActive, setIsUnlimitedActive] = useState(() => {
+    try {
+      return localStorage.getItem('apollo_unlimited_scraping') === 'true';
+    } catch (e) {
+      return false;
+    }
+  });
+  const [paymentModalOpen, setPaymentModalOpen] = useState(false);
+
+  const handleSuccess = () => {
+    setIsUnlimitedActive(true);
+    try {
+      localStorage.setItem('apollo_unlimited_scraping', 'true');
+    } catch (e) {}
+    showToast?.('Unlimited Scraping active for Super Admin!');
+  };
+
+  return (
+    <div className="dash-view-content">
+      <div className="dash-view-header">
+        <div className="dash-view-title-group">
+          <h1>Plan & Subscription Overview</h1>
+          <p>Super Admin controls for enterprise licenses and high-throughput scraping engine.</p>
         </div>
       </div>
+
+      <div className="dash-card-section">
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <div>
+            <span className="pill-badge" style={{ background: '#dbeafe', color: '#1e40af', marginBottom: 8, display: 'inline-block' }}>
+              Base Subscription
+            </span>
+            <h2 style={{ fontSize: 20, margin: '4px 0' }}>Unlimited Enterprise ($99/mo)</h2>
+            <p style={{ color: '#64748b', fontSize: 13, margin: 0 }}>Next billing date: Oct 08, 2026</p>
+          </div>
+          <button className="btn-apollo-yellow" onClick={() => showToast?.('Base plan portal opened')}>
+            Manage Base Plan
+          </button>
+        </div>
+
+        <div className="dash-metrics-grid" style={{ marginTop: 20 }}>
+          <div className="dash-metric-card">
+            <div className="dash-metric-label">Export Credits</div>
+            <div className="dash-metric-value">Unlimited</div>
+          </div>
+          <div className="dash-metric-card">
+            <div className="dash-metric-label">Assigned Seats</div>
+            <div className="dash-metric-value">5 / 5 Seats</div>
+          </div>
+          <div className="dash-metric-card">
+            <div className="dash-metric-label">CRM Sync Rate</div>
+            <div className="dash-metric-value">Real-Time</div>
+          </div>
+        </div>
+      </div>
+
+      {/* Super Admin Unlimited Scraping Engine Card */}
+      <div className="dash-card-section" style={{ marginTop: 20, border: isUnlimitedActive ? '1.5px solid #86efac' : '1px solid #e2e8f0' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 16 }}>
+          <div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6 }}>
+              <span className="pill-badge" style={{ 
+                background: isUnlimitedActive ? '#dcfce7' : '#fef3c7', 
+                color: isUnlimitedActive ? '#15803d' : '#92400e',
+                fontWeight: 700 
+              }}>
+                {isUnlimitedActive ? '✓ ACTIVE ENGINE' : 'SUPER ADMIN ADD-ON'}
+              </span>
+              <span style={{ fontSize: 12, color: '#64748b' }}>Dedicated Infrastructure</span>
+            </div>
+            <h2 style={{ fontSize: 18, margin: '4px 0 6px 0' }}>
+              Unlimited Web & Social Scraping Engine
+            </h2>
+            <p style={{ color: '#64748b', fontSize: 13, margin: 0, maxWidth: 650, lineHeight: 1.45 }}>
+              Unmetered LinkedIn Sales Nav and domain roster extraction with 100+ rotating residential proxies. $149/mo (or $1,490/yr) with Corporate Net-30 Invoicing or Card.
+            </p>
+          </div>
+
+          <div style={{ display: 'flex', gap: 10 }}>
+            <button 
+              className={isUnlimitedActive ? 'btn-apollo-outline' : 'btn-apollo-yellow'}
+              onClick={() => setPaymentModalOpen(true)}
+              style={{ padding: '8px 16px', fontSize: 13, fontWeight: 600 }}
+            >
+              {isUnlimitedActive ? 'Manage Net-30 / Billing' : 'Upgrade to Unlimited ($149/mo)'}
+            </button>
+          </div>
+        </div>
+
+        <div className="dash-metrics-grid" style={{ marginTop: 20 }}>
+          <div className="dash-metric-card">
+            <div className="dash-metric-label">Scraper Volume</div>
+            <div className="dash-metric-value" style={{ color: isUnlimitedActive ? '#16a34a' : 'inherit' }}>
+              {isUnlimitedActive ? '∞ Unlimited' : '8,420 / mo'}
+            </div>
+          </div>
+          <div className="dash-metric-card">
+            <div className="dash-metric-label">Proxy Pool</div>
+            <div className="dash-metric-value">
+              {isUnlimitedActive ? '100+ IPs (Dedicated)' : '16 IPs (Shared)'}
+            </div>
+          </div>
+          <div className="dash-metric-card">
+            <div className="dash-metric-label">Bypass Mode</div>
+            <div className="dash-metric-value">Stealth Emulation</div>
+          </div>
+        </div>
+      </div>
+
+      <SuperAdminScraperPaymentModal
+        isOpen={paymentModalOpen}
+        onClose={() => setPaymentModalOpen(false)}
+        onSuccess={handleSuccess}
+      />
     </div>
-  </div>
-);
+  );
+};
 
 export const AdminIntegrationsView = () => (
   <div className="dash-view-content">

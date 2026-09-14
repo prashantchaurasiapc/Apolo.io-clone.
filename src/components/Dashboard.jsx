@@ -13,6 +13,8 @@ import {
   AdminUsersTeamsView, AdminSystemActivityView, AdminSecurityView,
   AdminPlanOverviewView, AdminIntegrationsView
 } from './dashboard/views/ViewContainer';
+import LeadScraperView from './dashboard/views/scraper/LeadScraperView';
+import AICopilotDrawer from './dashboard/ai/AICopilotDrawer';
 import './Dashboard.css';
 
 /* ─── Apollo Star Icon SVG ─── */
@@ -31,6 +33,7 @@ export default function Dashboard({ user, activeTab = 'home', onSelectTab, onLog
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
+  const [copilotOpen, setCopilotOpen] = useState(false);
   const searchInputRef = useRef(null);
   const headerMenusRef = useRef(null);
 
@@ -101,6 +104,8 @@ export default function Dashboard({ user, activeTab = 'home', onSelectTab, onLog
         return <ProspectPeopleView sampleLeads={sampleLeads} showToast={showToast} />;
       case 'prospect_companies':
         return <ProspectCompaniesView showToast={showToast} />;
+      case 'prospect_scraper':
+        return <LeadScraperView showToast={showToast} />;
       case 'lists':
         return <ListsView showToast={showToast} />;
       case 'enrichment':
@@ -222,9 +227,13 @@ export default function Dashboard({ user, activeTab = 'home', onSelectTab, onLog
               80 credits
             </button>
 
-            <button className="dash-ai-badge-btn" onClick={() => { onSelectTab('ai_assistant'); setShowUserMenu(false); }}>
+            <button 
+              className="dash-ai-badge-btn" 
+              onClick={() => { setCopilotOpen(!copilotOpen); setShowUserMenu(false); }}
+              title="Toggle AI Sales Copilot (⌘J)"
+            >
               <OrbitIcon />
-              <span>AI Assistant</span>
+              <span>AI Copilot</span>
             </button>
 
             <button
@@ -300,6 +309,14 @@ export default function Dashboard({ user, activeTab = 'home', onSelectTab, onLog
         <main className="dash-main">
           {renderActiveView()}
         </main>
+
+        {/* Persistent AI Sales Copilot Drawer */}
+        <AICopilotDrawer
+          isOpen={copilotOpen}
+          onToggle={() => setCopilotOpen(!copilotOpen)}
+          showToast={showToast}
+          onSelectTab={onSelectTab}
+        />
       </div>
     </div>
   );

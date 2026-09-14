@@ -31,6 +31,7 @@ export const TAB_TO_HASH = {
   ai_assistant: '#/app/ai-assistant',
   prospect_people: '#/app/prospect/people',
   prospect_companies: '#/app/prospect/companies',
+  prospect_scraper: '#/app/prospect/scraper',
   lists: '#/app/prospect/lists',
   enrichment: '#/app/prospect/enrichment',
   sequences: '#/app/engage/sequences',

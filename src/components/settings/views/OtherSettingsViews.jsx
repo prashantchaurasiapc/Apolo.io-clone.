@@ -4,6 +4,7 @@ import {
   CreditCard, Sparkles, Database, CheckCircle2, AlertCircle, RefreshCw,
   Send, Users, Lock, Sliders, Smartphone, Laptop
 } from 'lucide-react';
+import SuperAdminScraperPaymentModal from '../../dashboard/ai/SuperAdminScraperPaymentModal';
 
 export function ProfileSettingsView({ user, showToast }) {
   const [name, setName] = useState(user?.name || 'Shivam Ahirwar');
@@ -108,18 +109,36 @@ export function MailboxesSettingsView({ showToast }) {
 }
 
 export function PlanOverviewView({ showToast }) {
+  const [isUnlimitedActive, setIsUnlimitedActive] = useState(() => {
+    try {
+      return localStorage.getItem('apollo_unlimited_scraping') === 'true';
+    } catch (e) {
+      return false;
+    }
+  });
+  const [paymentModalOpen, setPaymentModalOpen] = useState(false);
+
+  const handlePaymentSuccess = () => {
+    setIsUnlimitedActive(true);
+    try {
+      localStorage.setItem('apollo_unlimited_scraping', 'true');
+    } catch (e) {}
+    showToast?.('Super Admin Unlimited Scraping subscription active!');
+  };
+
   return (
     <div className="settings-content-wrapper">
       <div className="settings-view-title-block">
         <h1>Plan & Billing Overview</h1>
-        <p>Manage your Apollo workspace tier, seats, and billing cycles.</p>
+        <p>Manage your Apollo workspace tier, seats, and enterprise scraping add-ons.</p>
       </div>
 
+      {/* Main Base Plan */}
       <div className="settings-card">
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <div>
             <span className="pill-badge" style={{ background: '#dbeafe', color: '#1e40af', marginBottom: 8 }}>
-              Active Subscription
+              Active Base Plan
             </span>
             <h2 style={{ fontSize: 22, marginTop: 6, marginBottom: 4 }}>Enterprise Unlimited Plan</h2>
             <p style={{ fontSize: 13, color: '#64748b' }}>Next automatic renewal on Oct 08, 2026 ($99/mo per seat)</p>
@@ -144,6 +163,78 @@ export function PlanOverviewView({ showToast }) {
           </div>
         </div>
       </div>
+
+      {/* Super Admin Unlimited Scraping Add-on Card */}
+      <div className="settings-card" style={{ marginTop: 24, border: isUnlimitedActive ? '1.5px solid #86efac' : '1px solid #e2e8f0' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 16 }}>
+          <div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8 }}>
+              <span className="pill-badge" style={{ 
+                background: isUnlimitedActive ? '#dcfce7' : '#fef3c7', 
+                color: isUnlimitedActive ? '#15803d' : '#92400e',
+                fontWeight: 700
+              }}>
+                {isUnlimitedActive ? '✓ ACTIVE ADD-ON' : 'SUPER ADMIN PRIVILEGE'}
+              </span>
+              <span style={{ fontSize: 12, color: '#64748b' }}>Workspace-wide add-on</span>
+            </div>
+            <h2 style={{ fontSize: 20, marginTop: 4, marginBottom: 6, color: '#0f172a' }}>
+              Unlimited Scraping Engine
+            </h2>
+            <p style={{ fontSize: 13, color: '#64748b', maxWidth: 640, lineHeight: 1.45 }}>
+              Unmetered web crawling, LinkedIn Sales Navigator extraction, and Google Maps directory scraping with 100+ rotating residential proxies. $149/mo (or $1,490/yr) with Net-30 Corporate Invoice or Card.
+            </p>
+          </div>
+
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+            {isUnlimitedActive ? (
+              <button 
+                className="btn-apollo-outline" 
+                onClick={() => setPaymentModalOpen(true)}
+                style={{ padding: '8px 14px', fontSize: 13 }}
+              >
+                Manage Invoicing / Net-30
+              </button>
+            ) : (
+              <button 
+                className="btn-apollo-yellow" 
+                onClick={() => setPaymentModalOpen(true)}
+                style={{ padding: '8px 16px', fontSize: 13, fontWeight: 600 }}
+              >
+                Upgrade to Unlimited ($149/mo)
+              </button>
+            )}
+          </div>
+        </div>
+
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16, marginTop: 20 }}>
+          <div style={{ padding: 14, background: '#f8fafc', borderRadius: 8, border: '1px solid #e2e8f0' }}>
+            <div style={{ fontSize: 11, color: '#64748b', fontWeight: 600 }}>SCRAPING VOLUME</div>
+            <div style={{ fontSize: 18, fontWeight: 700, color: isUnlimitedActive ? '#16a34a' : '#0f172a', marginTop: 4 }}>
+              {isUnlimitedActive ? '∞ Unlimited' : '8,420 credits/mo'}
+            </div>
+          </div>
+          <div style={{ padding: 14, background: '#f8fafc', borderRadius: 8, border: '1px solid #e2e8f0' }}>
+            <div style={{ fontSize: 11, color: '#64748b', fontWeight: 600 }}>ROTATING PROXIES</div>
+            <div style={{ fontSize: 18, fontWeight: 700, color: '#0f172a', marginTop: 4 }}>
+              {isUnlimitedActive ? '100+ Dedicated IPs' : '16 Standard IPs'}
+            </div>
+          </div>
+          <div style={{ padding: 14, background: '#f8fafc', borderRadius: 8, border: '1px solid #e2e8f0' }}>
+            <div style={{ fontSize: 11, color: '#64748b', fontWeight: 600 }}>PAYMENT TERMS</div>
+            <div style={{ fontSize: 18, fontWeight: 700, color: '#0f172a', marginTop: 4 }}>
+              Net-30 / Corp Card
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Super Admin Payment Modal */}
+      <SuperAdminScraperPaymentModal
+        isOpen={paymentModalOpen}
+        onClose={() => setPaymentModalOpen(false)}
+        onSuccess={handlePaymentSuccess}
+      />
     </div>
   );
 }

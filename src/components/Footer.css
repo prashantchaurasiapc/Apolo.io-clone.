@@ -15,12 +15,12 @@
 }
 
 .apollo-footer-container {
-  max-width: 1380px;
+  max-width: 1360px;
   margin: 0 auto;
-  padding: 0 48px;
+  padding: 0 32px;
   display: grid;
   grid-template-columns: 240px 1fr;
-  gap: 80px;
+  gap: 72px;
   align-items: flex-start;
   box-sizing: border-box;
 }

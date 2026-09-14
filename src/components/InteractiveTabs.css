@@ -31,10 +31,10 @@
 }
 
 .apollo-tabs-content-wrapper {
-  max-width: 1320px;
+  max-width: 1360px;
   width: 100%;
   margin: 0 auto;
-  padding: 0 40px;
+  padding: 0 32px;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
@@ -44,8 +44,8 @@
 .apollo-tabs-bar {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 16px;
-  margin-bottom: 36px;
+  gap: 14px;
+  margin-bottom: 32px;
   position: relative;
   z-index: 20;
 }
@@ -54,33 +54,35 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 48px;
+  height: 46px;
   padding: 0 16px;
   background-color: #F4F2EC;
-  border: none;
-  border-radius: 4px;
+  border: 1px solid transparent;
+  border-radius: 8px;
   color: #111111;
   font-family: var(--font-mono, 'Founders Grotesk Mono', 'JetBrains Mono', monospace);
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   cursor: pointer;
   outline: none;
-  transition: background-color 0.3s cubic-bezier(0.16, 1, 0.3, 1),
-              color 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+  transition: background-color 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+              color 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.25s ease,
               transform 0.15s ease;
   user-select: none;
   white-space: nowrap;
 }
 
 .apollo-tab-button:hover:not(.tab-active) {
-  background-color: #EAE5DB;
+  background-color: #EBE6DC;
 }
 
 .apollo-tab-button.tab-active {
   color: #111111;
   font-weight: 700;
+  border-color: rgba(0, 0, 0, 0.1);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
 }
 

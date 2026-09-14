@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
 import './Pricing.css';
 import FAQAccordion from './FAQAccordion';
+import SuperAdminScraperPaymentModal from './dashboard/ai/SuperAdminScraperPaymentModal';
 
 /* ---- SVG helpers ---- */
 const CheckIcon = () => (
@@ -462,6 +463,14 @@ function CompareAccordion({ section }) {
 
 export default function Pricing({ onBack }) {
   const [annual, setAnnual] = useState(true);
+  const [paymentModalOpen, setPaymentModalOpen] = useState(false);
+  const [unlimitedScrapingActive, setUnlimitedScrapingActive] = useState(() => {
+    try {
+      return localStorage.getItem('apollo_unlimited_scraping') === 'true';
+    } catch (e) {
+      return false;
+    }
+  });
   const testimonialsRef = useRef(null);
 
   const scrollTestimonials = (dir) => {
@@ -707,6 +716,57 @@ export default function Pricing({ onBack }) {
                   </div>
                 </li>
               </ul>
+            </div>
+
+            {/* Unlimited Scraping Engine (Super Admin) */}
+            <div className="addon-card scraper-addon-highlight">
+              <div className="addon-card-top">
+                <div>
+                  <div className="addon-tag super-admin-tag-pill">SUPER ADMIN · ADD-ON</div>
+                  <div className="addon-card-name">Unlimited Scraping Engine</div>
+                </div>
+                <div className="addon-price-block">
+                  <div className="addon-price">{annual ? '$124' : '$149'}</div>
+                  <div className="addon-price-sub">Per workspace, per month<br />{annual ? 'billed annually ($1,490/yr)' : 'billed monthly'}</div>
+                </div>
+              </div>
+              <div className="addon-divider" />
+              <ul className="addon-feat-list">
+                <li>
+                  <span className="addon-feat-check">✓</span>
+                  <div>
+                    <div className="addon-feat-title">∞ Unlimited Lead Scraping</div>
+                    <div className="addon-feat-desc">Extract unlimited verified contacts with zero credit limits.</div>
+                  </div>
+                </li>
+                <li>
+                  <span className="addon-feat-check">✓</span>
+                  <div>
+                    <div className="addon-feat-title">100+ Rotating Residential Proxies</div>
+                    <div className="addon-feat-desc">Multi-region proxy pool with anti-bot bypass & stealth emulation.</div>
+                  </div>
+                </li>
+                <li>
+                  <span className="addon-feat-check">✓</span>
+                  <div>
+                    <div className="addon-feat-title">Super Admin Corporate Invoicing</div>
+                    <div className="addon-feat-desc">Support for Net-30 Invoices, ACH Wire, and Corporate Cards.</div>
+                  </div>
+                </li>
+                <li>
+                  <span className="addon-feat-check">✓</span>
+                  <div>
+                    <div className="addon-feat-title">LinkedIn & Google Maps Crawler</div>
+                    <div className="addon-feat-desc">Full access to live deep social and web directory extractors.</div>
+                  </div>
+                </li>
+              </ul>
+              <button 
+                className="addon-super-admin-btn"
+                onClick={() => setPaymentModalOpen(true)}
+              >
+                {unlimitedScrapingActive ? 'Manage Super Admin Subscription' : 'Unlock Unlimited Scraping'}
+              </button>
             </div>
 
           </div>
@@ -1004,6 +1064,19 @@ export default function Pricing({ onBack }) {
         {/* FAQ */}
         <FAQAccordion />
       </div>
+
+      {/* Super Admin Payment Modal */}
+      <SuperAdminScraperPaymentModal
+        isOpen={paymentModalOpen}
+        onClose={() => setPaymentModalOpen(false)}
+        onSuccess={() => {
+          setUnlimitedScrapingActive(true);
+          try {
+            localStorage.setItem('apollo_unlimited_scraping', 'true');
+          } catch (e) {}
+        }}
+        initialBillingCycle={annual ? 'annual' : 'monthly'}
+      />
     </div>
   );
 }

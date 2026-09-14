@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import SocialProof from './components/SocialProof';
@@ -13,6 +13,7 @@ import Pricing from './components/Pricing';
 import DemoModal from './components/DemoModal';
 import SignupModal from './components/SignupModal';
 import SignupPage from './components/SignupPage';
+import Dashboard from './components/Dashboard';
 
 const fadeStyle = {
   animation: 'pageFadeIn 0.25s ease forwards',
@@ -23,99 +24,206 @@ const styleSheet = document.createElement('style');
 styleSheet.textContent = `@keyframes pageFadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }`;
 document.head.appendChild(styleSheet);
 
-// Navbar is fixed at 72px height — all pages need this offset
 const NAV_HEIGHT = 72;
 
+export const TAB_TO_HASH = {
+  home: '#/app/home',
+  ai_assistant: '#/app/ai-assistant',
+  prospect_people: '#/app/prospect/people',
+  prospect_companies: '#/app/prospect/companies',
+  lists: '#/app/prospect/lists',
+  enrichment: '#/app/prospect/enrichment',
+  sequences: '#/app/engage/sequences',
+  emails: '#/app/engage/emails',
+  calls: '#/app/engage/calls',
+  tasks: '#/app/engage/tasks',
+  meetings: '#/app/win/meetings',
+  conversations: '#/app/win/conversations',
+  deals: '#/app/win/deals',
+  workflows: '#/app/tools/workflows',
+  analytics: '#/app/tools/analytics',
+  website_visitors: '#/app/inbound/website-visitors',
+  forms: '#/app/inbound/forms',
+  saved_people: '#/app/saved/people',
+  saved_companies: '#/app/saved/companies',
+  email_health: '#/app/email-health',
+  admin_users: '#/app/admin/users',
+  admin_activity: '#/app/admin/activity',
+  admin_security: '#/app/admin/security',
+  admin_plan: '#/app/admin/plan',
+  admin_integrations: '#/app/admin/integrations',
+  admin_settings: '#/app/admin-settings',
+};
+
+export const HASH_TO_TAB = {
+  ...Object.fromEntries(
+    Object.entries(TAB_TO_HASH).map(([tab, hash]) => [hash, tab])
+  ),
+  '#/home': 'home',
+  '#/dashboard': 'home',
+  '#/settings': 'admin_users',
+  '#/settings/users': 'admin_users',
+  '#/app/settings': 'admin_users',
+  '#/admin/users': 'admin_users',
+  '#/users': 'admin_users',
+  '#/win/meetings': 'meetings',
+  '#/win/conversations': 'conversations',
+  '#/win/deals': 'deals',
+  '#/meetings': 'meetings',
+  '#/conversations': 'conversations',
+  '#/deals': 'deals',
+};
+
 export default function App() {
-  const [currentPage, setCurrentPage] = useState('home'); // 'home' | 'login' | 'pricing' | 'signup'
+  const [viewMode, setViewMode] = useState('website'); // 'website' | 'login' | 'signup' | 'pricing' | 'dashboard'
+  const [activeTab, setActiveTab] = useState('home');
+  const [user, setUser] = useState(null);
   const [key, setKey] = useState(0);
   const [demoOpen, setDemoOpen] = useState(false);
   const [signupOpen, setSignupOpen] = useState(false);
 
-  const navigate = (page) => {
-    setCurrentPage(page);
-    setKey(k => k + 1);
-    window.scrollTo(0, 0);
+  // Sync route mode with window.location.hash
+  useEffect(() => {
+    const handleHashChange = () => {
+      const hash = window.location.hash || '';
+
+      if (hash === '#/login') {
+        setViewMode('login');
+      } else if (hash === '#/signup') {
+        setViewMode('signup');
+      } else if (hash === '#/pricing') {
+        setViewMode('pricing');
+      } else if (hash.startsWith('#/settings') || hash.startsWith('#/app/') || hash.startsWith('#/win/') || hash === '#/home' || hash === '#/deals' || hash === '#/meetings' || hash === '#/conversations' || hash === '#/dashboard') {
+        setViewMode('dashboard');
+        const matchedTab = HASH_TO_TAB[hash] || 'home';
+        setActiveTab(matchedTab);
+      } else {
+        setViewMode('website');
+      }
+      setKey(k => k + 1);
+    };
+
+    handleHashChange();
+    window.addEventListener('hashchange', handleHashChange);
+    return () => window.removeEventListener('hashchange', handleHashChange);
+  }, []);
+
+  const navigateTo = (destination) => {
+    if (destination === 'login') {
+      window.location.hash = '#/login';
+    } else if (destination === 'signup') {
+      window.location.hash = '#/signup';
+    } else if (destination === 'pricing') {
+      window.location.hash = '#/pricing';
+    } else if (destination === 'website' || destination === 'landing' || destination === 'home_website') {
+      window.location.hash = '';
+    } else if (TAB_TO_HASH[destination]) {
+      window.location.hash = TAB_TO_HASH[destination];
+    } else {
+      window.location.hash = '#/app/home';
+    }
   };
 
-  // Login page — full screen, no navbar
-  if (currentPage === 'login') {
+  const handleLoginSuccess = (userData) => {
+    setUser(userData);
+    window.location.hash = '#/app/home';
+  };
+
+  const handleLogout = () => {
+    setUser(null);
+    window.location.hash = '';
+  };
+
+  // 1. LOGIN PAGE (Full screen, no navbar)
+  if (viewMode === 'login') {
     return (
       <div key={key} style={fadeStyle}>
         <LoginPage 
-          onClose={() => navigate('home')} 
-          onSignupClick={() => navigate('signup')}
+          onClose={() => navigateTo('website')} 
+          onSignupClick={() => navigateTo('signup')}
+          onLoginSuccess={handleLoginSuccess}
         />
       </div>
     );
   }
 
-  // Signup page — authentic Apollo platform background + popup modal (matches screenshot)
-  if (currentPage === 'signup') {
+  // 2. SIGNUP PAGE (Popup over background)
+  if (viewMode === 'signup') {
     return (
       <div key={key} style={fadeStyle}>
         <SignupPage 
-          onClose={() => navigate('login')} 
-          onLoginClick={() => navigate('login')} 
+          onClose={() => navigateTo('login')} 
+          onLoginClick={() => navigateTo('login')} 
+          onLoginSuccess={handleLoginSuccess}
         />
       </div>
     );
   }
 
-  // Pricing page
-  if (currentPage === 'pricing') {
+  // 3. PRICING PAGE
+  if (viewMode === 'pricing') {
     return (
       <>
-        {/* Navbar rendered outside keyed div so it stays fixed and doesn't re-mount */}
         <Navbar 
-          onLoginClick={() => navigate('login')} 
-          onPricingClick={() => navigate('pricing')} 
+          onLoginClick={() => navigateTo('login')} 
+          onPricingClick={() => navigateTo('pricing')} 
           onDemoClick={() => setDemoOpen(true)}
-          onSignupClick={() => navigate('signup')}
+          onSignupClick={() => navigateTo('signup')}
         />
         <div key={key} style={{ ...fadeStyle, paddingTop: NAV_HEIGHT }}>
-          <Pricing onBack={() => navigate('home')} />
+          <Pricing onBack={() => navigateTo('website')} />
           <Footer 
-            onSignupClick={() => navigate('signup')}
-            onPricingClick={() => navigate('pricing')}
+            onSignupClick={() => navigateTo('signup')}
+            onPricingClick={() => navigateTo('pricing')}
             onDemoClick={() => setDemoOpen(true)}
           />
         </div>
         {demoOpen && <DemoModal onClose={() => setDemoOpen(false)} />}
-        {signupOpen && <SignupModal onClose={() => { setSignupOpen(false); navigate('login'); }} />}
+        {signupOpen && <SignupModal onClose={() => { setSignupOpen(false); navigateTo('login'); }} />}
       </>
     );
   }
 
-  // Home page
+  // 4. SOFTWARE APP DASHBOARD (When logged in or visiting #/app/...)
+  if (viewMode === 'dashboard') {
+    return (
+      <Dashboard
+        user={user}
+        activeTab={activeTab}
+        onSelectTab={(tab) => navigateTo(tab)}
+        onLogout={handleLogout}
+      />
+    );
+  }
+
+  // 5. DEFAULT WEBSITE MARKETING LANDING PAGE (Hero, SocialProof, InteractiveTabs, Pricing link, Log In button, Sign Up button)
   return (
     <>
       <Navbar 
-        onLoginClick={() => navigate('login')} 
-        onPricingClick={() => navigate('pricing')} 
+        onLoginClick={() => navigateTo('login')} 
+        onPricingClick={() => navigateTo('pricing')} 
         onDemoClick={() => setDemoOpen(true)}
-        onSignupClick={() => navigate('signup')}
+        onSignupClick={() => navigateTo('signup')}
+        onDashboardClick={() => navigateTo('home')}
       />
       <div key={key} style={{ ...fadeStyle, paddingTop: NAV_HEIGHT, minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
         <main style={{ flex: 1 }}>
-          <Hero onSignupClick={() => navigate('signup')} />
+          <Hero onSignupClick={() => navigateTo('signup')} />
           <SocialProof />
           <InteractiveTabs />
           <FastestGrowing />
           <SecurityCompliance />
-          <ComparisonBanner onSignupClick={() => navigate('signup')} />
+          <ComparisonBanner onSignupClick={() => navigateTo('signup')} />
           <FAQAccordion />
         </main>
         <Footer 
-          onSignupClick={() => navigate('signup')}
-          onPricingClick={() => navigate('pricing')}
+          onSignupClick={() => navigateTo('signup')}
+          onPricingClick={() => navigateTo('pricing')}
           onDemoClick={() => setDemoOpen(true)}
         />
       </div>
       {demoOpen && <DemoModal onClose={() => setDemoOpen(false)} />}
-      {signupOpen && <SignupModal onClose={() => { setSignupOpen(false); navigate('login'); }} />}
+      {signupOpen && <SignupModal onClose={() => { setSignupOpen(false); navigateTo('login'); }} />}
     </>
   );
 }
-
-

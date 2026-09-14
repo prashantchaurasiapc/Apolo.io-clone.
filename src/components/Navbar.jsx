@@ -23,7 +23,7 @@ import {
 } from 'lucide-react';
 import './Navbar.css';
 
-export default function Navbar({ onLoginClick, onPricingClick, onDemoClick, onSignupClick }) {
+export default function Navbar({ onLoginClick, onPricingClick, onDemoClick, onSignupClick, onDashboardClick }) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [activeMenu, setActiveMenu] = useState(null);

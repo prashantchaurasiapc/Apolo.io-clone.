@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { createPortal } from 'react-dom';
 import { 
   ShieldCheck, CheckCircle2, CreditCard, FileText, Landmark, Lock, 
   Sparkles, X, ChevronRight, AlertCircle, Building, Check, ArrowRight,
@@ -70,7 +71,7 @@ export default function SuperAdminScraperPaymentModal({ isOpen, onClose, onSucce
     onClose();
   };
 
-  return (
+  const modalContent = (
     <div className="super-admin-modal-overlay" onClick={onClose}>
       <div className="super-admin-modal-container" onClick={(e) => e.stopPropagation()}>
         
@@ -425,4 +426,6 @@ export default function SuperAdminScraperPaymentModal({ isOpen, onClose, onSucce
       </div>
     </div>
   );
+
+  return typeof document !== 'undefined' ? createPortal(modalContent, document.body) : modalContent;
 }

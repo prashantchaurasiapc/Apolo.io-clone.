@@ -3,8 +3,9 @@ import {
   Mail, AlertTriangle, Search, SlidersHorizontal, Settings,
   LayoutGrid, ChevronDown, Activity, TrendingUp, Edit3, X, Globe,
   CheckCircle2, Wrench, AlertCircle, Plus, FileText, User, Paperclip,
-  Send, Eye, Sparkles, Tag, Folder
+  Send, Eye, Sparkles, Tag, Folder, ShieldCheck, Flame, Lock
 } from 'lucide-react';
+import EmailDeliverabilitySuite from './EmailDeliverabilitySuite';
 import '../../css/emails-view.css';
 
 export default function EmailsView({ showToast }) {
@@ -13,6 +14,7 @@ export default function EmailsView({ showToast }) {
   const [showFilters, setShowFilters] = useState(false);
   const [composeModalOpen, setComposeModalOpen] = useState(false);
   const [createTemplateModalOpen, setCreateTemplateModalOpen] = useState(false);
+  const [deliverabilityModalOpen, setDeliverabilityModalOpen] = useState(false);
 
   // Compose Form State
   const [recipient, setRecipient] = useState('');
@@ -30,6 +32,48 @@ export default function EmailsView({ showToast }) {
 
   // Templates List State
   const [templatesList, setTemplatesList] = useState([]);
+
+  // Mailchimp-style Pre-Send Spam & Deliverability Trigger Words Scanner
+  const SPAM_TRIGGER_WORDS = [
+    { word: '100% free', replace: 'complimentary' },
+    { word: 'free money', replace: 'budget allocation' },
+    { word: 'risk-free', replace: 'fully supported' },
+    { word: 'urgent', replace: 'time-sensitive' },
+    { word: 'act now', replace: 'at your convenience' },
+    { word: 'guaranteed', replace: 'proven' },
+    { word: 'click here', replace: 'link below' },
+    { word: 'congratulations', replace: 'congrats on your recent milestone' },
+    { word: 'claim your', replace: 'access your' },
+    { word: 'no catch', replace: 'transparent' }
+  ];
+
+  const fullContent = `${subject} ${emailBody}`.toLowerCase();
+  const detectedSpamTriggers = SPAM_TRIGGER_WORDS.filter(item => fullContent.includes(item.word.toLowerCase()));
+  const hasAllCaps = subject.length > 5 && subject === subject.toUpperCase();
+  const hasMultipleExclamations = (subject + emailBody).includes('!!') || (subject + emailBody).includes('$$');
+
+  let spamPenalty = detectedSpamTriggers.length * 15;
+  if (hasAllCaps) spamPenalty += 20;
+  if (hasMultipleExclamations) spamPenalty += 15;
+  const deliverabilityScore = Math.max(25, 98 - spamPenalty);
+
+  const handleAutoFixSpamWords = () => {
+    let newSubject = subject;
+    let newBody = emailBody;
+    detectedSpamTriggers.forEach(item => {
+      const reg = new RegExp(item.word, 'gi');
+      newSubject = newSubject.replace(reg, item.replace);
+      newBody = newBody.replace(reg, item.replace);
+    });
+    if (newSubject === newSubject.toUpperCase() && newSubject.length > 5) {
+      newSubject = newSubject.charAt(0).toUpperCase() + newSubject.slice(1).toLowerCase();
+    }
+    newSubject = newSubject.replace(/!{2,}/g, '!').replace(/\${2,}/g, '$');
+    newBody = newBody.replace(/!{2,}/g, '!').replace(/\${2,}/g, '$');
+    setSubject(newSubject);
+    setEmailBody(newBody);
+    if (showToast) showToast('Replaced risky phrases with deliverability-optimized B2B copy!');
+  };
 
   const handleSendEmail = () => {
     if (!recipient.trim()) {
@@ -75,6 +119,8 @@ export default function EmailsView({ showToast }) {
         <div className="emails-header-right-actions">
           {activeTab === 'templates' ? (
             <button 
+              key="templates-create-btn"
+              type="button"
               className="compose-email-yellow-btn"
               onClick={() => setCreateTemplateModalOpen(true)}
             >
@@ -82,29 +128,35 @@ export default function EmailsView({ showToast }) {
               <span>Create template</span>
             </button>
           ) : (
-            <>
+            <React.Fragment key="default-email-actions">
               <button 
+                key="manage-mailboxes-btn"
+                type="button"
                 className="manage-mailboxes-btn"
-                onClick={() => showToast('Opening Mailboxes Management...')}
+                onClick={() => setDeliverabilityModalOpen(true)}
               >
                 Manage mailboxes
               </button>
 
               <button 
+                key="deliverability-stats-btn"
+                type="button"
                 className="deliverability-stats-btn"
-                onClick={() => showToast('Opening Deliverability Stats...')}
+                onClick={() => setDeliverabilityModalOpen(true)}
               >
                 Deliverability stats
               </button>
 
               <button 
+                key="compose-email-btn"
+                type="button"
                 className="compose-email-yellow-btn"
                 onClick={() => setComposeModalOpen(true)}
               >
                 <Edit3 size={15} />
                 <span>Compose</span>
               </button>
-            </>
+            </React.Fragment>
           )}
         </div>
       </div>
@@ -263,7 +315,7 @@ export default function EmailsView({ showToast }) {
 
             <button 
               className="view-domains-btn"
-              onClick={() => showToast('Opening Email Setup & Domain Health...')}
+              onClick={() => setDeliverabilityModalOpen(true)}
             >
               <Activity size={16} color="#ef4444" />
               <span>View domains</span>
@@ -629,6 +681,46 @@ export default function EmailsView({ showToast }) {
                   onChange={(e) => setEmailBody(e.target.value)}
                 />
               </div>
+
+              {/* Mailchimp-style Pre-Send Deliverability & Spam Guard */}
+              <div className="compose-spam-auditor">
+                <div className="spam-auditor-header">
+                  <div className="auditor-title">
+                    <ShieldCheck size={14} color={deliverabilityScore > 85 ? '#16A34A' : '#D97706'} />
+                    <strong>Pre-Send Deliverability Auditor:</strong>
+                    <span className={`score-tag ${deliverabilityScore > 85 ? 'high' : 'medium'}`}>
+                      {deliverabilityScore}/100 Inbox Score
+                    </span>
+                  </div>
+                  {detectedSpamTriggers.length > 0 && (
+                    <button 
+                      type="button" 
+                      className="btn-auto-fix-spam"
+                      onClick={handleAutoFixSpamWords}
+                    >
+                      <Sparkles size={12} />
+                      <span>1-Click Fix Spam Words</span>
+                    </button>
+                  )}
+                </div>
+
+                {detectedSpamTriggers.length > 0 ? (
+                  <div className="spam-warning-box">
+                    <AlertTriangle size={13} color="#D97706" />
+                    <div className="warning-text">
+                      <span>Flagged spam triggers: </span>
+                      {detectedSpamTriggers.map((t, idx) => (
+                        <span key={idx} className="spam-word-pill">"{t.word}" &rarr; {t.replace}</span>
+                      ))}
+                    </div>
+                  </div>
+                ) : (
+                  <div className="spam-safe-box">
+                    <CheckCircle2 size={13} color="#16A34A" />
+                    <span>Clean B2B copy. Zero spam triggers or excessive capitalization detected.</span>
+                  </div>
+                )}
+              </div>
             </div>
 
             <div className="task-modal-footer">
@@ -860,6 +952,19 @@ export default function EmailsView({ showToast }) {
               </button>
             </div>
 
+          </div>
+        </div>
+      )}
+
+      {/* ── DELIVERABILITY & SPAM GUARD FULL MODAL ── */}
+      {deliverabilityModalOpen && (
+        <div className="task-modal-backdrop" onClick={() => setDeliverabilityModalOpen(false)}>
+          <div className="deliv-full-modal-card" onClick={(e) => e.stopPropagation()}>
+            <EmailDeliverabilitySuite 
+              isModal={true} 
+              onClose={() => setDeliverabilityModalOpen(false)} 
+              showToast={showToast} 
+            />
           </div>
         </div>
       )}

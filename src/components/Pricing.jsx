@@ -762,6 +762,7 @@ export default function Pricing({ onBack }) {
                 </li>
               </ul>
               <button 
+                type="button"
                 className="addon-super-admin-btn"
                 onClick={() => setPaymentModalOpen(true)}
               >

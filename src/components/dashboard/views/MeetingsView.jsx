@@ -317,8 +317,8 @@ export default function MeetingsView({ showToast }) {
                     </div>
                   </td>
                   <td>Yes</td>
-                  <td>
-                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                  <td style={{ textAlign: 'right' }}>
+                    <div style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'flex-end' }}>
                       <button className="insights-btn-pill" onClick={() => showToast && showToast('Generated AI Meeting Prep Notes for CTS Global')}>
                         <Sparkles size={9} color="#2563eb" />
                         <span>Insights</span>
@@ -353,8 +353,8 @@ export default function MeetingsView({ showToast }) {
                     </div>
                   </td>
                   <td>Yes</td>
-                  <td>
-                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                  <td style={{ textAlign: 'right' }}>
+                    <div style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'flex-end' }}>
                       <button className="insights-btn-pill" onClick={() => showToast && showToast('Generated AI Meeting Prep Notes for Client consultation')}>
                         <Sparkles size={9} color="#2563eb" />
                         <span>Insights</span>
@@ -385,8 +385,8 @@ export default function MeetingsView({ showToast }) {
                     </div>
                   </td>
                   <td>Yes</td>
-                  <td>
-                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                  <td style={{ textAlign: 'right' }}>
+                    <div style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'flex-end' }}>
                       <button className="insights-btn-pill" onClick={() => showToast && showToast('Generated AI Meeting Prep Notes for Discovery call')}>
                         <Sparkles size={9} color="#2563eb" />
                         <span>Insights</span>

@@ -42,19 +42,38 @@
 .deliverability-stats-btn {
   height: 38px;
   padding: 0 16px;
-  background: #ffffff;
+  background-color: #ffffff;
   border: 1px solid #e4e4e7;
   border-radius: 8px;
   font-size: 13.5px;
   font-weight: 500;
   color: #27272a;
   cursor: pointer;
-  transition: all 0.15s ease;
+  outline: none;
+  box-shadow: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
 }
+
+.manage-mailboxes-btn:focus,
+.manage-mailboxes-btn:focus-visible,
+.deliverability-stats-btn:focus,
+.deliverability-stats-btn:focus-visible {
+  outline: none;
+  box-shadow: none;
+}
+
 .manage-mailboxes-btn:hover,
 .deliverability-stats-btn:hover {
-  background: #fafafa;
+  background-color: #fafafa;
   border-color: #d4d4d8;
+}
+
+.manage-mailboxes-btn:active,
+.deliverability-stats-btn:active {
+  background-color: #f4f4f5;
+  outline: none;
 }
 
 .compose-email-yellow-btn {
@@ -1023,3 +1042,221 @@
 }
 .legend-dot.blue { background: #93c5fd; }
 .legend-dot.cyan { background: #67e8f9; }
+
+/* ─────────────────────────────────────────────────────────────
+   MAILCHIMP-STYLE PRE-SEND DELIVERABILITY AUDITOR
+   ───────────────────────────────────────────────────────────── */
+
+.compose-spam-auditor {
+  margin-top: 14px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 12px 14px;
+}
+
+.spam-auditor-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.auditor-title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12.5px;
+  color: #1e293b;
+}
+
+.score-tag {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 4px;
+}
+
+.score-tag.high {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.score-tag.medium {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.btn-auto-fix-spam {
+  background: #111827;
+  color: #ffffff;
+  border: none;
+  border-radius: 5px;
+  padding: 4px 10px;
+  font-size: 11.5px;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  transition: all 0.15s ease;
+}
+
+.btn-auto-fix-spam:hover {
+  background: #1f2937;
+}
+
+.spam-warning-box {
+  background: #fffbeb;
+  border: 1px solid #fef3c7;
+  border-radius: 6px;
+  padding: 8px 10px;
+  font-size: 12px;
+  color: #92400e;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.warning-text {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  line-height: 1.4;
+}
+
+.spam-word-pill {
+  background: #fde68a;
+  color: #78350f;
+  padding: 1px 6px;
+  border-radius: 4px;
+  font-weight: 600;
+  font-size: 11px;
+}
+
+.spam-safe-box {
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  border-radius: 6px;
+  padding: 8px 10px;
+  font-size: 12px;
+  color: #166534;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   FULL DELIVERABILITY MODAL CARD
+   ───────────────────────────────────────────────────────────── */
+
+.deliv-full-modal-card {
+  background: #ffffff;
+  border-radius: 14px;
+  width: 100%;
+  max-width: 980px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  position: relative;
+  animation: modalSlideUp 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ─────────────────────────────────────────────────────────────
+   RESPONSIVE DESIGN FOR EMAILS VIEW
+   ───────────────────────────────────────────────────────────── */
+@media (max-width: 1024px) {
+  .emails-tabs-bar {
+    padding: 0 20px;
+    gap: 16px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+@media (max-width: 768px) {
+  .emails-top-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 16px 20px;
+  }
+  .emails-header-right-actions {
+    width: 100%;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .emails-header-right-actions button {
+    flex: 1 1 auto;
+    text-align: center;
+    justify-content: center;
+  }
+  .emails-tabs-bar {
+    padding: 0 16px;
+    gap: 14px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .emails-tabs-bar::-webkit-scrollbar {
+    display: none;
+  }
+  .emails-warning-alert-banner {
+    padding: 10px 16px;
+    font-size: 12.5px;
+    flex-wrap: wrap;
+  }
+  .emails-filter-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+    padding: 12px 16px;
+  }
+  .emails-toolbar-left,
+  .emails-toolbar-right {
+    width: 100%;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+  .search-emails-input-wrap {
+    width: 100%;
+    max-width: 100%;
+  }
+  .emails-main-body-container {
+    padding: 24px 16px 36px;
+  }
+  .domain-health-mock-card {
+    max-width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .mock-domain-header,
+  .mock-domain-row {
+    min-width: 440px;
+  }
+  .deliv-full-modal-card {
+    max-width: 95vw;
+    margin: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .emails-page-title {
+    font-size: 20px;
+  }
+  .manage-mailboxes-btn,
+  .deliverability-stats-btn,
+  .compose-email-yellow-btn {
+    width: 100%;
+    height: 36px;
+    font-size: 12.5px;
+  }
+  .emails-tab-item {
+    font-size: 12.5px;
+    padding: 10px 2px;
+  }
+}
+

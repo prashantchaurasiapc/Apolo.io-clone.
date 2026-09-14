@@ -756,7 +756,7 @@
   display: grid;
   grid-template-columns: 2.4fr repeat(4, 1fr);
   align-items: center;
-  padding: 14px 16px;
+  padding: 14px 24px;
   cursor: pointer;
   user-select: none;
   background: #fff;
@@ -914,7 +914,7 @@
 .compare-row {
   display: grid;
   grid-template-columns: 2.4fr repeat(4, 1fr);
-  padding: 10px 0;
+  padding: 11px 24px;
   border-bottom: 1px solid #f0f0e8;
   align-items: center;
 }
@@ -1188,6 +1188,14 @@
     grid-template-columns: repeat(2, 1fr);
   }
 
+  .plan-col {
+    border-bottom: 1px solid #e0e0e0;
+  }
+
+  .plan-col:nth-child(2n) {
+    border-right: none;
+  }
+
   .addon-cards {
     grid-template-columns: 1fr;
   }
@@ -1195,6 +1203,7 @@
   .pricing-compare-section {
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
+    width: 100%;
   }
 
   .compare-header-row,
@@ -1288,6 +1297,15 @@
     grid-template-columns: 1fr;
   }
 
+  .plan-col {
+    border-right: none !important;
+    border-bottom: 1px solid #e0e0e0;
+  }
+
+  .plan-col:last-child {
+    border-bottom: none;
+  }
+
   .pricing-top-heading {
     font-size: 2.2rem;
   }
@@ -1307,6 +1325,41 @@
   .pricing-testimonial-card-item {
     flex: 0 0 calc(100vw - 64px);
     padding: 24px 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .pricing-top-bar,
+  .pricing-plans-wrap,
+  .pricing-addon-section,
+  .pricing-compare-section,
+  .pricing-awards-banner,
+  .pricing-credits-container,
+  .pricing-testimonials-container {
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+
+  .pricing-top-heading {
+    font-size: 1.85rem;
+  }
+
+  .awards-title,
+  .credits-title,
+  .testimonials-title,
+  .compare-main-heading,
+  .addon-main-heading {
+    font-size: 1.85rem;
+  }
+
+  .billing-toggle-wrap {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .pricing-testimonial-card-item {
+    flex: 0 0 calc(100vw - 36px);
+    padding: 20px 16px;
   }
 }
 

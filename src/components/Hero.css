@@ -333,6 +333,34 @@
   }
 }
 
+@media (max-width: 480px) {
+  .hero-canvas-card {
+    padding: 28px 14px 20px 14px;
+    border-radius: 16px;
+  }
+  .hero-headline {
+    font-size: clamp(28px, 8.2vw, 34px);
+    line-height: 1.18;
+    margin-bottom: 16px;
+  }
+  .hero-subtitle {
+    font-size: 14.5px;
+    margin-bottom: 18px;
+  }
+  .hero-stage-card {
+    height: 240px;
+    margin-top: 24px;
+    border-radius: 14px;
+  }
+  .metric-pill-card {
+    padding: 8px 14px;
+    font-size: 12.5px;
+    gap: 6px;
+    border-radius: 8px;
+    max-width: 90%;
+  }
+}
+
 .metric-pill-card:hover {
   transform: scale(1.03) translateY(-2px) !important;
   background: #FFFFFF;

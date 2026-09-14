@@ -744,12 +744,25 @@
 }
 
 @media (max-width: 480px) {
-  .dash-topbar-left {
+  .dash-topbar {
+    padding: 0 10px;
     gap: 8px;
+  }
+  .dash-topbar-left {
+    gap: 6px;
     flex: 1;
+    min-width: 0;
+  }
+  .dash-search-container {
+    height: 34px;
+    padding: 0 8px;
+    gap: 6px;
+  }
+  .dash-search-input {
+    font-size: 12px;
   }
   .dash-topbar-right {
-    gap: 6px;
+    gap: 4px;
   }
   .dash-notifications-dropdown { right: 42px; width: min(290px, calc(100vw - 28px)); }
   .dash-stats-grid {

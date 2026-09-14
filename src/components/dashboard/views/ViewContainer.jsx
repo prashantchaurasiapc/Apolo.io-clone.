@@ -27,6 +27,7 @@ import { FormsView } from './FormsView';
 import { SavedPeopleView } from './SavedPeopleView';
 import { SavedCompaniesView } from './SavedCompaniesView';
 import SuperAdminScraperPaymentModal from '../ai/SuperAdminScraperPaymentModal';
+import EmailDeliverabilitySuite from './emails/EmailDeliverabilitySuite';
 
 
 
@@ -1082,43 +1083,9 @@ export { SavedPeopleView };
 /* ─── 19. Saved Companies View ─── */
 export { SavedCompaniesView };
 
-/* ─── 20. Email Health View (Combined with Admin Settings) ─── */
+/* ─── 20. Email Health View (Mailchimp-grade Deliverability Suite) ─── */
 export const EmailHealthView = ({ showToast }) => (
-  <div className="dash-view-content">
-    <div className="dash-view-header">
-      <div className="dash-view-title-group">
-        <h1>Settings & Email Health</h1>
-        <p>Manage your workspace settings, domain verification, and deliverability health.</p>
-      </div>
-    </div>
-
-    <h2 style={{ fontSize: '18px', fontWeight: 700, margin: '10px 0 14px 0', color: '#0f172a' }}>Email Setup and Health</h2>
-    <div className="dash-card-section" style={{ marginBottom: 24 }}>
-      <div className="dash-metrics-grid">
-        <div className="dash-metric-card">
-          <div className="dash-metric-label">Mailbox Health Score</div>
-          <div className="dash-metric-value" style={{ color: '#16a34a' }}>99 / 100</div>
-        </div>
-        <div className="dash-metric-card">
-          <div className="dash-metric-label">SPF / DKIM / DMARC</div>
-          <div className="dash-metric-value" style={{ color: '#2563eb' }}>Verified</div>
-        </div>
-        <div className="dash-metric-card">
-          <div className="dash-metric-label">Daily Sending Limit</div>
-          <div className="dash-metric-value">250 / 500</div>
-        </div>
-      </div>
-    </div>
-
-    <h2 style={{ fontSize: '18px', fontWeight: 700, margin: '20px 0 14px 0', color: '#0f172a' }}>Workspace Settings</h2>
-    <div className="dash-card-section" style={{ lineHeight: 1.8 }}>
-      <p><strong>Workspace Name:</strong> Apollo Sales Team</p>
-      <p><strong>Plan Tier:</strong> Unlimited Enterprise Plan ($99/mo)</p>
-      <button className="dash-btn-primary" style={{ marginTop: 16 }} onClick={() => showToast('Settings saved!')}>
-        Manage Billing
-      </button>
-    </div>
-  </div>
+  <EmailDeliverabilitySuite showToast={showToast} />
 );
 
 /* ─── 21. Admin Sub-Views ─── */

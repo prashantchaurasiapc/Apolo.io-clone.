@@ -3,7 +3,9 @@ import {
   Globe, Search, Play, Pause, Square, Download, Plus, CheckCircle2, 
   ExternalLink, Sliders, ShieldCheck, RefreshCw, Database, Terminal, 
   Sparkles, Layers, Building2, User, Phone, Mail, MapPin, Cpu, Check,
-  ChevronRight, Filter, AlertCircle, Crown, Zap, CreditCard, Lock
+  ChevronRight, Filter, AlertCircle, Crown, Zap, CreditCard, Lock,
+  Code2, Briefcase, Flame, ShoppingBag, Bot, Radio, Compass, X, ArrowUpRight,
+  FileCode, CheckSquare
 } from 'lucide-react';
 import SuperAdminScraperPaymentModal from '../../ai/SuperAdminScraperPaymentModal';
 import './LeadScraperView.css';
@@ -78,6 +80,62 @@ const INITIAL_SCRAPED_LEADS = [
     sourceLabel: 'LinkedIn Sales Nav',
     extractedAt: '24 mins ago',
     avatar: 'AP'
+  },
+  {
+    id: 'lead-6',
+    name: 'Devon Brooks',
+    title: 'Principal Infrastructure Architect',
+    company: 'Vercel / Next.js Core',
+    domain: 'vercel.com',
+    email: 'devon@brooks-labs.dev',
+    confidence: '100%',
+    phone: '+1 (415) 902-8812',
+    source: 'github',
+    sourceLabel: 'GitHub Repo Crawl',
+    extractedAt: '31 mins ago',
+    avatar: 'DB'
+  },
+  {
+    id: 'lead-7',
+    name: 'Maya Lindqvist',
+    title: 'Head of Talent Acquisition',
+    company: 'DataDog Enterprise',
+    domain: 'datadoghq.com',
+    email: 'maya.l@datadoghq.com',
+    confidence: '99%',
+    phone: '+1 (212) 840-2219',
+    source: 'hiring',
+    sourceLabel: 'Careers / ATS Crawl',
+    extractedAt: '38 mins ago',
+    avatar: 'ML'
+  },
+  {
+    id: 'lead-8',
+    name: 'Julian Vance',
+    title: 'VP of Commercial Sales',
+    company: 'Stratos Cloud',
+    domain: 'stratoscloud.com',
+    email: 'julian@stratoscloud.com',
+    confidence: '98%',
+    phone: '+1 (415) 670-3341',
+    source: 'social_intent',
+    sourceLabel: 'X / Social Intent Signal',
+    extractedAt: '45 mins ago',
+    avatar: 'JV'
+  },
+  {
+    id: 'lead-9',
+    name: 'Chloe Dupont',
+    title: 'Head of E-Commerce Growth',
+    company: 'Modern Luxe Brands',
+    domain: 'modernluxe.co',
+    email: 'chloe@modernluxe.co',
+    confidence: '97%',
+    phone: '+1 (213) 980-4412',
+    source: 'ecommerce',
+    sourceLabel: 'Shopify Storefront Crawl',
+    extractedAt: '52 mins ago',
+    avatar: 'CD'
   }
 ];
 
@@ -111,6 +169,13 @@ export default function LeadScraperView({ showToast }) {
   });
   const [paymentModalOpen, setPaymentModalOpen] = useState(false);
 
+  // Future Features / AI Sandbox State
+  const [sandboxModalOpen, setSandboxModalOpen] = useState(false);
+  const [sandboxPrompt, setSandboxPrompt] = useState('Extract all VP of Sales at Series B B2B SaaS companies in New York hiring 10+ engineers this month');
+  const [isSandboxRunning, setIsSandboxRunning] = useState(false);
+  const [sandboxLogs, setSandboxLogs] = useState([]);
+  const [sandboxOutput, setSandboxOutput] = useState(null);
+
   const handlePaymentSuccess = (subscription) => {
     setIsUnlimitedActive(true);
     try {
@@ -131,11 +196,114 @@ export default function LeadScraperView({ showToast }) {
       setTargetInput('SaaS software companies in Austin, Texas');
     } else if (tabKey === 'tech') {
       setTargetInput('Shopify Plus stores with >$5M ARR');
+    } else if (tabKey === 'github') {
+      setTargetInput('https://github.com/vercel/next.js');
+    } else if (tabKey === 'hiring') {
+      setTargetInput('https://boards.greenhouse.io/datadog/jobs');
+    } else if (tabKey === 'social_intent') {
+      setTargetInput('"switching from hubspot" OR "apollo alternative"');
+    } else if (tabKey === 'ecommerce') {
+      setTargetInput('allbirds.com, gymshark.com, glossier.com');
     }
   };
 
   const handleToggleOption = (key) => {
     setExtractOptions(prev => ({ ...prev, [key]: !prev[key] }));
+  };
+
+  const handleRequestBeta = (featureName) => {
+    if (showToast) {
+      showToast(`Priority access requested for ${featureName}! Our engineering team will enable it for your workspace.`);
+    }
+  };
+
+  const handleOpenSandbox = () => {
+    setSandboxModalOpen(true);
+    if (sandboxLogs.length === 0) {
+      setSandboxLogs([
+        `[Ready] Kiaan Deep Crawl 2.0 Autonomous Agent initialized.`,
+        `[Ready] Awaiting natural language crawler intent...`
+      ]);
+    }
+  };
+
+  const handleRunSandboxSimulation = () => {
+    setIsSandboxRunning(true);
+    setSandboxLogs([
+      `[${new Date().toLocaleTimeString()}] Parsing natural language prompt: "${sandboxPrompt}"...`,
+      `[${new Date().toLocaleTimeString()}] Translating prompt into autonomous browser task graph...`,
+      `[${new Date().toLocaleTimeString()}] Spawning headless browser cluster with residential IP rotators...`
+    ]);
+
+    setTimeout(() => {
+      setSandboxLogs(prev => [
+        ...prev,
+        `[${new Date().toLocaleTimeString()}] Navigating target directories & evaluating DOM structure...`,
+        `[${new Date().toLocaleTimeString()}] Identified dynamic pagination & hiring signal badges on target profiles...`
+      ]);
+    }, 900);
+
+    setTimeout(() => {
+      const generatedResult = [
+        {
+          name: 'Marcus Vance',
+          title: 'VP of Commercial Sales',
+          company: 'FinPulse Systems (Series B)',
+          location: 'New York, NY',
+          verifiedEmail: 'm.vance@finpulse.io',
+          hiringSignals: 'Hiring 14 Engineers (Greenhouse)',
+          confidence: '99%'
+        },
+        {
+          name: 'Elena Rostova',
+          title: 'Head of Enterprise Revenue',
+          company: 'Nexus Dynamics (Series B)',
+          location: 'New York, NY',
+          verifiedEmail: 'elena.r@nexusdynamics.com',
+          hiringSignals: 'Hiring 18 Engineers (Lever)',
+          confidence: '98%'
+        },
+        {
+          name: 'Adrian Sterling',
+          title: 'VP of Global Business Development',
+          company: 'Datacore Logistics',
+          location: 'New York, NY',
+          verifiedEmail: 'a.sterling@datacore.co',
+          hiringSignals: 'Hiring 11 Engineers (Workday)',
+          confidence: '97%'
+        }
+      ];
+      setSandboxOutput(generatedResult);
+      setSandboxLogs(prev => [
+        ...prev,
+        `[${new Date().toLocaleTimeString()}] Agent synthesized 3 high-confidence lead entities matching criteria.`,
+        `[${new Date().toLocaleTimeString()}] Execution completed successfully in 1.8s.`
+      ]);
+      setIsSandboxRunning(false);
+      if (showToast) showToast('AI Sandbox crawl completed! Structured leads generated.');
+    }, 2000);
+  };
+
+  const handlePushSandboxLeadsToTable = () => {
+    if (!sandboxOutput || sandboxOutput.length === 0) return;
+    const newItems = sandboxOutput.map((item, idx) => ({
+      id: `lead-sandbox-${Date.now()}-${idx}`,
+      name: item.name,
+      title: item.title,
+      company: item.company,
+      domain: item.verifiedEmail.split('@')[1] || 'domain.com',
+      email: item.verifiedEmail,
+      confidence: item.confidence,
+      phone: '+1 (212) 555-' + Math.floor(1000 + Math.random() * 9000),
+      source: 'social_intent',
+      sourceLabel: 'AI Autonomous Deep Crawl',
+      extractedAt: 'Just now',
+      avatar: item.name.split(' ').map(n => n[0]).join('')
+    }));
+
+    setLeads(prev => [...newItems, ...prev]);
+    setSandboxModalOpen(false);
+    if (showToast) showToast(`Added ${newItems.length} AI-extracted leads to your active table!`);
   };
 
   // Launch Simulated Scrape Job
@@ -165,26 +333,89 @@ export default function LeadScraperView({ showToast }) {
           const next = prev + 30;
           if (next >= 100) {
             setIsScraping(false);
-            // Append newly scraped record
-            const newLead = {
-              id: `lead-${Date.now()}`,
-              name: sourceTab === 'maps' ? 'Jonathan Miller' : 'Rachel Adams',
-              title: sourceTab === 'maps' ? 'Managing Partner' : 'VP of Product Innovation',
-              company: sourceTab === 'maps' ? 'Miller & Co Ventures' : 'HyperScale Labs',
-              domain: sourceTab === 'maps' ? 'millerventures.com' : 'hyperscalelabs.io',
-              email: sourceTab === 'maps' ? 'jmiller@millerventures.com' : 'rachel.adams@hyperscalelabs.io',
-              confidence: '99%',
-              phone: '+1 (415) 302-9988',
-              source: sourceTab,
-              sourceLabel: sourceTab === 'linkedin' ? 'LinkedIn Sales Nav' : sourceTab === 'website' ? 'Domain Team Crawl' : 'Google Maps',
-              extractedAt: 'Just now',
-              avatar: sourceTab === 'maps' ? 'JM' : 'RA'
-            };
+            // Append newly scraped record based on source
+            let newLead;
+            if (sourceTab === 'github') {
+              newLead = {
+                id: `lead-${Date.now()}`,
+                name: 'Felix Sommer',
+                title: 'Core Runtime Contributor',
+                company: 'Supabase / Open Source',
+                domain: 'supabase.com',
+                email: 'felix.s@supabase.io',
+                confidence: '99%',
+                phone: '+1 (415) 789-2244',
+                source: 'github',
+                sourceLabel: 'GitHub Repo Crawl',
+                extractedAt: 'Just now',
+                avatar: 'FS'
+              };
+            } else if (sourceTab === 'hiring') {
+              newLead = {
+                id: `lead-${Date.now()}`,
+                name: 'Kavita Raman',
+                title: 'VP of Global Talent Acquisition',
+                company: 'Figma Cloud Inc.',
+                domain: 'figma.com',
+                email: 'k.raman@figma.com',
+                confidence: '98%',
+                phone: '+1 (415) 332-9011',
+                source: 'hiring',
+                sourceLabel: 'Careers / ATS Crawl',
+                extractedAt: 'Just now',
+                avatar: 'KR'
+              };
+            } else if (sourceTab === 'social_intent') {
+              newLead = {
+                id: `lead-${Date.now()}`,
+                name: 'Brett Callaghan',
+                title: 'Chief Revenue Officer',
+                company: 'Veloce Data Systems',
+                domain: 'velocedata.com',
+                email: 'bcallaghan@velocedata.com',
+                confidence: '99%',
+                phone: '+1 (650) 441-9288',
+                source: 'social_intent',
+                sourceLabel: 'X / Social Intent Signal',
+                extractedAt: 'Just now',
+                avatar: 'BC'
+              };
+            } else if (sourceTab === 'ecommerce') {
+              newLead = {
+                id: `lead-${Date.now()}`,
+                name: 'Sophie Martinez',
+                title: 'Head of Direct-to-Consumer',
+                company: 'Oasis Apparel Brands',
+                domain: 'oasisapparel.co',
+                email: 'sophie@oasisapparel.co',
+                confidence: '97%',
+                phone: '+1 (213) 980-4412',
+                source: 'ecommerce',
+                sourceLabel: 'Shopify Storefront Crawl',
+                extractedAt: 'Just now',
+                avatar: 'SM'
+              };
+            } else {
+              newLead = {
+                id: `lead-${Date.now()}`,
+                name: sourceTab === 'maps' ? 'Jonathan Miller' : 'Rachel Adams',
+                title: sourceTab === 'maps' ? 'Managing Partner' : 'VP of Product Innovation',
+                company: sourceTab === 'maps' ? 'Miller & Co Ventures' : 'HyperScale Labs',
+                domain: sourceTab === 'maps' ? 'millerventures.com' : 'hyperscalelabs.io',
+                email: sourceTab === 'maps' ? 'jmiller@millerventures.com' : 'rachel.adams@hyperscalelabs.io',
+                confidence: '99%',
+                phone: '+1 (415) 302-9988',
+                source: sourceTab,
+                sourceLabel: sourceTab === 'linkedin' ? 'LinkedIn Sales Nav' : sourceTab === 'website' ? 'Domain Team Crawl' : 'Google Maps',
+                extractedAt: 'Just now',
+                avatar: sourceTab === 'maps' ? 'JM' : 'RA'
+              };
+            }
             setLeads(prevLeads => [newLead, ...prevLeads]);
             setActiveLogLines(prev => [
               ...prev,
               `[${new Date().toLocaleTimeString()}] Extracted verified contact: ${newLead.name} (${newLead.email})`,
-              `[${new Date().toLocaleTimeString()}] Completed extraction run with 100% deliverability check.`
+              `[${new Date().toLocaleTimeString()}] Extraction job complete. 1 new verified lead added to table.`
             ]);
             if (showToast) showToast(`Scrape completed! Extracted fresh leads for ${newLead.company}.`);
             return 100;
@@ -195,7 +426,7 @@ export default function LeadScraperView({ showToast }) {
           ]);
           return next;
         });
-      }, 1000);
+      }, 900);
     }
     return () => clearTimeout(timer);
   }, [isScraping, scrapeProgress, sourceTab, showToast]);
@@ -437,7 +668,47 @@ export default function LeadScraperView({ showToast }) {
             onClick={() => handleSourceTabChange('tech')}
           >
             <Cpu size={15} />
-            <span>Tech Stack & Footprint</span>
+            <span>Tech Stack Footprint</span>
+          </button>
+
+          <button 
+            type="button" 
+            className={`config-source-btn ${sourceTab === 'github' ? 'active' : ''}`}
+            onClick={() => handleSourceTabChange('github')}
+          >
+            <Code2 size={15} />
+            <span>GitHub & Dev Talent</span>
+            <span className="source-mini-badge new">NEW</span>
+          </button>
+
+          <button 
+            type="button" 
+            className={`config-source-btn ${sourceTab === 'hiring' ? 'active' : ''}`}
+            onClick={() => handleSourceTabChange('hiring')}
+          >
+            <Briefcase size={15} />
+            <span>Hiring Signals & Careers</span>
+            <span className="source-mini-badge new">NEW</span>
+          </button>
+
+          <button 
+            type="button" 
+            className={`config-source-btn ${sourceTab === 'social_intent' ? 'active' : ''}`}
+            onClick={() => handleSourceTabChange('social_intent')}
+          >
+            <Flame size={15} />
+            <span>Social Intent & X</span>
+            <span className="source-mini-badge beta">BETA</span>
+          </button>
+
+          <button 
+            type="button" 
+            className={`config-source-btn ${sourceTab === 'ecommerce' ? 'active' : ''}`}
+            onClick={() => handleSourceTabChange('ecommerce')}
+          >
+            <ShoppingBag size={15} />
+            <span>E-Commerce & DTC</span>
+            <span className="source-mini-badge new">NEW</span>
           </button>
         </div>
 
@@ -452,7 +723,11 @@ export default function LeadScraperView({ showToast }) {
                 sourceTab === 'linkedin' ? 'Paste LinkedIn profile, Sales Nav search URL, or company directory URL...' :
                 sourceTab === 'website' ? 'Enter domains separated by comma (e.g. stripe.com, figma.com)...' :
                 sourceTab === 'maps' ? 'Search query + location (e.g. SaaS companies in Austin, TX)...' :
-                'Enter technology keyword (e.g. Shopify, Salesforce, AWS)...'
+                sourceTab === 'tech' ? 'Enter technology keyword (e.g. Shopify, Salesforce, AWS)...' :
+                sourceTab === 'github' ? 'Enter GitHub repository URL or organization (e.g. github.com/vercel/next.js)...' :
+                sourceTab === 'hiring' ? 'Enter careers board or ATS URL (e.g. boards.greenhouse.io/datadog/jobs)...' :
+                sourceTab === 'social_intent' ? 'Enter intent keywords or competitor complaints (e.g. "switching from hubspot")...' :
+                'Enter Shopify / WooCommerce store domains or DTC niche...'
               }
               value={targetInput}
               onChange={(e) => setTargetInput(e.target.value)}
@@ -583,6 +858,10 @@ export default function LeadScraperView({ showToast }) {
               <option value="linkedin">LinkedIn Sales Nav</option>
               <option value="website">Domain Team Crawl</option>
               <option value="maps">Google Maps Directory</option>
+              <option value="github">GitHub & Dev Talent</option>
+              <option value="hiring">Hiring Signals & Careers</option>
+              <option value="social_intent">Social Intent & X</option>
+              <option value="ecommerce">E-Commerce & DTC</option>
             </select>
           </div>
 
@@ -694,6 +973,255 @@ export default function LeadScraperView({ showToast }) {
           </table>
         </div>
       </div>
+
+      {/* ── 6. Kiaan Scraping Labs & Future Capabilities ── */}
+      <div className="scraper-labs-section">
+        <div className="labs-header">
+          <div className="labs-title-group">
+            <div className="labs-pill">
+              <Sparkles size={13} /> KIAAN SCRAPING LABS
+            </div>
+            <h2>Next-Gen Scraping Engine Roadmap</h2>
+            <p>
+              Explore upcoming autonomous scraping capabilities, real-time lead pipelines, and AI agent crawlers currently in development by Kiaan.
+            </p>
+          </div>
+          <div className="labs-header-action">
+            <button 
+              type="button" 
+              className="btn-labs-sandbox"
+              onClick={handleOpenSandbox}
+            >
+              <Bot size={15} />
+              <span>Launch AI Crawler Sandbox</span>
+            </button>
+          </div>
+        </div>
+
+        <div className="labs-cards-grid">
+          
+          {/* Card 1: AI Autonomous Agent */}
+          <div className="labs-card">
+            <div className="labs-card-top">
+              <div className="labs-card-icon" style={{ background: '#FEF3C7', color: '#92400E' }}>
+                <Bot size={20} />
+              </div>
+              <span className="labs-status-pill beta">BETA PREVIEW</span>
+            </div>
+            <h3>AI Autonomous Web Agent (Deep Crawl 2.0)</h3>
+            <p>
+              Natural language prompt-to-dataset crawler. Autonomous AI agents navigate complex single-page apps (SPAs), resolve dynamic pagination, and synthesize verified lead records without manual selector writing.
+            </p>
+            <div className="labs-card-tags">
+              <span>Dynamic DOM Parsing</span>
+              <span>Self-Healing Selectors</span>
+              <span>LLM Structuring</span>
+            </div>
+            <div className="labs-card-footer">
+              <button className="labs-btn-action" onClick={handleOpenSandbox}>
+                <span>Try Sandbox Preview</span>
+                <ChevronRight size={14} />
+              </button>
+            </div>
+          </div>
+
+          {/* Card 2: Competitor Churn Scraper */}
+          <div className="labs-card">
+            <div className="labs-card-top">
+              <div className="labs-card-icon" style={{ background: '#FEE2E2', color: '#B91C1C' }}>
+                <Flame size={20} />
+              </div>
+              <span className="labs-status-pill coming">COMING Q4 2026</span>
+            </div>
+            <h3>Competitor Churn & Dissatisfaction Scraper</h3>
+            <p>
+              Monitors negative reviews on G2, Capterra, and Trustpilot. Extracts author company details and identifies dissatisfied accounts actively seeking alternative vendors to trigger targeted outreach.
+            </p>
+            <div className="labs-card-tags">
+              <span>Review Sentiment NLP</span>
+              <span>Account Matching</span>
+              <span>Buyer Discontent Signals</span>
+            </div>
+            <div className="labs-card-footer">
+              <button 
+                className="labs-btn-action"
+                onClick={() => handleRequestBeta('Competitor Churn & Dissatisfaction Scraper')}
+              >
+                <span>Request Early Access</span>
+                <ChevronRight size={14} />
+              </button>
+            </div>
+          </div>
+
+          {/* Card 3: Real-Time Webhook Pipeline */}
+          <div className="labs-card">
+            <div className="labs-card-top">
+              <div className="labs-card-icon" style={{ background: '#E0E7FF', color: '#3730A3' }}>
+                <Radio size={20} />
+              </div>
+              <span className="labs-status-pill coming">COMING Q4 2026</span>
+            </div>
+            <h3>Continuous Webhook & Event Stream Pipeline</h3>
+            <p>
+              Automated 24/7 background monitors watching target company directories. Instantly emits HTTP webhooks to Salesforce, HubSpot, and Slack whenever new executives or engineering leads are appointed.
+            </p>
+            <div className="labs-card-tags">
+              <span>Zero-Poll Webhooks</span>
+              <span>Diff Detection</span>
+              <span>Direct CRM Streaming</span>
+            </div>
+            <div className="labs-card-footer">
+              <button 
+                className="labs-btn-action"
+                onClick={() => handleRequestBeta('Continuous Webhook & Event Stream Pipeline')}
+              >
+                <span>Request Early Access</span>
+                <ChevronRight size={14} />
+              </button>
+            </div>
+          </div>
+
+          {/* Card 4: Multi-Region Canvas & TLS Mimicking */}
+          <div className="labs-card">
+            <div className="labs-card-top">
+              <div className="labs-card-icon" style={{ background: '#DCFCE7', color: '#166534' }}>
+                <ShieldCheck size={20} />
+              </div>
+              <span className="labs-status-pill live">SUPER ADMIN LABS</span>
+            </div>
+            <h3>Canvas & TLS Hardware Fingerprint Mimicking</h3>
+            <p>
+              Advanced bot detection bypass utilizing real mobile 4G/5G proxy backbones and randomized browser WebGL canvas profiles to eliminate Cloudflare and Akamai captcha challenges on high-security targets.
+            </p>
+            <div className="labs-card-tags">
+              <span>Hardware Spoofing</span>
+              <span>4G/5G Carrier IP</span>
+              <span>99.9% Bypass Rate</span>
+            </div>
+            <div className="labs-card-footer">
+              <button 
+                className="labs-btn-action"
+                onClick={() => handleRequestBeta('Canvas & TLS Hardware Fingerprint Mimicking')}
+              >
+                <span>View Architecture</span>
+                <ChevronRight size={14} />
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      {/* ── Interactive AI Sandbox Modal ── */}
+      {sandboxModalOpen && (
+        <div className="sandbox-modal-overlay" onClick={() => setSandboxModalOpen(false)}>
+          <div className="sandbox-modal-container" onClick={(e) => e.stopPropagation()}>
+            <button className="sandbox-modal-close" onClick={() => setSandboxModalOpen(false)}>
+              <X size={18} />
+            </button>
+
+            <div className="sandbox-modal-header">
+              <div className="sandbox-modal-badge">
+                <Bot size={13} /> KIAAN DEEP CRAWL 2.0 SANDBOX
+              </div>
+              <h2>Natural Language Web Scraper Engine</h2>
+              <p>Test prompt-to-data autonomous extraction with self-healing DOM navigation.</p>
+            </div>
+
+            <div className="sandbox-prompt-area">
+              <label>Crawler Natural Language Objective:</label>
+              <div className="sandbox-prompt-input-row">
+                <input 
+                  type="text"
+                  value={sandboxPrompt}
+                  onChange={(e) => setSandboxPrompt(e.target.value)}
+                  placeholder="Describe who and what you want the AI crawler to extract..."
+                  className="sandbox-input-box"
+                />
+                <button 
+                  className="btn-run-sandbox"
+                  onClick={handleRunSandboxSimulation}
+                  disabled={isSandboxRunning}
+                >
+                  {isSandboxRunning ? <RefreshCw size={14} className="spin" /> : <Play size={14} fill="currentColor" />}
+                  <span>{isSandboxRunning ? 'Agent Crawling...' : 'Run Agent Crawl'}</span>
+                </button>
+              </div>
+
+              {/* Sample Prompts */}
+              <div className="sandbox-prompt-chips">
+                <span className="chips-label">Try sample:</span>
+                <button 
+                  type="button" 
+                  className="prompt-chip" 
+                  onClick={() => setSandboxPrompt('Find all VP of Sales at Series B B2B SaaS companies in New York hiring 10+ engineers')}
+                >
+                  VP Sales @ NYC Series B
+                </button>
+                <button 
+                  type="button" 
+                  className="prompt-chip" 
+                  onClick={() => setSandboxPrompt('Extract core open-source committers of Next.js and Supabase with personal GitHub emails')}
+                >
+                  GitHub OSS Core Committers
+                </button>
+                <button 
+                  type="button" 
+                  className="prompt-chip" 
+                  onClick={() => setSandboxPrompt('Identify founders of top 100 fastest-growing Shopify Plus beauty brands')}
+                >
+                  Shopify Plus Founders
+                </button>
+              </div>
+            </div>
+
+            {/* Terminal Logs */}
+            <div className="sandbox-terminal-box">
+              <div className="sandbox-terminal-bar">
+                <Terminal size={14} color="#34D399" />
+                <span>Autonomous Agent DOM Execution Traces</span>
+              </div>
+              <div className="sandbox-terminal-output">
+                {sandboxLogs.map((log, i) => (
+                  <div key={i} className="terminal-trace-line">
+                    <ChevronRight size={11} color="#34D399" />
+                    <span>{log}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Extracted JSON Preview */}
+            {sandboxOutput && (
+              <div className="sandbox-result-area">
+                <div className="sandbox-result-header">
+                  <div className="result-title">
+                    <CheckCircle2 size={14} color="#16A34A" />
+                    <span>Extracted Dataset Preview (3 Records Synthesized)</span>
+                  </div>
+                  <button className="btn-add-table" onClick={handlePushSandboxLeadsToTable}>
+                    <Plus size={13} />
+                    <span>Import to Leads Table</span>
+                  </button>
+                </div>
+                <pre className="sandbox-json-preview">
+                  {JSON.stringify(sandboxOutput, null, 2)}
+                </pre>
+              </div>
+            )}
+
+            <div className="sandbox-modal-footer">
+              <div className="sandbox-footer-note">
+                <Sparkles size={13} color="#E2FC00" />
+                <span>Powered by Kiaan Autonomous Agent Framework & Playwright cluster</span>
+              </div>
+              <button className="btn-modal-done" onClick={() => setSandboxModalOpen(false)}>
+                Done
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* ── Super Admin Payment Modal ── */}
       <SuperAdminScraperPaymentModal

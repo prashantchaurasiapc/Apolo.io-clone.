@@ -3,7 +3,8 @@ import {
   ChevronDown, Plus, Upload, Database, RefreshCw, Layers, CheckCircle2, 
   Sparkles, FileSpreadsheet, Lock, HelpCircle, ExternalLink, Zap, Settings,
   AlertCircle, ArrowRight, ShieldCheck, Check, Users, Search, Sliders,
-  Filter, Bell, Mail, UserCheck, Briefcase, Building2, TrendingUp, Copy
+  Filter, Bell, Mail, UserCheck, Briefcase, Building2, TrendingUp, Copy,
+  X, Clock, History, ArrowLeft, Target, Navigation, User, Calendar
 } from 'lucide-react';
 
 import '../../css/enrichment-view.css';
@@ -16,8 +17,90 @@ export default function DataEnrichmentView({ showToast, onNavigateToProspect }) 
   const [automateDropdownOpen, setAutomateDropdownOpen] = useState(false);
   const [connectCrmDropdownOpen, setConnectCrmDropdownOpen] = useState(false);
 
+  // Scheduled Jobs Modal State & Job List
+  const [isJobsModalOpen, setIsJobsModalOpen] = useState(false);
+  const [modalActiveTab, setModalActiveTab] = useState('scheduled'); // 'scheduled' | 'activity_log'
+  const [historyDropdownOpen, setHistoryDropdownOpen] = useState(false);
+  const [scheduledJobsList, setScheduledJobsList] = useState([]);
+
   // Scheduled Jobs Count
   const [scheduledJobsCount, setScheduledJobsCount] = useState(0);
+
+  // ── NEW ENRICHMENT JOB WORKFLOW WIZARD MODAL STATES ──
+  const [isWorkflowModalOpen, setIsWorkflowModalOpen] = useState(false);
+  const [workflowTab, setWorkflowTab] = useState('workflow'); // 'workflow' | 'settings'
+  const [workflowSubStep, setWorkflowSubStep] = useState('main'); // 'main' | 'define_object' | 'select_type' | 'set_filters' | 'set_cadence'
+
+  // Selected Workflow Form Inputs
+  const [selectedObject, setSelectedObject] = useState(''); // '' | 'contacts'
+  const [selectedEnrichmentType, setSelectedEnrichmentType] = useState('job_changes'); // 'job_changes' | 'missing_emails'
+  const [selectedCadence, setSelectedCadence] = useState('Daily at 8:00 AM');
+  const [jobName, setJobName] = useState('New enrichment job');
+  const [isJobActiveToggle, setIsJobActiveToggle] = useState(true);
+
+  // ── EMAIL ENRICHMENT & WATERFALL ACCESS DRAWER STATES ──
+  const [isWaterfallEnabled, setIsWaterfallEnabled] = useState(true);
+  const [isAccessEmailDrawerOpen, setIsAccessEmailDrawerOpen] = useState(false);
+  const [searchApproach, setSearchApproach] = useState('verified'); // 'verified' | 'any'
+  
+  // ── SCHEDULE ENRICHMENT TEMPLATES MODAL STATES ──
+  const [isTemplatesModalOpen, setIsTemplatesModalOpen] = useState(false);
+  const [templatesCategory, setTemplatesCategory] = useState('all'); // 'all' | 'missing_emails' | 'job_changes'
+  const [templatesSearch, setTemplatesSearch] = useState('');
+  const [selectedTemplateCardId, setSelectedTemplateCardId] = useState(1);
+
+  // ── REAL-TIME ENRICHMENT UPGRADE MODAL STATE ──
+  const [isRealtimeModalOpen, setIsRealtimeModalOpen] = useState(false);
+
+  // Drawer Accordion States
+  const [accordionState, setAccordionState] = useState({
+    fieldDetails: true,
+    enrichmentConfig: true,
+    dataSources: true,
+    validation: true
+  });
+
+  const toggleAccordion = (key) => {
+    setAccordionState(prev => ({ ...prev, [key]: !prev[key] }));
+  };
+
+  const handleOpenWorkflowModal = () => {
+    setIsWorkflowModalOpen(true);
+    setWorkflowTab('workflow');
+    setWorkflowSubStep('main');
+  };
+
+  const handleSaveWorkflowJob = () => {
+    const newJob = {
+      id: Date.now(),
+      name: jobName || 'Custom Contacts Enrichment Job',
+      type: selectedEnrichmentType ? 'Verified Emails & Phones' : 'CRM Auto-Enrichment',
+      schedule: selectedCadence || 'Daily at 8:00 AM',
+      status: 'Active',
+      created: 'Just now'
+    };
+    setScheduledJobsList(prev => [...prev, newJob]);
+    setScheduledJobsCount(prev => prev + 1);
+    setIsWorkflowModalOpen(false);
+    // Reset fields
+    setSelectedObject('');
+    setSelectedEnrichmentType('');
+    showToast(`Created & scheduled workflow "${newJob.name}"!`);
+  };
+
+  const handleAddNewJob = () => {
+    const newJob = {
+      id: Date.now(),
+      name: `Automated CRM Sync #${scheduledJobsList.length + 1}`,
+      type: 'CRM Auto-Enrichment',
+      schedule: 'Daily at 8:00 AM',
+      status: 'Active',
+      created: 'Just now'
+    };
+    setScheduledJobsList(prev => [...prev, newJob]);
+    setScheduledJobsCount(prev => prev + 1);
+    showToast('Scheduled new automated enrichment job!');
+  };
 
   // CSV Drag and drop file state
   const [dragActive, setDragActive] = useState(false);
@@ -63,7 +146,7 @@ export default function DataEnrichmentView({ showToast, onNavigateToProspect }) 
           {/* View Scheduled Jobs Button */}
           <button 
             className="white-subtle-btn scheduled-jobs-btn"
-            onClick={() => showToast(`Opening Scheduled Jobs (${scheduledJobsCount} active)`)}
+            onClick={() => setIsJobsModalOpen(true)}
           >
             <span>View scheduled jobs</span>
             <span className="jobs-count-pill">{scheduledJobsCount}</span>
@@ -80,27 +163,58 @@ export default function DataEnrichmentView({ showToast, onNavigateToProspect }) 
             </button>
 
             {automateDropdownOpen && (
-              <div className="enrichment-popover-menu">
-                <div className="popover-item" onClick={() => { setAutomateDropdownOpen(false); showToast('Created automated CRM enrichment workflow'); }}>
-                  <Zap size={15} color="#2563eb" />
-                  <div>
-                    <strong className="item-title">Auto-Enrich New CRM Leads</strong>
-                    <span className="item-desc">Enrich incoming leads in real-time</span>
-                  </div>
+              <div className="automate-enrichment-popover-menu">
+                {/* Section 1: Scheduled enrichment */}
+                <div className="menu-section-header">Scheduled enrichment</div>
+                
+                <div 
+                  className="automate-menu-item"
+                  onClick={() => {
+                    setAutomateDropdownOpen(false);
+                    handleOpenWorkflowModal();
+                  }}
+                >
+                  <span>Schedule from scratch</span>
                 </div>
-                <div className="popover-item" onClick={() => { setAutomateDropdownOpen(false); showToast('Configured CSV auto-enrichment schedule'); }}>
-                  <FileSpreadsheet size={15} color="#059669" />
-                  <div>
-                    <strong className="item-title">Scheduled CSV Enrichment</strong>
-                    <span className="item-desc">Weekly recurring database refresh</span>
-                  </div>
+
+                <div 
+                  className="automate-menu-item"
+                  onClick={() => {
+                    setAutomateDropdownOpen(false);
+                    setIsTemplatesModalOpen(true);
+                  }}
+                >
+                  <span>Schedule with templates</span>
                 </div>
-                <div className="popover-item" onClick={() => { setAutomateDropdownOpen(false); showToast('Opened Form Enrichment Setup'); }}>
-                  <Sliders size={15} color="#8b5cf6" />
-                  <div>
-                    <strong className="item-title">Inbound Form Autocomplete</strong>
-                    <span className="item-desc">Shorten web forms by 80%</span>
-                  </div>
+
+                <div className="automate-menu-divider" />
+
+                {/* Section 2: Real-time enrichment */}
+                <div className="menu-section-header">Real-time enrichment</div>
+
+                <div 
+                  className="automate-menu-item"
+                  onClick={() => {
+                    setAutomateDropdownOpen(false);
+                    setIsRealtimeModalOpen(true);
+                  }}
+                >
+                  <span>Enable real-time enrichment</span>
+                  <Lock size={14} className="menu-item-icon" />
+                </div>
+
+                <div className="automate-menu-divider" />
+
+                {/* Section 3: Learn link */}
+                <div 
+                  className="automate-menu-item"
+                  onClick={() => {
+                    setAutomateDropdownOpen(false);
+                    showToast('Opening Data Enrichment documentation guide');
+                  }}
+                >
+                  <span>Learn about enrichment</span>
+                  <ExternalLink size={14} className="menu-item-icon" />
                 </div>
               </div>
             )}
@@ -825,6 +939,1363 @@ export default function DataEnrichmentView({ showToast, onNavigateToProspect }) 
       >
         <span className="help-question-mark">?</span>
       </button>
+
+      {/* ── ENRICHMENT JOBS MODAL (1:1 APOLLO MATCH) ── */}
+      {isJobsModalOpen && (
+        <div className="enrichment-modal-overlay" onClick={() => setIsJobsModalOpen(false)}>
+          <div className="enrichment-modal-container" onClick={(e) => e.stopPropagation()}>
+            
+            {/* 1. Modal Header */}
+            <div className="enrichment-modal-header">
+              <div className="modal-header-top">
+                <h2 className="enrichment-modal-title">Enrichment jobs</h2>
+                <button 
+                  className="modal-close-btn"
+                  onClick={() => setIsJobsModalOpen(false)}
+                  aria-label="Close modal"
+                >
+                  <X size={18} />
+                </button>
+              </div>
+
+              {/* 2. Modal Sub-Tabs */}
+              <div className="enrichment-modal-tabs">
+                <button 
+                  className={`modal-tab-btn ${modalActiveTab === 'scheduled' ? 'active' : ''}`}
+                  onClick={() => setModalActiveTab('scheduled')}
+                >
+                  Scheduled
+                </button>
+                <button 
+                  className={`modal-tab-btn ${modalActiveTab === 'activity_log' ? 'active' : ''}`}
+                  onClick={() => setModalActiveTab('activity_log')}
+                >
+                  Activity log
+                </button>
+              </div>
+            </div>
+
+            {/* 3. Modal Body */}
+            <div className="enrichment-modal-body">
+              {modalActiveTab === 'scheduled' ? (
+                scheduledJobsList.length === 0 ? (
+                  <div className="scheduled-empty-card">
+                    <div className="scheduled-illustration-wrap">
+                      <svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        {/* Magnifying Glass Light Blue Lens */}
+                        <circle cx="56" cy="54" r="28" fill="#E0F2FE" stroke="#3B82F6" strokeWidth="2.5" />
+                        
+                        {/* Clock Face Circle Inside Lens */}
+                        <circle cx="56" cy="54" r="18" fill="#FFFFFF" stroke="#2563EB" strokeWidth="2" />
+                        {/* Clock Hands */}
+                        <path d="M56 42V54H66" stroke="#2563EB" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+
+                        {/* Magnifying Glass Handle */}
+                        <path d="M75 73L96 94" stroke="#2563EB" strokeWidth="6" strokeLinecap="round" />
+
+                        {/* Red Circle Badge at top right of clock */}
+                        <circle cx="72" cy="36" r="11" fill="#EF4444" stroke="#FFFFFF" strokeWidth="2" />
+                        <text x="72" y="40" textAnchor="middle" fill="#FFFFFF" fontSize="12" fontWeight="800" fontFamily="sans-serif">0</text>
+
+                        {/* Accent Radiating Spark Lines near top right badge */}
+                        <line x1="72" y1="18" x2="72" y2="21" stroke="#334155" strokeWidth="2" strokeLinecap="round" />
+                        <line x1="84" y1="22" x2="88" y2="25" stroke="#334155" strokeWidth="2" strokeLinecap="round" />
+                        <line x1="89" y1="34" x2="93" y2="34" stroke="#334155" strokeWidth="2" strokeLinecap="round" />
+                      </svg>
+                    </div>
+
+                    <h3 className="scheduled-empty-title">No enrichment jobs scheduled yet!</h3>
+                    <p className="scheduled-empty-subtext">
+                      Schedule your first enrichment job now to keep your data up-to-date.
+                    </p>
+                  </div>
+                ) : (
+                  <div className="scheduled-jobs-list-wrap">
+                    {scheduledJobsList.map((job) => (
+                      <div key={job.id} className="scheduled-job-card-item">
+                        <div className="job-info-left">
+                          <Zap size={18} color="#2563eb" />
+                          <div>
+                            <strong className="job-name-text">{job.name}</strong>
+                            <span className="job-sub-text">{job.type} • {job.schedule}</span>
+                          </div>
+                        </div>
+                        <div className="job-status-right">
+                          <span className="active-job-badge">Active</span>
+                          <button 
+                            className="delete-job-btn"
+                            onClick={() => {
+                              setScheduledJobsList(prev => prev.filter(j => j.id !== job.id));
+                              setScheduledJobsCount(prev => Math.max(0, prev - 1));
+                              showToast('Removed scheduled enrichment job');
+                            }}
+                          >
+                            Remove
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )
+              ) : (
+                /* Activity Log Tab Content */
+                <div className="enrichment-modal-activity-log">
+                  <div className="activity-log-table-wrap">
+                    <table className="enrichment-log-table">
+                      <thead>
+                        <tr>
+                          <th>Job Name / Type</th>
+                          <th>Trigger</th>
+                          <th>Records</th>
+                          <th>Status</th>
+                          <th>Time</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>
+                            <div className="log-name-wrap">
+                              <Zap size={14} color="#2563eb" />
+                              <strong>CRM Lead Enrichment</strong>
+                            </div>
+                          </td>
+                          <td>Auto-trigger</td>
+                          <td>420 contacts</td>
+                          <td><span className="log-status-badge success">● Completed</span></td>
+                          <td>Today, 09:30 AM</td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <div className="log-name-wrap">
+                              <FileSpreadsheet size={14} color="#059669" />
+                              <strong>CSV Prospect Batch</strong>
+                            </div>
+                          </td>
+                          <td>Manual Upload</td>
+                          <td>1,250 contacts</td>
+                          <td><span className="log-status-badge success">● Completed</span></td>
+                          <td>Yesterday, 04:15 PM</td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <div className="log-name-wrap">
+                              <Sliders size={14} color="#8b5cf6" />
+                              <strong>Job Alert Scanner</strong>
+                            </div>
+                          </td>
+                          <td>Weekly Schedule</td>
+                          <td>85 updates</td>
+                          <td><span className="log-status-badge success">● Completed</span></td>
+                          <td>Sep 10, 2026</td>
+                        </tr>
+                        {scheduledJobsList.map((job) => (
+                          <tr key={job.id}>
+                            <td>
+                              <div className="log-name-wrap">
+                                <Zap size={14} color="#2563eb" />
+                                <strong>{job.name}</strong>
+                              </div>
+                            </td>
+                            <td>{job.schedule}</td>
+                            <td>0 contacts</td>
+                            <td><span className="log-status-badge pending">● Scheduled</span></td>
+                            <td>{job.created}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* 4. Modal Footer */}
+            <div className="enrichment-modal-footer">
+              <button 
+                className="modal-cancel-btn"
+                onClick={() => setIsJobsModalOpen(false)}
+              >
+                Cancel
+              </button>
+
+              <div className="modal-footer-right-actions">
+                <div className="dropdown-relative-wrap">
+                  <button 
+                    className="modal-history-dropdown-btn"
+                    onClick={() => setHistoryDropdownOpen(!historyDropdownOpen)}
+                  >
+                    <span>View enrichment history</span>
+                    <ChevronDown size={14} />
+                  </button>
+
+                  {historyDropdownOpen && (
+                    <div className="history-simple-popover-menu">
+                      <div 
+                        className="history-simple-menu-item" 
+                        onClick={() => { 
+                          setHistoryDropdownOpen(false); 
+                          setModalActiveTab('activity_log'); 
+                          showToast('Filtered Email enrichment history');
+                        }}
+                      >
+                        Email
+                      </div>
+                      <div 
+                        className="history-simple-menu-item" 
+                        onClick={() => { 
+                          setHistoryDropdownOpen(false); 
+                          setModalActiveTab('activity_log'); 
+                          showToast('Filtered Job change history');
+                        }}
+                      >
+                        Job change
+                      </div>
+                      <div 
+                        className="history-simple-menu-item" 
+                        onClick={() => { 
+                          setHistoryDropdownOpen(false); 
+                          setModalActiveTab('activity_log'); 
+                          showToast('Filtered CRM enrichment history');
+                        }}
+                      >
+                        CRM
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                <button 
+                  className="modal-add-new-btn"
+                  onClick={handleAddNewJob}
+                >
+                  Add new
+                </button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      )}
+
+      {/* ── WORKFLOW BUILDER MODAL ("SCHEDULE FROM SCRATCH" - 1:1 APOLLO MATCH) ── */}
+      {isWorkflowModalOpen && (
+        <div className="workflow-modal-overlay" onClick={() => setIsWorkflowModalOpen(false)}>
+          <div className="workflow-modal-container" onClick={(e) => e.stopPropagation()}>
+            
+            {/* ── SCREEN A: DEFINE OBJECT TO ENRICH SUB-SCREEN (Screenshot 2) ── */}
+            {workflowSubStep === 'define_object' ? (
+              <div className="define-object-screen">
+                {/* Header */}
+                <div className="workflow-sub-header">
+                  <div className="sub-header-left" onClick={() => setWorkflowSubStep('main')}>
+                    <ArrowLeft size={18} className="back-arrow-icon" />
+                    <h2 className="sub-title">Define object to enrich</h2>
+                  </div>
+                  <button 
+                    className="modal-close-btn"
+                    onClick={() => setIsWorkflowModalOpen(false)}
+                  >
+                    <X size={18} />
+                  </button>
+                </div>
+
+                {/* Body Card */}
+                <div className="define-object-body">
+                  <div className="select-object-card">
+                    <h3 className="select-card-heading">Select object to enrich</h3>
+                    
+                    <div 
+                      className={`object-option-box ${selectedObject === 'contacts' ? 'selected' : ''}`}
+                      onClick={() => setSelectedObject('contacts')}
+                    >
+                      <div className="option-left">
+                        <div className={`radio-outer ${selectedObject === 'contacts' ? 'checked' : ''}`}>
+                          {selectedObject === 'contacts' && <div className="radio-inner" />}
+                        </div>
+                        <span className="option-label-text">Contacts</span>
+                      </div>
+
+                      <div className="pink-user-badge">
+                        <User size={18} color="#ffffff" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Footer */}
+                <div className="define-object-footer">
+                  <button 
+                    className="modal-cancel-btn"
+                    onClick={() => setWorkflowSubStep('main')}
+                  >
+                    Cancel
+                  </button>
+                  <button 
+                    className={`save-object-btn ${selectedObject ? 'active' : 'disabled'}`}
+                    disabled={!selectedObject}
+                    onClick={() => setWorkflowSubStep('main')}
+                  >
+                    Save object
+                  </button>
+                </div>
+              </div>
+            ) : workflowSubStep === 'select_type' ? (
+              /* ── SCREEN B: SELECT ENRICHMENT TYPE SUB-SCREEN (1:1 APOLLO MATCH) ── */
+              <div className="define-object-screen">
+                {/* Header */}
+                <div className="workflow-sub-header">
+                  <div className="sub-header-left" onClick={() => setWorkflowSubStep('main')}>
+                    <ArrowLeft size={18} className="back-arrow-icon" />
+                    <h2 className="sub-title">Select enrichment type</h2>
+                  </div>
+                  <button className="modal-close-btn" onClick={() => setIsWorkflowModalOpen(false)}>
+                    <X size={18} />
+                  </button>
+                </div>
+
+                {/* Body */}
+                <div className="define-object-body">
+                  {/* Top Section: Enrichment type options card */}
+                  <div className="select-object-card">
+                    <h3 className="select-card-heading">Enrichment type</h3>
+
+                    {/* Option 1: Job changes */}
+                    <div 
+                      className={`enrichment-type-option-box ${selectedEnrichmentType === 'job_changes' ? 'selected' : ''}`}
+                      onClick={() => setSelectedEnrichmentType('job_changes')}
+                    >
+                      <div className="option-left-content">
+                        <div className={`radio-outer ${selectedEnrichmentType === 'job_changes' ? 'checked' : ''}`}>
+                          {selectedEnrichmentType === 'job_changes' && <div className="radio-inner" />}
+                        </div>
+                        <div>
+                          <strong className="option-title-text">Job changes</strong>
+                          <span className="option-subtitle-text">Update all Apollo saved records, including CRM records</span>
+                        </div>
+                      </div>
+
+                      <div className="type-badge-circle blue-badge">
+                        <Briefcase size={15} color="#2563eb" />
+                        <Search size={10} color="#2563eb" className="badge-spark-icon" />
+                      </div>
+                    </div>
+
+                    {/* Option 2: Missing emails */}
+                    <div 
+                      className={`enrichment-type-option-box ${selectedEnrichmentType === 'missing_emails' ? 'selected' : ''}`}
+                      onClick={() => setSelectedEnrichmentType('missing_emails')}
+                    >
+                      <div className="option-left-content">
+                        <div className={`radio-outer ${selectedEnrichmentType === 'missing_emails' ? 'checked' : ''}`}>
+                          {selectedEnrichmentType === 'missing_emails' && <div className="radio-inner" />}
+                        </div>
+                        <div>
+                          <strong className="option-title-text">Missing emails</strong>
+                          <span className="option-subtitle-text">Update all Apollo saved records, including CRM records</span>
+                        </div>
+                      </div>
+
+                      <div className="type-badge-circle yellow-badge">
+                        <Mail size={15} color="#d97706" />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Bottom Section: Dynamic Card based on selected type */}
+                  {selectedEnrichmentType === 'job_changes' ? (
+                    /* 1:1 Upgrade Promotion Card for Job Changes */
+                    <div className="upgrade-promo-card">
+                      {/* Banner Artwork SVG / Graphic */}
+                      <div className="promo-graphic-banner">
+                        <Sparkles size={16} color="#fde047" className="promo-sparkle spark-1" />
+                        <Sparkles size={14} color="#fde047" className="promo-sparkle spark-2" />
+
+                        {/* Mock Flow Steps */}
+                        <div className="mock-flow-wrapper">
+                          <div className="mock-pill-tag">
+                            <Target size={10} />
+                            <span>When this happens</span>
+                          </div>
+                          <div className="mock-card-strip">
+                            <Settings size={12} color="#64748b" />
+                            <span className="mock-contacts-badge">Contacts</span>
+                          </div>
+
+                          <div className="mock-pill-tag" style={{ marginTop: '6px' }}>
+                            <Navigation size={10} />
+                            <span>Then do this action</span>
+                          </div>
+                          <div className="mock-card-strip">
+                            <RefreshCw size={12} color="#2563eb" />
+                            <strong style={{ fontSize: '11px', color: '#0f172a' }}>Enrich job changes</strong>
+                          </div>
+                        </div>
+
+                        {/* Big Yellow Padlock Icon */}
+                        <div className="promo-padlock-badge">
+                          <div className="padlock-shackle" />
+                          <div className="padlock-body">
+                            <div className="padlock-keyhole" />
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Headline & Subtext */}
+                      <h3 className="promo-card-title">Want access to scheduled job changes enrichment?</h3>
+                      <p className="promo-card-subtext">Upgrade your plan to unlock this powerful feature!</p>
+
+                      {/* Benefit Checklist */}
+                      <div className="promo-benefits-list">
+                        <div className="benefit-row">
+                          <Calendar size={15} color="#2563eb" className="benefit-icon" />
+                          <span>Automate job change updates to save time and manual effort</span>
+                        </div>
+                        <div className="benefit-row">
+                          <Briefcase size={15} color="#2563eb" className="benefit-icon" />
+                          <span>Update existing contacts or create new ones with job changes</span>
+                        </div>
+                        <div className="benefit-row">
+                          <Sliders size={15} color="#2563eb" className="benefit-icon" />
+                          <span>Filter key records and take control of your record limit</span>
+                        </div>
+                      </div>
+
+                      {/* View Pricing Plans Button */}
+                      <div className="promo-action-bar">
+                        <button 
+                          className="yellow-primary-btn view-pricing-btn"
+                          onClick={() => showToast('Opening Apollo Upgrade & Pricing Plans')}
+                        >
+                          View pricing plans
+                        </button>
+                      </div>
+                    </div>
+                  ) : (
+                    /* 1:1 Email Enrichment Settings Card (Screenshot 2 Match) */
+                    <div className="email-enrichment-card">
+                      <h3 className="email-enrichment-title">Email enrichment</h3>
+
+                      <div className="email-enrichment-details-grid">
+                        <div className="detail-col">
+                          <span className="detail-label">Data source</span>
+                          <span className="detail-value">Apollo</span>
+                        </div>
+                        <div className="detail-col-divider" />
+                        <div className="detail-col">
+                          <span className="detail-label">Credit usage</span>
+                          <span className="credit-pill-chip">
+                            <span className="coin-icon">🪙</span> 1 <span className="credit-subtext">/ verified email</span>
+                          </span>
+                        </div>
+                      </div>
+
+                      <div className="card-inner-divider" />
+
+                      <div className="waterfall-toggle-row">
+                        <div className="toggle-left-wrap">
+                          <div 
+                            className={`toggle-switch-pill ${isWaterfallEnabled ? 'active' : ''}`}
+                            onClick={() => setIsWaterfallEnabled(!isWaterfallEnabled)}
+                          >
+                            <div className="toggle-switch-thumb">
+                              {isWaterfallEnabled && <Check size={12} color="#ffffff" />}
+                            </div>
+                          </div>
+                          <span className="waterfall-label">Find data via Waterfall</span>
+                          <HelpCircle size={15} className="info-icon" />
+                        </div>
+
+                        <button 
+                          className="gear-settings-btn"
+                          title="Configure Waterfall Settings"
+                          onClick={() => setIsAccessEmailDrawerOpen(true)}
+                        >
+                          <Settings size={18} color="#475569" />
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                {/* Footer (1:1 Screenshot 2 Match - Bright Yellow Save Action Button for Missing Emails) */}
+                <div className="define-object-footer">
+                  <button className="modal-cancel-btn" onClick={() => setWorkflowSubStep('main')}>Cancel</button>
+                  <button 
+                    className={selectedEnrichmentType === 'missing_emails' ? 'yellow-primary-btn save-action-yellow-btn' : `save-object-btn ${selectedEnrichmentType ? 'active' : 'disabled'}`}
+                    disabled={!selectedEnrichmentType}
+                    onClick={() => setWorkflowSubStep('main')}
+                  >
+                    Save action
+                  </button>
+                </div>
+              </div>
+            ) : (
+              /* ── SCREEN C: MAIN WORKFLOW CANVAS (Screenshots 1, 3, 4) ── */
+              <div className="workflow-canvas-screen">
+                
+                {/* Main Workflow Header */}
+                <div className="workflow-modal-header">
+                  <div className="modal-header-top">
+                    <div className="job-title-toggle-wrap">
+                      <div 
+                        className={`toggle-switch-pill ${isJobActiveToggle ? 'active' : ''}`}
+                        onClick={() => setIsJobActiveToggle(!isJobActiveToggle)}
+                      >
+                        <div className="toggle-switch-thumb">
+                          {isJobActiveToggle && <Check size={12} color="#ffffff" />}
+                        </div>
+                      </div>
+                      <input 
+                        type="text" 
+                        className="job-name-input-inline"
+                        value={jobName}
+                        onChange={(e) => setJobName(e.target.value)}
+                      />
+                    </div>
+
+                    <button className="modal-close-btn" onClick={() => setIsWorkflowModalOpen(false)}>
+                      <X size={18} />
+                    </button>
+                  </div>
+
+                  {/* Workflow Sub-Tabs */}
+                  <div className="workflow-tabs-strip">
+                    <button 
+                      className={`workflow-tab-btn ${workflowTab === 'workflow' ? 'active' : ''}`}
+                      onClick={() => setWorkflowTab('workflow')}
+                    >
+                      ① Workflow
+                    </button>
+                    <button 
+                      className={`workflow-tab-btn ${workflowTab === 'settings' ? 'active' : ''}`}
+                      onClick={() => setWorkflowTab('settings')}
+                    >
+                      ② Settings
+                    </button>
+                  </div>
+                </div>
+
+                {/* Workflow Canvas Body */}
+                {workflowTab === 'workflow' ? (
+                  <div className="workflow-dotted-canvas">
+                    <div className="workflow-flow-container">
+                      
+                      {/* ── STEP 1: WHEN THIS HAPPENS ── */}
+                      <div className="flow-step-badge">
+                        <Target size={14} className="badge-icon" />
+                        <span>When this happens</span>
+                      </div>
+
+                      {selectedObject === 'contacts' ? (
+                        /* State 2: Object Selected (Screenshots 3 & 4) */
+                        <div 
+                          className="flow-action-card completed"
+                          onClick={() => setWorkflowSubStep('define_object')}
+                        >
+                          <div className="gear-icon-circle">
+                            <Settings size={18} color="#475569" />
+                          </div>
+                          <span className="object-is-text">Object is</span>
+                          <span className="pink-contacts-chip">
+                            <User size={13} color="#be185d" />
+                            <span>Contacts</span>
+                          </span>
+                        </div>
+                      ) : (
+                        /* State 1: Define Object to Enrich (Screenshot 1) */
+                        <div 
+                          className="flow-action-card empty"
+                          onClick={() => setWorkflowSubStep('define_object')}
+                        >
+                          <Plus size={16} color="#2563eb" />
+                          <span className="action-blue-text">Define object to enrich</span>
+                        </div>
+                      )}
+
+                      {/* Connecting Line 1 */}
+                      <div className="flow-connector-line" />
+
+                      {/* ── STEP 2: THEN DO THIS ACTION ── */}
+                      <div className="flow-step-badge">
+                        <Navigation size={14} className="badge-icon" />
+                        <span>Then do this action</span>
+                      </div>
+
+                      {selectedEnrichmentType ? (
+                        <div 
+                          className="flow-action-card completed"
+                          onClick={() => setWorkflowSubStep('select_type')}
+                        >
+                          <div className="gear-icon-circle blue-icon-bg">
+                            <RefreshCw size={16} color="#2563eb" />
+                          </div>
+                          <strong style={{ fontSize: '13.5px', color: '#0f172a' }}>
+                            {selectedEnrichmentType === 'job_changes' ? 'Enrich job changes' : 'Enrich missing emails'}
+                          </strong>
+                        </div>
+                      ) : (
+                        <div 
+                          className={`flow-action-card ${selectedObject ? 'empty' : 'disabled'}`}
+                          onClick={() => {
+                            if (selectedObject) setWorkflowSubStep('select_type');
+                            else showToast('Please define object first');
+                          }}
+                        >
+                          <Plus size={16} color={selectedObject ? '#2563eb' : '#94a3b8'} />
+                          <span className={selectedObject ? 'action-blue-text' : 'action-muted-text'}>
+                            Select enrichment type
+                          </span>
+                        </div>
+                      )}
+
+                      {/* Connecting Line 2 */}
+                      <div className="flow-connector-line" />
+
+                      {/* ── STEP 3: SET FILTERS (OPTIONAL) ── */}
+                      <div 
+                        className="flow-action-card disabled"
+                        onClick={() => showToast('Filters are optional and configured automatically')}
+                      >
+                        <Plus size={16} color="#94a3b8" />
+                        <span className="action-muted-text">Set filters (Optional)</span>
+                      </div>
+
+                      {/* Connecting Line 3 */}
+                      <div className="flow-connector-line" />
+
+                      {/* ── STEP 4: SET CADENCE ── */}
+                      <div 
+                        className="flow-action-card disabled"
+                        onClick={() => showToast('Cadence set to Daily at 8:00 AM')}
+                      >
+                        <Plus size={16} color="#94a3b8" />
+                        <span className="action-muted-text">Set cadence</span>
+                      </div>
+
+                    </div>
+                  </div>
+                ) : (
+                  /* Settings Tab Content */
+                  <div className="workflow-settings-body">
+                    <div className="settings-form-group">
+                      <label className="settings-label">Job Name</label>
+                      <input 
+                        type="text" 
+                        className="settings-input"
+                        value={jobName}
+                        onChange={(e) => setJobName(e.target.value)}
+                      />
+                    </div>
+
+                    <div className="settings-form-group">
+                      <label className="settings-label">Execution Schedule</label>
+                      <select 
+                        className="settings-select"
+                        value={selectedCadence}
+                        onChange={(e) => setSelectedCadence(e.target.value)}
+                      >
+                        <option value="Daily at 8:00 AM">Daily at 8:00 AM</option>
+                        <option value="Weekly on Mondays">Weekly on Mondays</option>
+                        <option value="Real-time Trigger">Real-time Lead Trigger</option>
+                      </select>
+                    </div>
+                  </div>
+                )}
+
+                {/* Workflow Modal Footer */}
+                <div className="workflow-modal-footer">
+                  {workflowTab === 'workflow' ? (
+                    <button 
+                      className={`next-settings-btn ${selectedObject ? 'active' : 'disabled'}`}
+                      onClick={() => {
+                        if (selectedObject) {
+                          setWorkflowTab('settings');
+                        } else {
+                          showToast('Please click "Define object to enrich" first');
+                        }
+                      }}
+                    >
+                      Next: Settings
+                    </button>
+                  ) : (
+                    <button 
+                      className="yellow-primary-btn"
+                      style={{ padding: '8px 22px', borderRadius: '8px', fontWeight: 700 }}
+                      onClick={handleSaveWorkflowJob}
+                    >
+                      Create & Save Job →
+                    </button>
+                  )}
+                </div>
+
+              </div>
+            )}
+
+          </div>
+        </div>
+      )}
+
+      {/* ── ACCESS EMAIL WATERFALL CONFIGURATION DRAWER (1:1 APOLLO MATCH - SCREENSHOT 3) ── */}
+      {isAccessEmailDrawerOpen && (
+        <div className="access-email-drawer-overlay" onClick={() => setIsAccessEmailDrawerOpen(false)}>
+          <div className="access-email-drawer-container" onClick={(e) => e.stopPropagation()}>
+            
+            {/* Header */}
+            <div className="drawer-header">
+              <div className="drawer-title-wrap">
+                <h2 className="drawer-title">Access email</h2>
+                <HelpCircle size={15} className="title-help-icon" />
+              </div>
+              <button 
+                className="modal-close-btn"
+                onClick={() => setIsAccessEmailDrawerOpen(false)}
+              >
+                <X size={18} />
+              </button>
+            </div>
+
+            {/* Body */}
+            <div className="drawer-body-scrollable">
+              
+              {/* Section 1: Field details Accordion */}
+              <div className="drawer-accordion-section">
+                <div 
+                  className="accordion-header-row"
+                  onClick={() => toggleAccordion('fieldDetails')}
+                >
+                  <span className="accordion-title">Field details</span>
+                  <ChevronDown size={16} className={`accordion-arrow ${accordionState.fieldDetails ? 'open' : ''}`} />
+                </div>
+
+                {accordionState.fieldDetails && (
+                  <div className="accordion-body-content">
+                    <div className="form-field-group">
+                      <label className="field-label">Field name</label>
+                      <input 
+                        type="text" 
+                        value="Emails" 
+                        disabled 
+                        className="field-input-disabled" 
+                      />
+                    </div>
+
+                    <div className="form-field-group">
+                      <label className="field-label">Field group</label>
+                      <select className="field-select-input" defaultValue="Basic information">
+                        <option value="Basic information">Basic information</option>
+                        <option value="Contact info">Contact info</option>
+                      </select>
+                    </div>
+
+                    <div className="form-field-group">
+                      <label className="field-label">Field type</label>
+                      <select className="field-select-input" defaultValue="Emails">
+                        <option value="Emails">✉ Emails</option>
+                      </select>
+                      <span className="field-muted-note">Field type cannot be changed after the field is created</span>
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              {/* Section 2: Enrichment configuration Accordion */}
+              <div className="drawer-accordion-section">
+                <div 
+                  className="accordion-header-row"
+                  onClick={() => toggleAccordion('enrichmentConfig')}
+                >
+                  <span className="accordion-title">Enrichment configuration</span>
+                  <ChevronDown size={16} className={`accordion-arrow ${accordionState.enrichmentConfig ? 'open' : ''}`} />
+                </div>
+
+                {accordionState.enrichmentConfig && (
+                  <div className="accordion-body-content">
+                    {/* Top Credit Banner */}
+                    <div className="credit-usage-banner">
+                      <span>Estimated credit usage: 1-4 / enriched record</span>
+                    </div>
+
+                    {/* Sub-Accordion: Data sources */}
+                    <div className="sub-accordion-box">
+                      <div 
+                        className="sub-accordion-header"
+                        onClick={() => toggleAccordion('dataSources')}
+                      >
+                        <ChevronDown size={14} className={`sub-arrow ${accordionState.dataSources ? 'open' : ''}`} />
+                        <span className="sub-accordion-title">Data sources</span>
+                      </div>
+
+                      {accordionState.dataSources && (
+                        <div className="sub-accordion-body">
+                          <p className="sources-subtext">Order sources to search for results till found</p>
+
+                          {/* Waterfall Drag List */}
+                          <div className="waterfall-sources-list">
+                            
+                            {/* Source 1: Apollo */}
+                            <div className="waterfall-source-card">
+                              <div className="source-card-main">
+                                <div className="source-left">
+                                  <span className="drag-grip-icon">⠿</span>
+                                  <span className="source-brand-icon apollo-flower">🌼</span>
+                                  <strong className="source-name">Apollo</strong>
+                                  <HelpCircle size={13} className="info-icon" />
+                                </div>
+                                <div className="source-right">
+                                  <span className="source-credit-badge">🪙 1</span>
+                                  <span className="chevron-right">&gt;</span>
+                                  <X size={14} className="remove-source-icon" />
+                                </div>
+                              </div>
+                              <div className="source-validated-chip">
+                                <span>✓ Validated · Stop if verified</span>
+                              </div>
+                              <div className="if-not-found-label">If not found</div>
+                            </div>
+
+                            {/* Source 2: Icypeas */}
+                            <div className="waterfall-source-card">
+                              <div className="source-card-main">
+                                <div className="source-left">
+                                  <span className="drag-grip-icon">⠿</span>
+                                  <span className="source-brand-icon icypeas-dot">🟢</span>
+                                  <strong className="source-name">Icypeas</strong>
+                                  <HelpCircle size={13} className="info-icon" />
+                                </div>
+                                <div className="source-right">
+                                  <span className="source-credit-badge">🪙 1</span>
+                                  <span className="chevron-right">&gt;</span>
+                                  <X size={14} className="remove-source-icon" />
+                                </div>
+                              </div>
+                              <div className="source-validated-chip">
+                                <span>✓ Validated · Stop if verified</span>
+                              </div>
+                              <div className="if-not-found-label">If not found</div>
+                            </div>
+
+                            {/* Source 3: LeadMagic */}
+                            <div className="waterfall-source-card">
+                              <div className="source-card-main">
+                                <div className="source-left">
+                                  <span className="drag-grip-icon">⠿</span>
+                                  <span className="source-brand-icon leadmagic-diamond">🔷</span>
+                                  <strong className="source-name">LeadMagic</strong>
+                                  <HelpCircle size={13} className="info-icon" />
+                                </div>
+                                <div className="source-right">
+                                  <span className="source-credit-badge">🪙 1</span>
+                                  <span className="chevron-right">&gt;</span>
+                                  <X size={14} className="remove-source-icon" />
+                                </div>
+                              </div>
+                              <div className="source-validated-chip">
+                                <span>✓ Validated · Stop if verified</span>
+                              </div>
+                              <div className="if-not-found-label">If not found</div>
+                            </div>
+
+                            {/* Source 4: FindyMail */}
+                            <div className="waterfall-source-card">
+                              <div className="source-card-main">
+                                <div className="source-left">
+                                  <span className="drag-grip-icon">⠿</span>
+                                  <span className="source-brand-icon findymail-env">✉</span>
+                                  <strong className="source-name">FindyMail</strong>
+                                  <HelpCircle size={13} className="info-icon" />
+                                </div>
+                                <div className="source-right">
+                                  <span className="source-credit-badge">🪙 1</span>
+                                  <span className="chevron-right">&gt;</span>
+                                  <X size={14} className="remove-source-icon" />
+                                </div>
+                              </div>
+                              <div className="source-validated-chip">
+                                <span>✓ Validated · Stop if verified</span>
+                              </div>
+                              <div className="if-not-found-label">If not found</div>
+                            </div>
+
+                            {/* Source 5: Prospeo */}
+                            <div className="waterfall-source-card">
+                              <div className="source-card-main">
+                                <div className="source-left">
+                                  <span className="drag-grip-icon">⠿</span>
+                                  <span className="source-brand-icon prospeo-square">🔴</span>
+                                  <strong className="source-name">Prospeo</strong>
+                                  <HelpCircle size={13} className="info-icon" />
+                                </div>
+                                <div className="source-right">
+                                  <span className="source-credit-badge">🪙 1</span>
+                                  <span className="chevron-right">&gt;</span>
+                                  <X size={14} className="remove-source-icon" />
+                                </div>
+                              </div>
+                              <div className="source-validated-chip">
+                                <span>✓ Validated · Stop if verified</span>
+                              </div>
+                            </div>
+
+                          </div>
+
+                          <button 
+                            className="add-source-sub-btn"
+                            onClick={() => showToast('Select additional waterfall provider...')}
+                          >
+                            <span>Add source</span>
+                            <ChevronDown size={14} />
+                          </button>
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Sub-Accordion: Validation */}
+                    <div className="sub-accordion-box" style={{ marginTop: '16px' }}>
+                      <div 
+                        className="sub-accordion-header"
+                        onClick={() => toggleAccordion('validation')}
+                      >
+                        <ChevronDown size={14} className={`sub-arrow ${accordionState.validation ? 'open' : ''}`} />
+                        <span className="sub-accordion-title">Validation</span>
+                      </div>
+
+                      {accordionState.validation && (
+                        <div className="sub-accordion-body">
+                          <p className="sources-subtext">Validates each email after it is found. Adds 1 credit per email enriched.</p>
+
+                          <div className="waterfall-source-card">
+                            <div className="source-card-main">
+                              <div className="source-left">
+                                <span className="source-brand-badge-square">zb</span>
+                                <strong className="source-name">ZeroBounce</strong>
+                                <HelpCircle size={13} className="info-icon" />
+                              </div>
+                              <div className="source-right">
+                                <span className="source-credit-badge">🪙 1</span>
+                                <span className="chevron-right">&gt;</span>
+                                <X size={14} className="remove-source-icon" />
+                              </div>
+                            </div>
+                          </div>
+
+                          <button 
+                            className="add-source-sub-btn"
+                            onClick={() => showToast('Select validation provider...')}
+                          >
+                            <span>Edit source</span>
+                            <ChevronDown size={14} />
+                          </button>
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Section: Search approach */}
+                    <div className="search-approach-box">
+                      <h4 className="approach-heading">Search approach</h4>
+
+                      <div 
+                        className="approach-radio-option"
+                        onClick={() => setSearchApproach('verified')}
+                      >
+                        <div className="radio-left">
+                          <div className={`radio-outer ${searchApproach === 'verified' ? 'checked' : ''}`}>
+                            {searchApproach === 'verified' && <div className="radio-inner" />}
+                          </div>
+                          <div>
+                            <strong className="approach-title">Search until verified</strong>
+                            <p className="approach-desc">Stops when a verified result is found. Better quality, uses more credits on average.</p>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div 
+                        className="approach-radio-option"
+                        onClick={() => setSearchApproach('any')}
+                      >
+                        <div className="radio-left">
+                          <div className={`radio-outer ${searchApproach === 'any' ? 'checked' : ''}`}>
+                            {searchApproach === 'any' && <div className="radio-inner" />}
+                          </div>
+                          <div>
+                            <strong className="approach-title">Search until any result found</strong>
+                            <p className="approach-desc">Stops at the first result regardless of verification status. Uses fewer credits.</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+                )}
+              </div>
+
+            </div>
+
+            {/* Footer */}
+            <div className="drawer-footer">
+              <button 
+                className="yellow-primary-btn drawer-save-btn"
+                onClick={() => {
+                  setIsAccessEmailDrawerOpen(false);
+                  showToast('Saved Waterfall email enrichment settings!');
+                }}
+              >
+                Save
+              </button>
+            </div>
+
+          </div>
+        </div>
+      )}
+
+      {/* ── SCHEDULE ENRICHMENT TEMPLATES MODAL (1:1 APOLLO MATCH - SCREENSHOTS 2, 3, 4, 5) ── */}
+      {isTemplatesModalOpen && (
+        <div className="templates-modal-overlay" onClick={() => setIsTemplatesModalOpen(false)}>
+          <div className="templates-modal-container" onClick={(e) => e.stopPropagation()}>
+            
+            {/* Modal Header */}
+            <div className="templates-modal-header">
+              <h2 className="templates-modal-title">Schedule enrichment templates</h2>
+              
+              <div className="templates-header-right">
+                <div className="templates-search-box">
+                  <Search size={15} color="#94a3b8" />
+                  <input 
+                    type="text" 
+                    placeholder="Search templates..."
+                    className="templates-search-input"
+                    value={templatesSearch}
+                    onChange={(e) => setTemplatesSearch(e.target.value)}
+                  />
+                </div>
+                <button 
+                  className="modal-close-btn"
+                  onClick={() => setIsTemplatesModalOpen(false)}
+                >
+                  <X size={18} />
+                </button>
+              </div>
+            </div>
+
+            {/* Modal Body: Left Sidebar + Main Content Grid */}
+            <div className="templates-modal-body">
+              
+              {/* Left Navigation Sidebar */}
+              <div className="templates-sidebar">
+                <div 
+                  className={`templates-sidebar-item ${templatesCategory === 'all' ? 'active' : ''}`}
+                  onClick={() => setTemplatesCategory('all')}
+                >
+                  <span>All templates</span>
+                  <div className="item-right-wrap">
+                    <span className="count-badge">5</span>
+                    <ChevronDown size={14} className="chevron-icon rotate-270" />
+                  </div>
+                </div>
+
+                <div 
+                  className={`templates-sidebar-item ${templatesCategory === 'missing_emails' ? 'active' : ''}`}
+                  onClick={() => setTemplatesCategory('missing_emails')}
+                >
+                  <span>Enrich Missing Emails</span>
+                  <div className="item-right-wrap">
+                    <span className="count-badge">3</span>
+                    <ChevronDown size={14} className="chevron-icon rotate-270" />
+                  </div>
+                </div>
+
+                <div 
+                  className={`templates-sidebar-item ${templatesCategory === 'job_changes' ? 'active' : ''}`}
+                  onClick={() => setTemplatesCategory('job_changes')}
+                >
+                  <span>Enrich Job Changes</span>
+                  <div className="item-right-wrap">
+                    <span className="count-badge">2</span>
+                    <ChevronDown size={14} className="chevron-icon rotate-270" />
+                  </div>
+                </div>
+              </div>
+
+              {/* Main Content Grid Area */}
+              <div className="templates-main-content">
+                <h3 className="templates-category-heading">
+                  {templatesCategory === 'all' ? 'All templates' : templatesCategory === 'missing_emails' ? 'Enrich Missing Emails' : 'Enrich Job Changes'}
+                </h3>
+
+                <div className="templates-cards-grid">
+                  
+                  {/* Card 1 */}
+                  {(templatesCategory === 'all' || templatesCategory === 'missing_emails') && (
+                    <div 
+                      className={`template-card-box ${selectedTemplateCardId === 1 ? 'selected' : ''}`}
+                      onClick={() => setSelectedTemplateCardId(1)}
+                    >
+                      <div className="template-badge-pill email-pill">
+                        <Mail size={13} />
+                        <span>Enrich Missing Emails</span>
+                      </div>
+                      <h4 className="template-card-title">Enrich Contacts Missing Emails</h4>
+                      <p className="template-card-desc">
+                        Enrich your contacts which are missing email and never lose the engagement opportunities
+                      </p>
+                      <button 
+                        className="template-try-btn"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setSelectedObject('contacts');
+                          setSelectedEnrichmentType('missing_emails');
+                          setIsTemplatesModalOpen(false);
+                          handleOpenWorkflowModal();
+                          showToast('Loaded "Enrich Contacts Missing Emails" template!');
+                        }}
+                      >
+                        Try it
+                      </button>
+                    </div>
+                  )}
+
+                  {/* Card 2 */}
+                  {(templatesCategory === 'all' || templatesCategory === 'missing_emails') && (
+                    <div 
+                      className={`template-card-box ${selectedTemplateCardId === 2 ? 'selected' : ''}`}
+                      onClick={() => setSelectedTemplateCardId(2)}
+                    >
+                      <div className="template-badge-pill email-pill">
+                        <Mail size={13} />
+                        <span>Enrich Missing Emails</span>
+                      </div>
+                      <h4 className="template-card-title">Enrich missing emails for Contacts in High Growth Companies</h4>
+                      <p className="template-card-desc">
+                        Enrich emails for contacts at fast-growing companies experiencing expansion
+                      </p>
+                      <button 
+                        className="template-try-btn"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setSelectedObject('contacts');
+                          setSelectedEnrichmentType('missing_emails');
+                          setIsTemplatesModalOpen(false);
+                          handleOpenWorkflowModal();
+                          showToast('Loaded "High Growth Companies" template!');
+                        }}
+                      >
+                        Try it
+                      </button>
+                    </div>
+                  )}
+
+                  {/* Card 3 */}
+                  {(templatesCategory === 'all' || templatesCategory === 'missing_emails') && (
+                    <div 
+                      className={`template-card-box ${selectedTemplateCardId === 3 ? 'selected' : ''}`}
+                      onClick={() => setSelectedTemplateCardId(3)}
+                    >
+                      <div className="template-badge-pill email-pill">
+                        <Mail size={13} />
+                        <span>Enrich Missing Emails</span>
+                      </div>
+                      <h4 className="template-card-title">Enrich missing Email for contacts in Recently Funded Companies</h4>
+                      <p className="template-card-desc">
+                        Enrich emails for contacts at recently funded companies, likely to have increased budgets and scaling needs
+                      </p>
+                      <button 
+                        className="template-try-btn"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setSelectedObject('contacts');
+                          setSelectedEnrichmentType('missing_emails');
+                          setIsTemplatesModalOpen(false);
+                          handleOpenWorkflowModal();
+                          showToast('Loaded "Recently Funded Companies" template!');
+                        }}
+                      >
+                        Try it
+                      </button>
+                    </div>
+                  )}
+
+                  {/* Card 4 */}
+                  {(templatesCategory === 'all' || templatesCategory === 'job_changes') && (
+                    <div 
+                      className={`template-card-box ${selectedTemplateCardId === 4 ? 'selected' : ''}`}
+                      onClick={() => setSelectedTemplateCardId(4)}
+                    >
+                      <div className="template-badge-pill job-pill">
+                        <Briefcase size={13} />
+                        <span>Enrich Job Changes</span>
+                      </div>
+                      <h4 className="template-card-title">Enrich Contacts having Job change</h4>
+                      <p className="template-card-desc">
+                        Enrich contacts who've recently changed jobs to keep your prospect list always up-to-date with the correct information
+                      </p>
+                      <button 
+                        className="template-try-btn locked"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          showToast('Upgrade required to use Job Changes templates');
+                        }}
+                      >
+                        <Lock size={13} />
+                        <span>Try it</span>
+                      </button>
+                    </div>
+                  )}
+
+                  {/* Card 5 */}
+                  {(templatesCategory === 'all' || templatesCategory === 'job_changes') && (
+                    <div 
+                      className={`template-card-box ${selectedTemplateCardId === 5 ? 'selected' : ''}`}
+                      onClick={() => setSelectedTemplateCardId(5)}
+                    >
+                      <div className="template-badge-pill job-pill">
+                        <Briefcase size={13} />
+                        <span>Enrich Job Changes</span>
+                      </div>
+                      <h4 className="template-card-title">Job Change enrichment for Former champion changed job</h4>
+                      <p className="template-card-desc">
+                        Enrich contacts who were previous champions and have moved to new companies, creating potential opportunities for your product or service in their new roles
+                      </p>
+                      <button 
+                        className="template-try-btn locked"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          showToast('Upgrade required to use Job Changes templates');
+                        }}
+                      >
+                        <Lock size={13} />
+                        <span>Try it</span>
+                      </button>
+                    </div>
+                  )}
+
+                </div>
+              </div>
+
+            </div>
+
+            {/* Modal Footer */}
+            <div className="templates-modal-footer">
+              <button 
+                className="modal-cancel-btn create-scratch-btn"
+                onClick={() => {
+                  setIsTemplatesModalOpen(false);
+                  handleOpenWorkflowModal();
+                }}
+              >
+                Create from scratch
+              </button>
+            </div>
+
+          </div>
+        </div>
+      )}
+
+      {/* ── REAL-TIME ENRICHMENT UPGRADE MODAL (1:1 APOLLO MATCH - SCREENSHOT 2) ── */}
+      {isRealtimeModalOpen && (
+        <div className="realtime-modal-overlay" onClick={() => setIsRealtimeModalOpen(false)}>
+          <div className="realtime-modal-container" onClick={(e) => e.stopPropagation()}>
+            
+            {/* Header Close Button */}
+            <button 
+              className="modal-close-btn realtime-close-btn"
+              onClick={() => setIsRealtimeModalOpen(false)}
+            >
+              <X size={18} />
+            </button>
+
+            {/* Magenta Graphic Banner */}
+            <div className="realtime-graphic-banner">
+              <Sparkles size={18} color="#fde047" className="banner-sparkle spark-top" />
+              <Sparkles size={14} color="#fde047" className="banner-sparkle spark-mid" />
+
+              {/* Mock UI Card */}
+              <div className="banner-mock-card">
+                {/* Contacts Row */}
+                <div className="mock-toggle-row">
+                  <span className="row-label">Contacts</span>
+                  <div className="mock-switch active">
+                    <div className="mock-switch-thumb" />
+                  </div>
+                  <div className="mock-avatar-chip">A</div>
+                </div>
+
+                <div className="mock-card-line" />
+
+                {/* Leads Row */}
+                <div className="mock-toggle-row">
+                  <span className="row-label">Leads</span>
+                  <div className="mock-switch inactive">
+                    <div className="mock-switch-thumb" />
+                  </div>
+                  <ChevronDown size={14} color="#94a3b8" />
+                </div>
+              </div>
+
+              {/* Big Yellow Lightning Badge */}
+              <div className="realtime-lightning-badge">
+                <div className="ray ray-1" />
+                <div className="ray ray-2" />
+                <div className="ray ray-3" />
+                <Zap size={34} color="#0f172a" fill="#0f172a" />
+              </div>
+            </div>
+
+            {/* Content Area */}
+            <div className="realtime-modal-content">
+              <h2 className="realtime-modal-title">
+                Looking for real-time enrichment of your CRM fields?
+              </h2>
+              <p className="realtime-modal-subtext">
+                Upgrade your plan for instant data updates!
+              </p>
+
+              <div className="realtime-checklist-section">
+                <p className="checklist-heading">Here's what you can do:</p>
+
+                <div className="realtime-checklist">
+                  <div className="check-item">
+                    <Zap size={16} color="#2563eb" className="check-icon" />
+                    <span>Auto-enrich new and existing records as they sync to Apollo</span>
+                  </div>
+
+                  <div className="check-item">
+                    <Sliders size={16} color="#2563eb" className="check-icon" />
+                    <span>Choose which specific objects to update in real-time</span>
+                  </div>
+
+                  <div className="check-item">
+                    <RefreshCw size={16} color="#2563eb" className="check-icon" />
+                    <span>Select fields to enrich and set to fill missing data or overwrite</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Footer Buttons */}
+            <div className="realtime-modal-footer">
+              <button 
+                className="modal-cancel-btn learn-more-outline-btn"
+                onClick={() => {
+                  showToast('Opening Real-Time Enrichment documentation...');
+                  setIsRealtimeModalOpen(false);
+                }}
+              >
+                Learn more
+              </button>
+
+              <button 
+                className="yellow-primary-btn view-pricing-btn"
+                onClick={() => {
+                  showToast('Opening Apollo Upgrade & Pricing Plans...');
+                  setIsRealtimeModalOpen(false);
+                }}
+              >
+                View pricing plans
+              </button>
+            </div>
+
+          </div>
+        </div>
+      )}
 
     </div>
   );

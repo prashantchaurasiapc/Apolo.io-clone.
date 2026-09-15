@@ -1016,8 +1016,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 9999;
-  padding: 20px;
+  z-index: 99999;
+  padding: 40px 20px;
   animation: fadeIn 0.15s ease;
 }
 
@@ -1031,7 +1031,7 @@
   border-radius: 14px;
   width: 100%;
   max-width: 680px;
-  max-height: 90vh;
+  max-height: calc(100vh - 80px);
   overflow-y: auto;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
   display: flex;

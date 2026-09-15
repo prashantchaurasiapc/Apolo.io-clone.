@@ -1,8 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import {
-  Phone, Plus, Search, SlidersHorizontal, ArrowUpDown, Settings, Info,
-  Check, X, Calendar, User, Mail, AlertCircle, Trash2, CheckCircle2,
-  Lock, LayoutGrid, ChevronDown, ChevronRight, Eye, ShieldCheck
+  Phone, Plus, Search, SlidersHorizontal, ArrowUpDown, Settings, Check, X, User, Mail, Trash2, Lock, LayoutGrid, ChevronDown, Eye
 } from 'lucide-react';
 
 const LinkedinIcon = ({ size = 14, color = '#0284c7' }) => (

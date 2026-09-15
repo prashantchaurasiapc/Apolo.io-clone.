@@ -10,12 +10,10 @@ import EmailsViewComponent from './emails/EmailsView';
 
 
 import { 
-  Users, Building2, List, Database, Send, Mail, Phone, CheckSquare, 
-  Calendar, MessageSquare, DollarSign, Wrench, BarChart3, Globe, 
-  FileText, Bookmark, ShieldCheck, Settings, Plus, Download, Sparkles,
-  ExternalLink, Filter, Search, CheckCircle2, TrendingUp, ArrowRight, Play, Eye,
-  HelpCircle, ChevronDown, ChevronUp, Lock, Activity, CreditCard, PackageCheck, Layers,
-  LayoutGrid, Info, Check, BookOpen, Zap
+  Building2, Database, Mail, CheckSquare, 
+  MessageSquare, Wrench, Globe, 
+  FileText, ShieldCheck, Plus, Sparkles,
+  Filter, Search, CheckCircle2, ArrowRight, Play, HelpCircle, ChevronDown, ChevronUp, Activity, PackageCheck, LayoutGrid, Info, Check, BookOpen, Zap
 } from 'lucide-react';
 import MeetingsView from './MeetingsView';
 import ConversationsView from './ConversationsView';
@@ -1153,7 +1151,7 @@ export const AdminPlanOverviewView = ({ showToast }) => {
   const [isUnlimitedActive, setIsUnlimitedActive] = useState(() => {
     try {
       return localStorage.getItem('apollo_unlimited_scraping') === 'true';
-    } catch (e) {
+    } catch  {
       return false;
     }
   });
@@ -1163,7 +1161,7 @@ export const AdminPlanOverviewView = ({ showToast }) => {
     setIsUnlimitedActive(true);
     try {
       localStorage.setItem('apollo_unlimited_scraping', 'true');
-    } catch (e) {}
+    } catch  {}
     showToast?.('Unlimited Scraping active for Super Admin!');
   };
 

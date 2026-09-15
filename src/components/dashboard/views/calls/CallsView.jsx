@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { 
   Phone, Check, Calendar, ChevronDown, Plus, Info, ExternalLink, 
-  MoreHorizontal, LayoutGrid, Search, X
+  MoreHorizontal, LayoutGrid, X
 } from 'lucide-react';
 import '../../css/calls-view.css';
 

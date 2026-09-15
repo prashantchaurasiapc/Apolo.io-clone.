@@ -1,8 +1,8 @@
 import React, { useState, useRef } from 'react';
 import { 
-  Layers, LayoutGrid, SlidersHorizontal, Search, ChevronDown, ChevronUp,
-  ArrowUpDown, Settings, Plus, Upload, X, DollarSign, Calendar, 
-  Building2, User, TrendingUp, BarChart3, CheckCircle2, Check,
+  Layers, SlidersHorizontal, Search, ChevronDown, ChevronUp,
+  ArrowUpDown, Settings, Plus, X, DollarSign, Calendar, 
+  Building2, User, TrendingUp, BarChart3, Check,
   GitFork, ListFilter, MapPin, Users, Briefcase, FileText, Filter,
   ChevronRight, Lock, ArrowUp, Download
 } from 'lucide-react';

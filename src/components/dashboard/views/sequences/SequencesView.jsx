@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import {
-  Plus, Play, Sparkles, ChevronDown, ChevronUp, AlertTriangle, X, Check,
-  Mail, Phone, Calendar, Send, Settings, ExternalLink, HelpCircle, Lock,
-  Users, Trash2, Eye, Download, Search, SlidersHorizontal, ArrowRight, Layers,
-  MoreHorizontal, FileSpreadsheet, ArrowUpDown, Filter
+  Plus, Play, Sparkles, ChevronDown, ChevronUp, AlertTriangle, X, Mail, Calendar, Send, ExternalLink, Lock,
+  Trash2, Download, Search, SlidersHorizontal, Layers,
+  MoreHorizontal, FileSpreadsheet, Filter
 } from 'lucide-react';
 
 import '../../css/sequences-view.css';

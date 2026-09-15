@@ -21,7 +21,7 @@ const fadeStyle = {
 
 // Inject keyframes once
 const styleSheet = document.createElement('style');
-styleSheet.textContent = `@keyframes pageFadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }`;
+styleSheet.textContent = `@keyframes pageFadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }`;
 document.head.appendChild(styleSheet);
 
 const NAV_HEIGHT = 72;
@@ -52,6 +52,8 @@ export const TAB_TO_HASH = {
   admin_activity: '#/app/admin/activity',
   admin_security: '#/app/admin/security',
   admin_plan: '#/app/admin/plan',
+  plans: '#/app/plans',
+  pricing_app: '#/app/plans',
   admin_integrations: '#/app/admin/integrations',
   admin_settings: '#/app/admin-settings',
 };
@@ -73,6 +75,10 @@ export const HASH_TO_TAB = {
   '#/meetings': 'meetings',
   '#/conversations': 'conversations',
   '#/deals': 'deals',
+  '#/app/plans': 'plans',
+  '#/plans': 'plans',
+  '#/app/pricing': 'plans',
+  '#/settings/plans': 'plans',
 };
 
 export default function App() {
@@ -94,7 +100,7 @@ export default function App() {
         setViewMode('signup');
       } else if (hash === '#/pricing') {
         setViewMode('pricing');
-      } else if (hash.startsWith('#/settings') || hash.startsWith('#/app/') || hash.startsWith('#/win/') || hash === '#/home' || hash === '#/deals' || hash === '#/meetings' || hash === '#/conversations' || hash === '#/dashboard') {
+      } else if (hash.startsWith('#/settings') || hash.startsWith('#/app/') || hash.startsWith('#/win/') || hash === '#/home' || hash === '#/deals' || hash === '#/meetings' || hash === '#/conversations' || hash === '#/dashboard' || hash === '#/plans') {
         setViewMode('dashboard');
         const matchedTab = HASH_TO_TAB[hash] || 'home';
         setActiveTab(matchedTab);

@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
 import {
-  ShieldCheck, AlertTriangle, CheckCircle2, RefreshCw, Globe,
-  Lock, Activity, TrendingUp, Flame, Radio, Sliders, Play, Pause,
-  ChevronRight, ExternalLink, HelpCircle, Check, X, Sparkles,
-  Mail, AlertCircle, ArrowUpRight, Zap
+  ShieldCheck, CheckCircle2, RefreshCw, Lock, Activity, TrendingUp, Flame, Sliders, Play, Pause,
+  ExternalLink, HelpCircle, Check, X, Mail, ArrowUpRight
 } from 'lucide-react';
 import './EmailDeliverabilitySuite.css';
 

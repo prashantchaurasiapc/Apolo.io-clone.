@@ -8,11 +8,9 @@ import {
   ExternalLink,
   MoreHorizontal,
   X,
-  Lock,
   Unlock,
   Bell,
-  CreditCard,
-  CheckCircle2
+  CreditCard
 } from 'lucide-react';
 import './AnalyticsView.css';
 

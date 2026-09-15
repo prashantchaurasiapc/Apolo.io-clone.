@@ -2,9 +2,7 @@ import React from 'react';
 import { 
   CheckCircle2, 
   Sparkles, 
-  Bot, 
   Zap, 
-  Layers, 
   RefreshCw, 
   ShieldCheck, 
   Globe2 

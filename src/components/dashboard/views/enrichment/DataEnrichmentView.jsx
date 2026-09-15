@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { 
-  ChevronDown, Plus, Upload, Database, RefreshCw, Layers, CheckCircle2, 
+  ChevronDown, Plus, Upload, RefreshCw, Layers, CheckCircle2, 
   Sparkles, FileSpreadsheet, Lock, HelpCircle, ExternalLink, Zap, Settings,
-  AlertCircle, ArrowRight, ShieldCheck, Check, Users, Search, Sliders,
-  Filter, Bell, Mail, UserCheck, Briefcase, Building2, TrendingUp, Copy,
-  X, Clock, History, ArrowLeft, Target, Navigation, User, Calendar
+  ArrowRight, Check, Users, Search, Sliders,
+  Bell, Mail, UserCheck, Briefcase, TrendingUp, Copy,
+  X, History, ArrowLeft, Target, Navigation, User, Calendar
 } from 'lucide-react';
 
 import '../../css/enrichment-view.css';

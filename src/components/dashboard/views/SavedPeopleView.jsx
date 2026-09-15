@@ -19,13 +19,11 @@ import {
   User,
   X,
   LayoutGrid,
-  FileText,
   MoreHorizontal,
   Layers,
   List,
   Bell,
   Download,
-  Code,
   Upload,
   HelpCircle
 } from 'lucide-react';

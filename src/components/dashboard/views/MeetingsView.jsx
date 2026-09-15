@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { 
   AlertTriangle, ChevronLeft, ChevronRight, ChevronDown, 
   Search, SlidersHorizontal, ArrowUpDown, Sparkles, Settings, 
-  Check, X, Calendar as CalendarIcon, ExternalLink, Shield
+  X, ExternalLink
 } from 'lucide-react';
 import './MeetingsView.css';
 

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { 
   ArrowLeft, Search, ChevronDown, ChevronUp, ExternalLink, 
-  UserPlus, HelpCircle, Compass, Rocket, BookOpen, MessageSquare, 
+  UserPlus, Compass, BookOpen, MessageSquare, 
   FileQuestion, Lightbulb, X
 } from 'lucide-react';
 import './SettingsLayout.css';

@@ -2,6 +2,7 @@ import React, { useState, useRef } from 'react';
 import './Pricing.css';
 import FAQAccordion from './FAQAccordion';
 import SuperAdminScraperPaymentModal from './dashboard/ai/SuperAdminScraperPaymentModal';
+import ApolloAIChatWidget from './ApolloAIChatWidget';
 
 /* ---- SVG helpers ---- */
 const CheckIcon = () => (
@@ -467,7 +468,7 @@ export default function Pricing({ onBack }) {
   const [unlimitedScrapingActive, setUnlimitedScrapingActive] = useState(() => {
     try {
       return localStorage.getItem('apollo_unlimited_scraping') === 'true';
-    } catch (e) {
+    } catch  {
       return false;
     }
   });
@@ -488,28 +489,23 @@ export default function Pricing({ onBack }) {
           <p className="pricing-top-subtitle">
             Build pipeline smarter, close deals faster, and unify your tech stack with an AI-powered platform.
           </p>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-            <div className="billing-pill">
+          <div className="billing-pill">
+            <div className="billing-opt-wrap">
               <button
                 className={`billing-opt${annual ? ' active' : ''}`}
                 onClick={() => setAnnual(true)}
               >
                 Annual billing
               </button>
-              <button
-                className={`billing-opt${!annual ? ' active' : ''}`}
-                onClick={() => setAnnual(false)}
-              >
-                Monthly billing
-              </button>
-            </div>
-          </div>
-          {annual && (
-            <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 11.5, color: '#666' }}>
               <span className="billing-save-tag">SAVE 24%</span>
-              <span>vs monthly billing</span>
             </div>
-          )}
+            <button
+              className={`billing-opt${!annual ? ' active' : ''}`}
+              onClick={() => setAnnual(false)}
+            >
+              Monthly billing
+            </button>
+          </div>
         </div>
       </div>
 
@@ -923,65 +919,77 @@ export default function Pricing({ onBack }) {
                 Credits give you access to emails, phone numbers, and enriched data, helping you connect with prospects and enhance your CRM.
               </p>
               <button className="credits-cta-btn">
-                Need more credits?
+                Calculate my credit needs
               </button>
             </div>
 
             <div className="pricing-credits-coin-wrap">
-              {/* 3D Coin */}
-              <div style={{ position: 'relative', width: 90, height: 90 }}>
-                {/* Back Edge */}
-                <div style={{ position: 'absolute', top: 0, left: 16, width: 74, height: 90, background: '#111', borderRadius: '50%', transform: 'scaleX(0.8)' }}></div>
-                
-                {/* Side ridges (yellow) */}
-                <div style={{ position: 'absolute', top: 3, left: 28, width: 60, height: 84, background: '#fcf64a', borderRadius: '50%', transform: 'scaleX(0.8)' }}></div>
-                <div style={{ position: 'absolute', top: 3, left: 38, width: 60, height: 84, background: '#111', borderRadius: '50%', transform: 'scaleX(0.8)' }}></div>
-                <div style={{ position: 'absolute', top: 3, left: 48, width: 60, height: 84, background: '#fcf64a', borderRadius: '50%', transform: 'scaleX(0.8)' }}></div>
-                <div style={{ position: 'absolute', top: 0, left: 58, width: 74, height: 90, background: '#111', borderRadius: '50%', transform: 'scaleX(0.8)' }}></div>
-
-                {/* Front Face */}
-                <div style={{ position: 'absolute', top: 0, left: 0, width: 74, height: 90, background: '#fcf64a', border: '2px solid #111', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 2 }}>
-                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M12 2L13.5 9L20 12L13.5 15L12 22L10.5 15L4 12L10.5 9L12 2Z" stroke="#111" strokeWidth="2" strokeLinejoin="round"/>
-                  </svg>
-                </div>
-              </div>
+              {/* Authentic 3D Apollo Coin */}
+              <svg width="104" height="144" viewBox="0 0 90 124" fill="none" xmlns="http://www.w3.org/2000/svg">
+                {/* 3D Black Extrusion Back */}
+                <path d="M42 4 C66 4 82 28 82 62 C82 96 66 120 42 120 L54 120 C78 120 88 96 88 62 C88 28 78 4 54 4 Z" fill="#111" />
+                {/* 3D Rim Ridges */}
+                <path d="M42 5 C64 5 80 28 80 61 C80 94 64 119 42 119 L52 119 C74 119 86 94 86 61 C86 28 74 5 52 5 Z" fill="#f4fa34" />
+                <path d="M50 10 L80 20 M52 28 L82 36 M54 46 L84 52 M54 62 L84 66 M54 78 L84 82 M52 94 L82 96 M50 108 L80 106" stroke="#111" strokeWidth="2.5" strokeLinecap="round" />
+                {/* Coin Front Face */}
+                <ellipse cx="42" cy="62" rx="38" ry="58" fill="#f4fa34" stroke="#111" strokeWidth="2.5" />
+                {/* Coin Front Center Star */}
+                <path d="M42 38 C42 52 33 62 20 62 C33 62 42 72 42 86 C42 72 51 62 64 62 C51 62 42 52 42 38 Z" fill="none" stroke="#111" strokeWidth="2" strokeLinejoin="round" />
+              </svg>
             </div>
 
             <div className="pricing-credits-right">
               {/* Connecting lines desktop */}
-              <svg className="credits-connector-lines" fill="none">
-                 <path d="M0,50% L30,50% L30,8.3% L100,8.3%" stroke="#aaa" strokeWidth="1" strokeDasharray="2 2" />
-                 <path d="M0,50% L30,50% L30,25% L100,25%" stroke="#aaa" strokeWidth="1" strokeDasharray="2 2" />
-                 <path d="M0,50% L30,50% L30,41.6% L100,41.6%" stroke="#aaa" strokeWidth="1" strokeDasharray="2 2" />
-                 <path d="M0,50% L100,50%" stroke="#aaa" strokeWidth="1" strokeDasharray="2 2" />
-                 <path d="M0,50% L30,50% L30,75% L100,75%" stroke="#aaa" strokeWidth="1" strokeDasharray="2 2" />
-                 <path d="M0,50% L30,50% L30,91.6% L100,91.6%" stroke="#aaa" strokeWidth="1" strokeDasharray="2 2" />
-                 {/* Dot nodes on the right */}
-                 <circle cx="97" cy="8.3%" r="2" fill="#aaa" />
-                 <circle cx="97" cy="25%" r="2" fill="#aaa" />
-                 <circle cx="97" cy="41.6%" r="2" fill="#aaa" />
-                 <circle cx="97" cy="50%" r="2" fill="#aaa" />
-                 <circle cx="97" cy="75%" r="2" fill="#aaa" />
-                 <circle cx="97" cy="91.6%" r="2" fill="#aaa" />
+              <svg className="credits-connector-lines" viewBox="0 0 32 360" preserveAspectRatio="none" fill="none">
+                <line x1="0" y1="180" x2="16" y2="180" stroke="#a3a3a3" strokeWidth="1.2" strokeDasharray="2.5 2.5" />
+                <line x1="16" y1="28" x2="16" y2="332" stroke="#a3a3a3" strokeWidth="1.2" strokeDasharray="2.5 2.5" />
+                <line x1="16" y1="28" x2="28" y2="28" stroke="#a3a3a3" strokeWidth="1.2" strokeDasharray="2.5 2.5" />
+                <line x1="16" y1="88" x2="28" y2="88" stroke="#a3a3a3" strokeWidth="1.2" strokeDasharray="2.5 2.5" />
+                <line x1="16" y1="148" x2="28" y2="148" stroke="#a3a3a3" strokeWidth="1.2" strokeDasharray="2.5 2.5" />
+                <line x1="16" y1="212" x2="28" y2="212" stroke="#a3a3a3" strokeWidth="1.2" strokeDasharray="2.5 2.5" />
+                <line x1="16" y1="272" x2="28" y2="272" stroke="#a3a3a3" strokeWidth="1.2" strokeDasharray="2.5 2.5" />
+                <line x1="16" y1="332" x2="28" y2="332" stroke="#a3a3a3" strokeWidth="1.2" strokeDasharray="2.5 2.5" />
+                <circle cx="30" cy="28" r="2.5" fill="#666" />
+                <circle cx="30" cy="88" r="2.5" fill="#666" />
+                <circle cx="30" cy="148" r="2.5" fill="#666" />
+                <circle cx="30" cy="212" r="2.5" fill="#666" />
+                <circle cx="30" cy="272" r="2.5" fill="#666" />
+                <circle cx="30" cy="332" r="2.5" fill="#666" />
               </svg>
 
               <div className="credits-cards-list">
                 {[
-                  { icon: <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>, name: 'Email', pill: '1 credit', desc: 'Access verified emails to connect with the right prospects.' },
-                  { icon: <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>, name: 'Phone number', pill: '8 credits', desc: 'Access verified phone numbers and directly connect with your prospects.' },
-                  { icon: <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 12a9 9 0 0 1-9 9m9-9a9 9 0 0 0-9-9m9 9H3m9 9a9 9 0 0 1-9-9m9 9c1.66 0 3-4.03 3-9s-1.34-9-3-9m0 18c-1.66 0-3-4.03-3-9s1.34-9 3-9m-9 9a9 9 0 0 1 9-9"></path></svg>, name: 'Enrich data', pill: '1-8 credits', desc: 'Enhance your contact and company profiles with enriched data for better targeting.' },
-                  { icon: <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>, name: 'AI research', pill: '1 credit per run', desc: 'Get insights with AI: identify prospects\' pain points, engage contacts, and refine filters.' },
-                  { icon: <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path><path d="M14.05 2a9 9 0 0 1 8 7.94"></path><path d="M14.05 6A5 5 0 0 1 18 10"></path></svg>, name: 'US Dialer', pill: '2 credits per minute', desc: 'Connect with prospects faster through real-time, high-quality calling.' },
-                  { icon: <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>, name: 'International Dialer', pill: 'Varies by region', desc: 'Reach global leads with seamless international calling.' },
+                  { icon: <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>, name: 'Email', pill: '1 credit', desc: 'Access verified emails to connect with the right prospects.' },
+                  { icon: <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>, name: 'Phone number', pill: '8 credits', desc: 'Access verified phone numbers and directly connect with your prospects.' },
+                  { icon: <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 12a9 9 0 0 1-9 9m9-9a9 9 0 0 0-9-9m9 9H3m9 9a9 9 0 0 1-9-9m9 9c1.66 0 3-4.03 3-9s-1.34-9-3-9m0 18c-1.66 0-3-4.03-3-9s1.34-9 3-9m-9 9a9 9 0 0 1 9-9"></path></svg>, name: 'Enrich data', pill: '1-8 credits', desc: 'Enhance your contact and company profiles with enriched data for better targeting.' },
+                  { icon: <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>, name: 'AI research', pill: '1 credit per run', desc: 'Get insights with AI: identify prospects\' pain points, engage contacts, and refine filters.' },
+                  { icon: <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path><path d="M14.05 2a9 9 0 0 1 8 7.94"></path><path d="M14.05 6A5 5 0 0 1 18 10"></path></svg>, name: 'US Dialer', pill: '2 credits per minute', desc: 'Connect with prospects faster through real-time, high-quality calling.' },
+                  { icon: <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>, name: 'International Dialer', pill: 'Varies by region', desc: 'Reach global leads with seamless international calling.' },
                 ].map((item, i) => (
                   <div key={i} className="credits-feature-card">
                     <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                      <span style={{ color: '#555', display: 'flex' }}>{item.icon}</span>
-                      <span style={{ fontSize: '14px', fontWeight: 600, color: '#111' }}>{item.name}</span>
-                      <span style={{ fontSize: '10px', fontWeight: 600, background: '#e5e5e5', color: '#555', padding: '2px 8px', borderRadius: '12px', letterSpacing: '0.02em' }}>{item.pill}</span>
+                      <span style={{ color: '#222', display: 'flex', alignItems: 'center' }}>{item.icon}</span>
+                      <span style={{ fontSize: '14.5px', fontWeight: 600, color: '#111' }}>{item.name}</span>
+                      <span style={{
+                        fontSize: '11px',
+                        fontWeight: 500,
+                        background: '#e8e8e6',
+                        color: '#333',
+                        padding: '2px 9px',
+                        borderRadius: '12px',
+                        letterSpacing: '0.01em',
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: 5
+                      }}>
+                        <svg width="10" height="10" viewBox="0 0 16 16" fill="none" style={{ flexShrink: 0 }}>
+                          <ellipse cx="8" cy="8" rx="6" ry="6" fill="#f4fa34" stroke="#111" strokeWidth="1.4"/>
+                          <path d="M8 5C8 6.8 6.8 8 5 8C6.8 8 8 9.2 8 11C8 9.2 9.2 8 11 8C9.2 8 8 6.8 8 5Z" fill="#111"/>
+                        </svg>
+                        {item.pill}
+                      </span>
                     </div>
-                    <div style={{ fontSize: '12.5px', color: '#666', paddingLeft: 24 }}>{item.desc}</div>
+                    <div style={{ fontSize: '12.5px', color: '#555', paddingLeft: 25, marginTop: 2, lineHeight: 1.4 }}>{item.desc}</div>
                   </div>
                 ))}
               </div>
@@ -1078,10 +1086,13 @@ export default function Pricing({ onBack }) {
           setUnlimitedScrapingActive(true);
           try {
             localStorage.setItem('apollo_unlimited_scraping', 'true');
-          } catch (e) {}
+          } catch  {}
         }}
         initialBillingCycle={annual ? 'annual' : 'monthly'}
       />
+
+      {/* Floating Apollo AI Corner Widget (Exact replica from original Apollo site) */}
+      <ApolloAIChatWidget />
     </div>
   );
 }

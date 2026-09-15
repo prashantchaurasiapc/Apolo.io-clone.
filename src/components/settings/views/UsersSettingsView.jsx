@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { 
   UserPlus, SlidersHorizontal, Search, ArrowUpDown, 
   ChevronLeft, ChevronRight, ChevronDown, Edit2, MoreHorizontal,
-  Download, Check, Trash2, Shield, RefreshCw
+  Check, Trash2, Shield, RefreshCw
 } from 'lucide-react';
 import InviteUserModal from '../modals/InviteUserModal';
 import EditCreditModal from '../modals/EditCreditModal';

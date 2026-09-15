@@ -274,13 +274,128 @@
   animation: dropdownFade 0.15s ease-out;
 }
 
-.dash-notifications-dropdown { position: absolute; top: 48px; right: 54px; width: 290px; padding: 8px; color: #1e293b; background: #fff; border: 1px solid #e2e8f0; border-radius: 12px; box-shadow: 0 16px 36px rgba(15,23,42,.14); z-index: 300; animation: dropdownFade .15s ease-out; }
-.dash-popover-heading { display: flex; align-items: center; justify-content: space-between; padding: 7px 8px 9px; font-size: 14px; }
-.dash-popover-heading button { display: grid; width: 26px; height: 26px; place-items: center; color: #64748b; background: transparent; border: 0; border-radius: 6px; cursor: pointer; }
-.dash-popover-heading button:hover { color: #0f172a; background: #f1f5f9; }
-.dash-notification-item { display: flex; align-items: center; gap: 9px; width: 100%; padding: 10px 8px; color: #475569; background: transparent; border: 0; border-radius: 7px; font: 13px/1.4 'Inter', sans-serif; text-align: left; cursor: pointer; }
-.dash-notification-item:hover { color: #0f172a; background: #f8fafc; }
-.dash-notification-dot { width: 7px; height: 7px; flex: 0 0 auto; background: #6366f1; border-radius: 999px; }
+.dash-notifications-dropdown {
+  position: absolute;
+  top: 48px;
+  right: 54px;
+  width: 360px;
+  min-height: 440px;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  z-index: 300;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: dropdownFade 0.15s ease-out;
+}
+
+.notif-dropdown-header {
+  height: 48px;
+  border-bottom: 1px solid #f1f5f9;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 12px 0 16px;
+  background: #ffffff;
+}
+
+.notif-dropdown-tabs {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  height: 100%;
+}
+
+.notif-dropdown-tab {
+  background: transparent;
+  border: none;
+  font-size: 14px;
+  font-weight: 500;
+  color: #64748b;
+  cursor: pointer;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  padding: 0 2px;
+  position: relative;
+  transition: color 0.12s ease;
+}
+
+.notif-dropdown-tab:hover {
+  color: #0f172a;
+}
+
+.notif-dropdown-tab.active {
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.notif-dropdown-tab.active::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2.5px;
+  background: #0f172a;
+  border-radius: 2px 2px 0 0;
+}
+
+.notif-dropdown-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.notif-action-icon-btn {
+  width: 26px;
+  height: 26px;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  background: #ffffff;
+  color: #64748b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.12s ease;
+}
+
+.notif-action-icon-btn:hover {
+  background: #f8fafc;
+  color: #0f172a;
+  border-color: #cbd5e1;
+}
+
+.notif-dropdown-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 50px 20px;
+  background: #ffffff;
+}
+
+.notif-dropdown-body.activities-empty {
+  min-height: 380px;
+}
+
+.notif-empty-state-graphic {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.notif-empty-state-title {
+  font-size: 16.5px;
+  font-weight: 600;
+  color: #1e293b;
+  margin-top: 24px;
+  text-align: center;
+}
 
 @keyframes dropdownFade {
   from { opacity: 0; transform: translateY(-8px); }

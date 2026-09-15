@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import {
-  User, Building2, HelpCircle, Info, Plus, Search, Trash2, MoreVertical,
-  Download, ExternalLink, FileSpreadsheet, Check, X, ChevronRight, ChevronDown,
-  Lock, Users, Sparkles, Filter, ArrowLeft
+  User, Building2, Info, Plus, Search, Trash2, Download, FileSpreadsheet, X, ChevronDown,
+  Lock, Sparkles, ArrowLeft
 } from 'lucide-react';
 
 import '../../css/lists-view.css';

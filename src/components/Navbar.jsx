@@ -2,23 +2,15 @@ import React, { useState, useEffect, useRef } from 'react';
 import ApolloLogo from './ApolloLogo';
 import { 
   ChevronDown, 
-  Send, 
   Target, 
-  Database, 
   PieChart, 
   Menu, 
   X,
-  BookOpen,
   Calendar,
-  Layers,
   FileText,
-  Video,
   HelpCircle,
-  Users,
   Briefcase,
-  TrendingUp,
   Sparkles,
-  Zap,
   Bot
 } from 'lucide-react';
 import './Navbar.css';

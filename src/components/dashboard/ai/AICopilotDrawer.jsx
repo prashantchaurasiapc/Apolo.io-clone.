@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { 
   Sparkles, X, Send, Copy, Check, MessageSquare, Mail, 
-  FileText, Zap, ShieldCheck, Flame, ArrowRight, RefreshCw, 
-  User, Building2, TrendingUp, CheckCircle2 
+  Zap, Flame, RefreshCw, 
+  Building2, CheckCircle2 
 } from 'lucide-react';
 import './AICopilotDrawer.css';
 

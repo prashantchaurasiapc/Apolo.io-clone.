@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { 
-  Search, Bell, ChevronDown, Settings, LogOut, CheckCircle2, Menu, X
+  Search, Bell, ChevronDown, Settings, LogOut, CheckCircle2, Menu, X, RotateCcw
 } from 'lucide-react';
 import Sidebar from './dashboard/Sidebar';
 import SettingsLayout from './settings/SettingsLayout';
@@ -15,6 +15,7 @@ import {
 } from './dashboard/views/ViewContainer';
 import LeadScraperView from './dashboard/views/scraper/LeadScraperView';
 import AICopilotDrawer from './dashboard/ai/AICopilotDrawer';
+import Pricing from './Pricing';
 import './Dashboard.css';
 
 /* ─── Apollo Star Icon SVG ─── */
@@ -33,6 +34,7 @@ export default function Dashboard({ user, activeTab = 'home', onSelectTab, onLog
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
+  const [notifTab, setNotifTab] = useState('activities'); // 'activities' | 'notifications'
   const [copilotOpen, setCopilotOpen] = useState(false);
   const searchInputRef = useRef(null);
   const headerMenusRef = useRef(null);
@@ -101,9 +103,9 @@ export default function Dashboard({ user, activeTab = 'home', onSelectTab, onLog
       case 'ai_assistant':
         return <AIAssistantView showToast={showToast} />;
       case 'prospect_people':
-        return <ProspectPeopleView sampleLeads={sampleLeads} showToast={showToast} />;
+        return <ProspectPeopleView sampleLeads={sampleLeads} showToast={showToast} onSelectTab={onSelectTab} />;
       case 'prospect_companies':
-        return <ProspectCompaniesView showToast={showToast} />;
+        return <ProspectCompaniesView showToast={showToast} onSelectTab={onSelectTab} />;
       case 'prospect_scraper':
         return <LeadScraperView showToast={showToast} />;
       case 'lists':
@@ -144,8 +146,14 @@ export default function Dashboard({ user, activeTab = 'home', onSelectTab, onLog
         return <AdminSystemActivityView showToast={showToast} />;
       case 'admin_security':
         return <AdminSecurityView showToast={showToast} />;
+      case 'plans':
+      case 'pricing':
       case 'admin_plan':
-        return <AdminPlanOverviewView showToast={showToast} />;
+        return (
+          <div className="dashboard-pricing-view" style={{ width: '100%', height: '100%', overflowY: 'auto', background: '#ffffff' }}>
+            <Pricing onBack={() => onSelectTab('prospect_people')} />
+          </div>
+        );
       case 'admin_integrations':
         return <AdminIntegrationsView showToast={showToast} />;
       case 'admin_settings':
@@ -248,10 +256,83 @@ export default function Dashboard({ user, activeTab = 'home', onSelectTab, onLog
             </button>
 
             {showNotifications && (
-              <div className="dash-notifications-dropdown" role="status">
-                <div className="dash-popover-heading"><strong>Notifications</strong><button type="button" onClick={() => setShowNotifications(false)} aria-label="Close notifications"><X size={15} /></button></div>
-                <button type="button" className="dash-notification-item" onClick={() => { showToast('Your email health report is ready'); setShowNotifications(false); }}><span className="dash-notification-dot" />Your email health report is ready</button>
-                <button type="button" className="dash-notification-item" onClick={() => { onSelectTab('tasks'); setShowNotifications(false); }}>3 tasks need your attention</button>
+              <div className="dash-notifications-dropdown" role="status" onClick={(e) => e.stopPropagation()}>
+                {/* Header Row with Tabs and Action Buttons (Matches Screenshots 1:1) */}
+                <div className="notif-dropdown-header">
+                  <div className="notif-dropdown-tabs">
+                    <button 
+                      className={`notif-dropdown-tab ${notifTab === 'activities' ? 'active' : ''}`}
+                      onClick={() => setNotifTab('activities')}
+                    >
+                      Activities
+                    </button>
+                    <button 
+                      className={`notif-dropdown-tab ${notifTab === 'notifications' ? 'active' : ''}`}
+                      onClick={() => setNotifTab('notifications')}
+                    >
+                      Notifications
+                    </button>
+                  </div>
+
+                  <div className="notif-dropdown-actions">
+                    {notifTab === 'activities' && (
+                      <button 
+                        className="notif-action-icon-btn" 
+                        title="Refresh Activities"
+                        onClick={() => showToast('Refreshed activities')}
+                      >
+                        <RotateCcw size={13} />
+                      </button>
+                    )}
+                    <button 
+                      className="notif-action-icon-btn" 
+                      title="Close"
+                      onClick={() => setShowNotifications(false)}
+                    >
+                      <X size={14} />
+                    </button>
+                  </div>
+                </div>
+
+                {/* Tab Content */}
+                {notifTab === 'activities' ? (
+                  <div className="notif-dropdown-body activities-empty">
+                    {/* Clean canvas for activities as shown in screenshot 1 */}
+                  </div>
+                ) : (
+                  <div className="notif-dropdown-body">
+                    {/* 1:1 Magnifying Glass with Heartbeat Pulse & Red 0 Badge */}
+                    <div className="notif-empty-state-graphic">
+                      <svg width="140" height="140" viewBox="0 0 140 140" fill="none">
+                        {/* Radiating Action Lines */}
+                        <line x1="76" y1="28" x2="80" y2="18" stroke="#1e293b" strokeWidth="2" strokeLinecap="round" />
+                        <line x1="90" y1="36" x2="100" y2="28" stroke="#1e293b" strokeWidth="2" strokeLinecap="round" />
+                        <line x1="98" y1="48" x2="110" y2="48" stroke="#1e293b" strokeWidth="2" strokeLinecap="round" />
+
+                        {/* Magnifying Glass Frame */}
+                        <circle cx="65" cy="65" r="32" stroke="#bfdbfe" strokeWidth="7" fill="#ffffff" />
+                        
+                        {/* Pulse / Heartbeat Line inside Glass */}
+                        <path 
+                          d="M45 65 H53 L58 58 L63 72 L68 62 L73 67 H85" 
+                          stroke="#2563eb" 
+                          strokeWidth="2.5" 
+                          strokeLinecap="round" 
+                          strokeLinejoin="round" 
+                        />
+
+                        {/* Handle */}
+                        <line x1="88" y1="88" x2="108" y2="108" stroke="#2563eb" strokeWidth="10" strokeLinecap="round" />
+
+                        {/* Red 0 Badge */}
+                        <circle cx="82" cy="38" r="14" fill="#ef4444" />
+                        <text x="82" y="43" textAnchor="middle" fill="#ffffff" fontSize="14" fontWeight="bold" fontFamily="sans-serif">0</text>
+                      </svg>
+                    </div>
+
+                    <div className="notif-empty-state-title">No Notifications</div>
+                  </div>
+                )}
               </div>
             )}
 

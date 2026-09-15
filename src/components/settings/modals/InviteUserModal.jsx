@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { X, UserPlus, Info } from 'lucide-react';
+import { X, UserPlus } from 'lucide-react';
 
 export default function InviteUserModal({ isOpen, onClose, onInvite }) {
   const [emails, setEmails] = useState('');

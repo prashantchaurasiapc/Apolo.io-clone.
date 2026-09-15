@@ -18,8 +18,8 @@
   grid-template-columns: 1fr auto;
   align-items: start;
   gap: 32px;
-  padding: 56px 60px 0;
-  max-width: 1280px;
+  padding: 56px 32px 0;
+  max-width: 1440px;
   margin: 0 auto;
 }
 
@@ -29,7 +29,7 @@
   line-height: 1.12;
   color: #0f0f0f;
   letter-spacing: -0.02em;
-  max-width: 480px;
+  max-width: 580px;
 }
 
 .pricing-top-right {
@@ -57,77 +57,99 @@
 
 .billing-pill {
   display: inline-flex;
-  background: #f0f0f0;
-  border-radius: 20px;
+  align-items: center;
+  background: #ffffff;
+  border: 1px solid #d2d0cc;
+  border-radius: 9999px;
   padding: 3px;
-  gap: 2px;
+  position: relative;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+
+.billing-opt-wrap {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .billing-opt {
-  padding: 6px 16px;
-  font-size: 12.5px;
+  padding: 8px 18px;
+  font-size: 13px;
   font-weight: 600;
   border: none;
-  border-radius: 16px;
+  border-radius: 9999px;
   cursor: pointer;
   background: transparent;
-  color: #666;
-  transition: all 0.18s;
+  color: #737373;
+  transition: all 0.18s ease;
   white-space: nowrap;
 }
 
+.billing-opt:hover:not(.active) {
+  color: #111;
+}
+
 .billing-opt.active {
-  background: #111;
-  color: #fff;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+  background: #000000;
+  color: #ffffff;
+  box-shadow: none;
 }
 
 .billing-save-tag {
-  background: #d4f7b0;
-  color: #2a5c00;
-  font-size: 10px;
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #e2fc00;
+  color: #000000;
+  font-size: 9.5px;
   font-weight: 800;
-  padding: 3px 8px;
-  border-radius: 10px;
+  padding: 2.5px 7px;
+  border-radius: 4px;
   text-transform: uppercase;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+  line-height: 1.2;
+  pointer-events: none;
+  z-index: 5;
 }
 
 /* =======================
    PLAN COLUMNS
 ======================= */
 .pricing-plans-wrap {
-  padding: 36px 60px 0;
-  max-width: 1280px;
+  padding: 36px 32px 0;
+  max-width: 1440px;
   margin: 0 auto;
 }
 
 .pricing-cols {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  border: 1px solid #e0e0e0;
-  border-radius: 0;
+  border: none;
   overflow: visible;
   position: relative;
 }
 
 .plan-col {
   padding: 24px 20px 20px;
-  border-right: 1px solid #e0e0e0;
+  border: none;
   position: relative;
   background: #fff;
   display: flex;
   flex-direction: column;
 }
 
-.plan-col:last-child {
-  border-right: none;
+/* Single vertical divider between Free and Basic */
+.plan-col:first-child {
+  border-right: 1px solid #e0e0e2;
 }
 
 /* Professional popular highlight */
 .plan-col.is-popular {
   border: 1.5px solid #c7cc43;
-  margin: -1px;
+  margin: 0;
   z-index: 2;
   border-radius: 8px;
   background: #fffff7;
@@ -369,7 +391,6 @@
   font-weight: 500;
   cursor: pointer;
   padding: 12px 0 4px;
-  border-top: 1px solid #ebebeb;
   margin-top: 16px;
   text-decoration: none;
 }
@@ -382,7 +403,7 @@
   font-size: 11.5px;
   color: #999;
   padding: 20px 0 32px;
-  max-width: 1280px;
+  max-width: 1440px;
   margin: 0 auto;
 }
 
@@ -396,8 +417,8 @@
 
 /* ADD MORE POWER TO YOUR WORKFLOW */
 .pricing-addon-section {
-  padding: 72px 60px 40px;
-  max-width: 1280px;
+  padding: 72px 32px 40px;
+  max-width: 1440px;
   margin: 0 auto;
 }
 
@@ -574,7 +595,7 @@
   background: #f5f5f0;
   border-top: 1px solid #e5e5e0;
   border-bottom: 1px solid #e5e5e0;
-  padding: 32px 60px 36px;
+  padding: 32px 32px 36px;
   text-align: center;
 }
 
@@ -612,8 +633,8 @@
 
 /* COMPARE */
 .pricing-compare-section {
-  padding: 60px 60px 64px;
-  max-width: 1280px;
+  padding: 60px 32px 64px;
+  max-width: 1440px;
   margin: 0 auto;
   position: relative;
   overflow: visible;
@@ -640,10 +661,10 @@
   z-index: 20;
   background: #fff;
   padding-top: 16px;
-  margin-left: -60px;
-  margin-right: -60px;
-  padding-left: 60px;
-  padding-right: 60px;
+  margin-left: -32px;
+  margin-right: -32px;
+  padding-left: 32px;
+  padding-right: 32px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.06);
 }
 
@@ -955,9 +976,9 @@
    AWARDS BANNER
 ======================= */
 .pricing-awards-banner {
-  max-width: 1280px;
+  max-width: 1440px;
   margin: 40px auto 60px;
-  padding: 0 60px;
+  padding: 0 32px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -1001,12 +1022,12 @@
 }
 
 .pricing-credits-container {
-  max-width: 1200px;
+  max-width: 1440px;
   margin: 0 auto;
   display: flex;
   align-items: center;
-  gap: 40px;
-  padding: 0 60px;
+  gap: 56px;
+  padding: 0 32px;
 }
 
 .pricing-credits-left {
@@ -1014,8 +1035,8 @@
 }
 
 .credits-title {
-  font-size: 3rem;
-  font-weight: 500;
+  font-size: 3.2rem;
+  font-weight: 400;
   font-family: 'Georgia', serif;
   color: #111;
   line-height: 1.05;
@@ -1024,35 +1045,33 @@
 }
 
 .credits-desc {
-  font-size: 13px;
+  font-size: 13.5px;
   color: #555;
-  line-height: 1.5;
+  line-height: 1.55;
   margin-bottom: 28px;
-  padding-right: 20px;
 }
 
 .credits-cta-btn {
-  background: #fff;
-  border: 1px solid #111;
+  background: #000;
+  border: 1px solid #000;
   border-radius: 4px;
-  padding: 10px 16px;
+  padding: 10px 18px;
   font-size: 13px;
   font-weight: 600;
-  color: #111;
+  color: #fff;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: background 0.15s ease, border-color 0.15s ease;
 }
 
 .credits-cta-btn:hover {
-  background: #111;
-  color: #fff;
+  background: #262626;
+  border-color: #262626;
 }
 
 .pricing-credits-coin-wrap {
   position: relative;
   flex-shrink: 0;
-  width: 140px;
-  height: 140px;
+  width: 120px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1064,12 +1083,7 @@
 }
 
 .credits-connector-lines {
-  position: absolute;
-  left: -90px;
-  top: 0;
-  width: 100px;
-  height: 100%;
-  z-index: 0;
+  display: none;
 }
 
 .credits-cards-list {
@@ -1078,16 +1092,66 @@
   gap: 8px;
   position: relative;
   z-index: 1;
-  padding-left: 10px;
+  padding-left: 28px;
+}
+
+.credits-cards-list::before {
+  content: '';
+  position: absolute;
+  left: 6px;
+  top: 30px;
+  bottom: 30px;
+  border-left: 1.5px dashed #a8a8a8;
+  z-index: 1;
+}
+
+.credits-cards-list::after {
+  content: '';
+  position: absolute;
+  right: calc(100% - 6px);
+  width: 72px;
+  top: 50%;
+  border-top: 1.5px dashed #a8a8a8;
+  z-index: 1;
 }
 
 .credits-feature-card {
-  background: #f5f5f5;
+  position: relative;
+  background: #f8f8f7;
   border-radius: 6px;
-  padding: 12px 16px;
+  padding: 11px 18px;
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 3px;
+  border: 1px solid rgba(0, 0, 0, 0.03);
+  transition: background 0.15s ease;
+}
+
+.credits-feature-card:hover {
+  background: #f2f2f0;
+}
+
+.credits-feature-card::before {
+  content: '';
+  position: absolute;
+  left: -22px;
+  top: 50%;
+  width: 22px;
+  border-top: 1.5px dashed #a8a8a8;
+  z-index: 1;
+}
+
+.credits-feature-card::after {
+  content: '';
+  position: absolute;
+  left: -2.5px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #616161;
+  z-index: 2;
 }
 
 /* =======================
@@ -1099,11 +1163,11 @@
 }
 
 .pricing-testimonials-container {
-  max-width: 1280px;
+  max-width: 1440px;
   margin: 0 auto;
   display: flex;
   gap: 60px;
-  padding: 0 60px;
+  padding: 0 32px;
 }
 
 .pricing-testimonials-left {
@@ -1271,6 +1335,13 @@
     padding-left: 0;
   }
 
+  .credits-cards-list::before,
+  .credits-cards-list::after,
+  .credits-feature-card::before,
+  .credits-feature-card::after {
+    display: none;
+  }
+
   .pricing-testimonials-container {
     flex-direction: column;
     gap: 32px;
@@ -1368,4 +1439,5 @@
     padding: 20px 16px;
   }
 }
+
 

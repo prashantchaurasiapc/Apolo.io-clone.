@@ -1,11 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { 
-  Globe, Search, Play, Pause, Square, Download, Plus, CheckCircle2, 
-  ExternalLink, Sliders, ShieldCheck, RefreshCw, Database, Terminal, 
-  Sparkles, Layers, Building2, User, Phone, Mail, MapPin, Cpu, Check,
-  ChevronRight, Filter, AlertCircle, Crown, Zap, CreditCard, Lock,
-  Code2, Briefcase, Flame, ShoppingBag, Bot, Radio, Compass, X, ArrowUpRight,
-  FileCode, CheckSquare
+  Globe, Search, Play, Square, Download, Plus, CheckCircle2, 
+  Sliders, ShieldCheck, RefreshCw, Database, Terminal, 
+  Sparkles, Building2, User, Mail, MapPin, Cpu, ChevronRight, AlertCircle, Crown, Zap, CreditCard, Code2, Briefcase, Flame, ShoppingBag, Bot, Radio, X, FileCode
 } from 'lucide-react';
 import SuperAdminScraperPaymentModal from '../../ai/SuperAdminScraperPaymentModal';
 import './LeadScraperView.css';
@@ -163,7 +160,7 @@ export default function LeadScraperView({ showToast }) {
   const [isUnlimitedActive, setIsUnlimitedActive] = useState(() => {
     try {
       return localStorage.getItem('apollo_unlimited_scraping') === 'true';
-    } catch (e) {
+    } catch  {
       return false;
     }
   });
@@ -180,7 +177,7 @@ export default function LeadScraperView({ showToast }) {
     setIsUnlimitedActive(true);
     try {
       localStorage.setItem('apollo_unlimited_scraping', 'true');
-    } catch (e) {}
+    } catch  {}
     if (showToast) {
       showToast('Super Admin Unlimited Scraping activated! Zero credit limits.');
     }

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Star, Award, Shield } from 'lucide-react';
+import { Award, Shield } from 'lucide-react';
 import './CustomerStories.css';
 
 export default function CustomerStories() {

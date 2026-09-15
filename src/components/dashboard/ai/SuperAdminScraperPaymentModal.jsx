@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { createPortal } from 'react-dom';
 import { 
   ShieldCheck, CheckCircle2, CreditCard, FileText, Landmark, Lock, 
-  Sparkles, X, ChevronRight, AlertCircle, Building, Check, ArrowRight,
-  Download, Zap
+  X, ChevronRight, Building, Check, ArrowRight,
+  Zap
 } from 'lucide-react';
 import './SuperAdminScraperPaymentModal.css';
 

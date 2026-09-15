@@ -2,11 +2,8 @@ import React, { useState } from 'react';
 import {
   X,
   Sparkles,
-  Layers,
   ArrowRight,
-  ShieldCheck,
-  CheckCircle2,
-  Code
+  CheckCircle2
 } from 'lucide-react';
 import './FormsView.css';
 

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { 
-  Eye, EyeOff, Mail, Phone, Link2, List, GitBranch, MailOpen,
-  ArrowLeft, Check, Loader2, UserRound, Shield, KeyRound, Building2
+  Eye, EyeOff, Mail, Link2, List, GitBranch, MailOpen,
+  ArrowLeft, Loader2, UserRound, KeyRound, Building2
 } from 'lucide-react';
 import './LoginPage.css';
 

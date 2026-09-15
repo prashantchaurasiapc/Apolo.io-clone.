@@ -183,9 +183,10 @@ export default function InteractiveTabs() {
 
     isClickingRef.current = true;
     const totalScrollable = containerRef.current.offsetHeight - window.innerHeight;
-    const sectionTop = containerRef.current.offsetTop;
+    const rect = containerRef.current.getBoundingClientRect();
+    const sectionTop = window.scrollY + rect.top;
     // Scroll to the midpoint of the chosen tab
-    const targetScrollY = sectionTop + ((idx + 0.35) / 4) * totalScrollable;
+    const targetScrollY = sectionTop - 80 + ((idx + 0.35) / 4) * totalScrollable;
 
     window.scrollTo({
       top: targetScrollY,

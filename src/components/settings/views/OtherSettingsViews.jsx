@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { 
-  Key, Plus, Copy, Check, ExternalLink, ShieldCheck, Mail, Globe, 
-  CreditCard, Sparkles, Database, CheckCircle2, AlertCircle, RefreshCw,
-  Send, Users, Lock, Sliders, Smartphone, Laptop
+  Key, Plus, Copy, Check, ShieldCheck, Globe, 
+  Sparkles, CheckCircle2, RefreshCw,
+  Users, Sliders, Laptop
 } from 'lucide-react';
 import SuperAdminScraperPaymentModal from '../../dashboard/ai/SuperAdminScraperPaymentModal';
 
@@ -112,7 +112,7 @@ export function PlanOverviewView({ showToast }) {
   const [isUnlimitedActive, setIsUnlimitedActive] = useState(() => {
     try {
       return localStorage.getItem('apollo_unlimited_scraping') === 'true';
-    } catch (e) {
+    } catch  {
       return false;
     }
   });
@@ -122,7 +122,7 @@ export function PlanOverviewView({ showToast }) {
     setIsUnlimitedActive(true);
     try {
       localStorage.setItem('apollo_unlimited_scraping', 'true');
-    } catch (e) {}
+    } catch  {}
     showToast?.('Super Admin Unlimited Scraping subscription active!');
   };
 

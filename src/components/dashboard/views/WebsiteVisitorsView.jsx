@@ -7,9 +7,7 @@ import {
   List,
   MoreHorizontal,
   X,
-  Copy,
   Check,
-  ShieldCheck,
   Building2,
   User,
   Lock

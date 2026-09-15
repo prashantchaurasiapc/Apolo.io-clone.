@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { 
   Search, Users, Building2, Mail, Workflow, Phone, 
   Settings, HelpCircle, Sparkles, Check, X, ArrowLeft, 
-  ChevronDown, Plus, Copy, Send, Filter, TrendingDown,
+  ChevronDown, Plus, Copy, Send, TrendingDown,
   UserPlus, Loader2, BarChart3
 } from 'lucide-react';
 import './SignupPage.css';

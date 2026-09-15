@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { 
   Sparkles, Clock, RotateCcw, Send, Play, Pause, Volume2, 
   Maximize2, RotateCw, ChevronDown, MessageSquare, Scissors, 
-  HelpCircle, Check, ExternalLink, X
+  Check, X
 } from 'lucide-react';
 import './ConversationsView.css';
 

@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import {
   Mail, AlertTriangle, Search, SlidersHorizontal, Settings,
   LayoutGrid, ChevronDown, Activity, TrendingUp, Edit3, X, Globe,
-  CheckCircle2, Wrench, AlertCircle, Plus, FileText, User, Paperclip,
-  Send, Eye, Sparkles, Tag, Folder, ShieldCheck, Flame, Lock
+  CheckCircle2, Wrench, AlertCircle, Plus, User, Paperclip,
+  Send, Sparkles, Folder, ShieldCheck, Lock
 } from 'lucide-react';
 import EmailDeliverabilitySuite from './EmailDeliverabilitySuite';
 import '../../css/emails-view.css';

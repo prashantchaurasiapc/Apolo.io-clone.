@@ -772,14 +772,16 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 1000;
-  padding: 20px;
+  z-index: 99999;
+  padding: 40px 20px;
 }
 
 .terms-modal-card {
   background: #ffffff;
   width: 100%;
   max-width: 500px;
+  max-height: calc(100vh - 80px);
+  overflow-y: auto;
   border-radius: 4px;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
   position: relative;

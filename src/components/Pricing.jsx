@@ -518,7 +518,11 @@ export default function Pricing({ onBack }) {
         <div className="pricing-cols">
           {plans.map((plan) => (
             <div key={plan.key} className={`plan-col${plan.popular ? ' is-popular' : ''}`}>
-              {plan.popular && <div className="most-popular-badge">MOST POPULAR</div>}
+              {plan.popular ? (
+                <div className="most-popular-badge">MOST POPULAR</div>
+              ) : (
+                <div className="plan-badge-placeholder" />
+              )}
 
               {/* Name & tagline */}
               <div className="plan-col-name">{plan.name}</div>

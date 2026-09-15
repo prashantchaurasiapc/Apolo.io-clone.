@@ -9,7 +9,7 @@ import {
 
 import '../../css/enrichment-view.css';
 
-export default function DataEnrichmentView({ showToast, onNavigateToProspect }) {
+export default function DataEnrichmentView({ showToast, onNavigateToProspect, onViewPricingPlans }) {
   // Active Sub-Tab: 'data_health' | 'crm' | 'csv' | 'job_alerts' | 'form_enrichment'
   const [activeTab, setActiveTab] = useState('data_health');
 
@@ -1364,7 +1364,10 @@ export default function DataEnrichmentView({ showToast, onNavigateToProspect }) 
                       <div className="promo-action-bar">
                         <button 
                           className="yellow-primary-btn view-pricing-btn"
-                          onClick={() => showToast('Opening Apollo Upgrade & Pricing Plans')}
+                          onClick={() => {
+                            if (onViewPricingPlans) onViewPricingPlans();
+                            else showToast('Opening Apollo Upgrade & Pricing Plans');
+                          }}
                         >
                           View pricing plans
                         </button>
@@ -2285,7 +2288,8 @@ export default function DataEnrichmentView({ showToast, onNavigateToProspect }) 
               <button 
                 className="yellow-primary-btn view-pricing-btn"
                 onClick={() => {
-                  showToast('Opening Apollo Upgrade & Pricing Plans...');
+                  if (onViewPricingPlans) onViewPricingPlans();
+                  else showToast('Opening Apollo Upgrade & Pricing Plans...');
                   setIsRealtimeModalOpen(false);
                 }}
               >

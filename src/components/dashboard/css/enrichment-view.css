@@ -2966,7 +2966,9 @@
   width: 28px !important;
   height: 28px !important;
   padding: 0 !important;
-  display: flex !items-center !justify-center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   transition: background 0.15s ease;
 }
 .realtime-close-btn:hover {

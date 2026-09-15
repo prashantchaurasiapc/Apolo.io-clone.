@@ -1,0 +1,847 @@
+/* ════════════════════════════════════════════════════════════
+   PricingCheckoutView.css — Apollo.io exact replica
+════════════════════════════════════════════════════════════ */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+.pco-page {
+  min-height: 100vh;
+  background: #ffffff;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  color: #111827;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ─── STEP BAR ─────────────────────────────────────────── */
+.pco-stepbar {
+  display: flex;
+  align-items: flex-start;
+  padding: 20px 48px 0;
+  background: #fff;
+  border-bottom: 1px solid #e5e7eb;
+  padding-bottom: 0;
+}
+
+.pco-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding-bottom: 14px;
+}
+
+.pco-step-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #d1d5db;
+  border: 2px solid #d1d5db;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.pco-step--on .pco-step-dot {
+  background: #111827;
+  border-color: #111827;
+}
+
+.pco-step-lbl {
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: #9ca3af;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.pco-step--on .pco-step-lbl {
+  color: #111827;
+}
+
+.pco-step-track {
+  flex: 1;
+  min-width: 80px;
+  height: 1.5px;
+  background: #e5e7eb;
+  margin-top: 5px;
+  margin-bottom: auto;
+  align-self: flex-start;
+}
+
+/* ─── BODY LAYOUT ──────────────────────────────────────── */
+.pco-body {
+  display: grid;
+  grid-template-columns: 1fr 288px;
+  gap: 28px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 36px 32px 64px;
+  align-items: start;
+}
+
+/* ─── LEFT COLUMN ──────────────────────────────────────── */
+.pco-left { min-width: 0; }
+
+.pco-h1 {
+  font-size: 28px;
+  font-weight: 800;
+  color: #111827;
+  margin: 0 0 6px 0;
+  letter-spacing: -0.4px;
+  line-height: 1.2;
+}
+
+.pco-sub {
+  font-size: 14px;
+  color: #4b5563;
+  margin: 0 0 22px 0;
+  line-height: 1.5;
+}
+.pco-sub strong { color: #111827; font-weight: 700; }
+
+/* Seats box */
+.pco-seats-box {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 12px 18px;
+  margin-bottom: 16px;
+  background: #fff;
+}
+
+.pco-seats-txt {
+  font-size: 13.5px;
+  font-weight: 500;
+  color: #374151;
+}
+
+.pco-stepper {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.pco-st-btn {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  border: 1.5px solid #d1d5db;
+  background: #f9fafb;
+  font-size: 18px;
+  font-weight: 400;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #374151;
+  line-height: 1;
+  padding: 0;
+  transition: all 0.15s;
+}
+.pco-st-btn:hover:not(:disabled) { border-color: #9ca3af; background: #f3f4f6; }
+.pco-st-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+
+.pco-st-num {
+  font-size: 15px;
+  font-weight: 700;
+  color: #111827;
+  min-width: 18px;
+  text-align: center;
+}
+
+/* Billing pill */
+.pco-bpill {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  background: #111827;
+  border-radius: 8px;
+  padding: 4px;
+  margin-bottom: 24px;
+}
+
+.pco-bopt {
+  padding: 7px 16px;
+  border-radius: 6px;
+  border: none;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.15s;
+  white-space: nowrap;
+  background: transparent;
+  color: #6b7280;
+}
+
+.pco-bopt--on {
+  background: #374151 !important;
+  color: #fff !important;
+}
+
+.pco-bopt--light {
+  color: #6b7280;
+}
+
+.pco-bopt--light-on {
+  background: #374151 !important;
+  color: #fff !important;
+}
+
+.pco-savechip {
+  background: #d4ff00;
+  color: #1a1a00;
+  font-size: 10px;
+  font-weight: 800;
+  padding: 2px 8px;
+  border-radius: 20px;
+}
+
+/* ─── PLAN CARDS GRID ──────────────────────────────────── */
+.pco-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  align-items: start;
+}
+
+.pco-card {
+  border: 1.5px solid #e5e7eb;
+  border-radius: 14px;
+  padding: 20px 16px 18px;
+  background: #fff;
+  cursor: pointer;
+  position: relative;
+  transition: border-color 0.18s, box-shadow 0.18s, transform 0.18s;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.pco-card:hover {
+  border-color: #9ca3af;
+  box-shadow: 0 4px 18px rgba(0,0,0,0.07);
+  transform: translateY(-1px);
+}
+
+/* Basic highlighted */
+.pco-card--hi {
+  background: #fefff0;
+  border-color: #c8e000;
+}
+.pco-card--hi:hover { border-color: #aecb00; }
+
+/* Selected */
+.pco-card--sel {
+  border-color: #111827 !important;
+  box-shadow: 0 0 0 2px rgba(17,24,39,0.15), 0 4px 16px rgba(0,0,0,0.1) !important;
+}
+
+/* Popular */
+.pco-card--pop {
+  border-color: #111827;
+}
+
+/* Popular badge */
+.pco-pop-badge {
+  position: absolute;
+  top: -1px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #d4ff00;
+  color: #111;
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  padding: 4px 14px;
+  border-radius: 0 0 12px 12px;
+  white-space: nowrap;
+  text-transform: uppercase;
+  z-index: 2;
+}
+
+.pco-card-name {
+  font-size: 17px;
+  font-weight: 800;
+  color: #111827;
+  margin-bottom: 6px;
+  margin-top: 4px;
+  letter-spacing: -0.2px;
+}
+
+.pco-card-tag {
+  font-size: 12px;
+  color: #6b7280;
+  line-height: 1.45;
+  margin-bottom: 14px;
+  min-height: 42px;
+}
+
+/* Price */
+.pco-price-row {
+  display: flex;
+  align-items: baseline;
+  gap: 1px;
+  margin-bottom: 4px;
+}
+
+.pco-dollar {
+  font-size: 18px;
+  font-weight: 700;
+  color: #111827;
+  line-height: 1;
+}
+
+.pco-amount {
+  font-size: 40px;
+  font-weight: 900;
+  color: #111827;
+  letter-spacing: -2px;
+  line-height: 1;
+}
+
+.pco-price-sub {
+  font-size: 11.5px;
+  color: #9ca3af;
+  line-height: 1.5;
+  white-space: pre-line;
+  margin-bottom: 10px;
+  min-height: 30px;
+}
+
+/* Credits row */
+.pco-credits-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 5px;
+  margin-bottom: 14px;
+  background: #fffbeb;
+  border-radius: 6px;
+  padding: 6px 9px;
+  border: 1px solid #fde68a;
+}
+
+.pco-credits-txt {
+  font-size: 11px;
+  color: #92400e;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+/* CTA buttons */
+.pco-cta {
+  width: 100%;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 13.5px;
+  font-weight: 700;
+  cursor: pointer;
+  border: none;
+  transition: all 0.15s;
+  margin-bottom: 6px;
+}
+
+.pco-cta--outline {
+  background: transparent;
+  border: 1.5px solid #d1d5db;
+  color: #374151;
+}
+.pco-cta--outline:hover { border-color: #9ca3af; background: #f9fafb; }
+
+.pco-cta--yellow {
+  background: #d4ff00;
+  color: #111;
+}
+.pco-cta--yellow:hover { background: #c8f200; }
+
+.pco-cta--dark {
+  background: #111827;
+  color: #fff;
+}
+.pco-cta--dark:hover { background: #1f2937; }
+
+.pco-cta--sel {
+  background: #374151;
+  color: #fff;
+}
+.pco-cta--sel:hover { background: #1f2937; }
+
+.pco-cta-secondary {
+  width: 100%;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1.5px solid #d1d5db;
+  background: transparent;
+  color: #374151;
+  transition: all 0.15s;
+  margin-bottom: 4px;
+}
+.pco-cta-secondary:hover { border-color: #9ca3af; background: #f9fafb; }
+
+.pco-trial-link {
+  font-size: 12px;
+  color: #6b7280;
+  text-align: center;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  cursor: pointer;
+  margin-bottom: 4px;
+}
+.pco-trial-link:hover { color: #111827; }
+
+/* Card divider */
+.pco-card-divider {
+  height: 1px;
+  background: #f3f4f6;
+  margin: 14px -16px;
+}
+
+/* Feature list */
+.pco-feat-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
+}
+
+.pco-feat-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 7px;
+  font-size: 11.5px;
+  color: #374151;
+  line-height: 1.4;
+}
+
+.pco-feat-check {
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.pco-ai-badge {
+  display: inline-block;
+  background: #111827;
+  color: #d4ff00;
+  font-size: 9px;
+  font-weight: 800;
+  padding: 1px 6px;
+  border-radius: 4px;
+  margin-left: 5px;
+  letter-spacing: 0.04em;
+  vertical-align: middle;
+}
+
+.pco-compare-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #6b7280;
+  text-decoration: none;
+  margin-top: 14px;
+  transition: color 0.15s;
+}
+.pco-compare-link:hover { color: #111827; }
+
+.pco-disclaimer {
+  font-size: 12px;
+  color: #9ca3af;
+  margin-top: 20px;
+  text-align: left;
+}
+
+/* ─── RIGHT SIDEBAR ─────────────────────────────────────── */
+.pco-right {
+  position: sticky;
+  top: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.pco-sidebar-card {
+  background: #fff;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 14px;
+  padding: 20px 18px;
+  box-shadow: 0 4px 18px rgba(0,0,0,0.06);
+}
+
+.pco-sidebar-title {
+  font-size: 14px;
+  font-weight: 800;
+  color: #111827;
+  margin: 0 0 14px 0;
+  line-height: 1.35;
+}
+
+/* Radio rows */
+.pco-radio-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 12px 13px;
+  border-radius: 10px;
+  border: 1.5px solid #e5e7eb;
+  cursor: pointer;
+  transition: all 0.15s;
+  margin-bottom: 9px;
+}
+
+.pco-radio-row--on {
+  border-color: #d1d5db;
+  background: #f9fafb;
+}
+
+.pco-radio-dot {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 2px solid #d1d5db;
+  flex-shrink: 0;
+  margin-top: 2px;
+  transition: all 0.15s;
+  background: #fff;
+}
+
+.pco-radio-dot--on {
+  border-color: #111827;
+  box-shadow: inset 0 0 0 4px #111827;
+}
+
+.pco-radio-info { flex: 1; }
+
+.pco-radio-main {
+  font-size: 13px;
+  font-weight: 700;
+  color: #111827;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  flex-wrap: wrap;
+  margin-bottom: 2px;
+}
+
+.pco-savings-tag {
+  background: #dbeafe;
+  color: #1d4ed8;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 20px;
+  white-space: nowrap;
+}
+
+.pco-radio-sub {
+  font-size: 11.5px;
+  color: #6b7280;
+}
+
+.pco-sdiv {
+  height: 1px;
+  background: #f3f4f6;
+  margin: 12px 0;
+}
+
+/* Seats summary */
+.pco-seats-summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.pco-ss-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #111827;
+}
+
+.pco-ss-price {
+  font-size: 13px;
+  font-weight: 600;
+  color: #374151;
+}
+
+.pco-sum-stepper {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.pco-sum-st {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  border: 1.5px solid #d1d5db;
+  background: #f9fafb;
+  font-size: 18px;
+  font-weight: 400;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #374151;
+  line-height: 1;
+  padding: 0;
+  transition: all 0.15s;
+}
+.pco-sum-st:hover:not(:disabled) { border-color: #9ca3af; background: #f3f4f6; }
+.pco-sum-st:disabled { opacity: 0.3; cursor: not-allowed; }
+
+.pco-sum-num {
+  font-size: 15px;
+  font-weight: 700;
+  color: #111827;
+  min-width: 18px;
+  text-align: center;
+}
+
+.pco-billed-txt {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #374151;
+  margin-top: 4px;
+}
+
+.pco-big-price {
+  font-size: 30px;
+  font-weight: 900;
+  color: #111827;
+  letter-spacing: -1.5px;
+  line-height: 1.1;
+  display: flex;
+  align-items: baseline;
+  gap: 2px;
+  margin-top: 5px;
+  margin-bottom: 2px;
+}
+
+.pco-big-per {
+  font-size: 15px;
+  font-weight: 500;
+  color: #6b7280;
+  letter-spacing: 0;
+}
+
+.pco-tax-note {
+  font-size: 11px;
+  color: #9ca3af;
+  margin-bottom: 16px;
+}
+
+.pco-proceed {
+  width: 100%;
+  padding: 13px 18px;
+  background: #d4ff00;
+  border: none;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 800;
+  color: #111;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  transition: all 0.18s;
+  box-shadow: 0 2px 8px rgba(212,255,0,0.3);
+  margin-bottom: 14px;
+}
+.pco-proceed:hover {
+  background: #c8f200;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(212,255,0,0.4);
+}
+
+.pco-trust { display: flex; flex-direction: column; gap: 7px; }
+.pco-trust-row {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 12px;
+  color: #374151;
+}
+
+.pco-qbtn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #fff;
+  border: 1.5px solid #d1d5db;
+  font-size: 17px;
+  font-weight: 700;
+  color: #6b7280;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-self: flex-end;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  transition: all 0.15s;
+}
+.pco-qbtn:hover { border-color: #9ca3af; color: #374151; }
+
+/* ─── CREDITS SECTION ───────────────────────────────────── */
+.pco-credits-section {
+  background: #f9fafb;
+  border-top: 1.5px solid #f3f4f6;
+  padding: 48px 0;
+}
+
+.pco-credits-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 32px;
+  display: grid;
+  grid-template-columns: 1fr 1.6fr;
+  gap: 48px;
+  align-items: start;
+}
+
+.pco-credits-h2 {
+  font-size: 26px;
+  font-weight: 900;
+  color: #111827;
+  margin: 0 0 12px 0;
+  letter-spacing: -0.3px;
+  line-height: 1.2;
+}
+
+.pco-zap-span { color: #d97706; }
+
+.pco-credits-desc {
+  font-size: 14px;
+  color: #4b5563;
+  line-height: 1.6;
+  margin: 0 0 18px 0;
+  max-width: 380px;
+}
+
+.pco-credits-btn {
+  padding: 9px 20px;
+  border: 1.5px solid #d1d5db;
+  border-radius: 8px;
+  background: #fff;
+  font-size: 13px;
+  font-weight: 600;
+  color: #374151;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.pco-credits-btn:hover { border-color: #9ca3af; background: #f3f4f6; }
+
+.pco-credits-right {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.pco-credit-card {
+  background: #fff;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 18px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  transition: all 0.15s;
+}
+.pco-credit-card:hover { border-color: #9ca3af; box-shadow: 0 4px 12px rgba(0,0,0,0.06); }
+
+.pco-credit-icon { font-size: 22px; }
+
+.pco-credit-name {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: #111827;
+}
+
+.pco-credit-chip {
+  display: inline-block;
+  background: #f3f4f6;
+  color: #374151;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 9px;
+  border-radius: 20px;
+}
+
+.pco-credit-desc {
+  font-size: 12px;
+  color: #6b7280;
+  line-height: 1.5;
+}
+
+/* ─── FAQ SECTION ───────────────────────────────────────── */
+.pco-faq-section {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 52px 32px 80px;
+}
+
+.pco-faq-h2 {
+  font-size: 22px;
+  font-weight: 800;
+  color: #111827;
+  margin: 0 0 24px 0;
+  letter-spacing: -0.3px;
+}
+
+.pco-faq-list { display: flex; flex-direction: column; }
+
+.pco-faq-item {
+  border-bottom: 1.5px solid #f3f4f6;
+  padding: 17px 0;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.pco-faq-item:first-child { border-top: 1.5px solid #f3f4f6; }
+
+.pco-faq-q {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 14px;
+}
+.pco-faq-q span {
+  font-size: 14px;
+  font-weight: 600;
+  color: #111827;
+  line-height: 1.45;
+}
+.pco-faq-q svg { flex-shrink: 0; color: #9ca3af; }
+
+.pco-faq-a {
+  font-size: 13.5px;
+  color: #4b5563;
+  margin-top: 12px;
+  line-height: 1.65;
+}
+
+/* ─── RESPONSIVE ────────────────────────────────────────── */
+@media (max-width: 1100px) {
+  .pco-body { grid-template-columns: 1fr; }
+  .pco-grid { grid-template-columns: repeat(2, 1fr); }
+  .pco-right { position: static; }
+  .pco-credits-inner { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 640px) {
+  .pco-grid { grid-template-columns: 1fr; }
+  .pco-body { padding: 24px 16px 48px; }
+  .pco-faq-section { padding: 36px 16px 64px; }
+  .pco-stepbar { padding: 14px 16px 0; }
+  .pco-step-track { min-width: 30px; }
+  .pco-credits-inner { padding: 0 16px; }
+  .pco-credits-right { grid-template-columns: 1fr; }
+}

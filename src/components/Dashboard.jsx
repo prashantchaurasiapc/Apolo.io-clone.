@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { 
-  Search, Bell, ChevronDown, Settings, LogOut, CheckCircle2, Menu, X, RotateCcw
+  Search, Bell, ChevronDown, Settings, LogOut, CheckCircle2, Menu, X, RotateCcw, ArrowLeft
 } from 'lucide-react';
 import Sidebar from './dashboard/Sidebar';
 import SettingsLayout from './settings/SettingsLayout';
@@ -16,6 +16,7 @@ import {
 import LeadScraperView from './dashboard/views/scraper/LeadScraperView';
 import AICopilotDrawer from './dashboard/ai/AICopilotDrawer';
 import Pricing from './Pricing';
+import PricingCheckoutView from './dashboard/views/PricingCheckoutView';
 import './Dashboard.css';
 
 /* ─── Apollo Star Icon SVG ─── */
@@ -36,8 +37,11 @@ export default function Dashboard({ user, activeTab = 'home', onSelectTab, onLog
   const [showNotifications, setShowNotifications] = useState(false);
   const [notifTab, setNotifTab] = useState('activities'); // 'activities' | 'notifications'
   const [copilotOpen, setCopilotOpen] = useState(false);
+  const [showPricingView, setShowPricingView] = useState(false);
   const searchInputRef = useRef(null);
   const headerMenusRef = useRef(null);
+
+  const openPricingPlans = () => setShowPricingView(true);
 
   const currentUser = user || {
     name: 'Shivam Ahirwar',
@@ -111,7 +115,7 @@ export default function Dashboard({ user, activeTab = 'home', onSelectTab, onLog
       case 'lists':
         return <ListsView showToast={showToast} />;
       case 'enrichment':
-        return <DataEnrichmentView showToast={showToast} />;
+        return <DataEnrichmentView showToast={showToast} onViewPricingPlans={openPricingPlans} />;
       case 'sequences':
         return <SequencesView showToast={showToast} />;
       case 'emails':
@@ -182,13 +186,64 @@ export default function Dashboard({ user, activeTab = 'home', onSelectTab, onLog
     );
   }
 
+  // If pricing view is active, render it over the dashboard
+  if (showPricingView) {
+    return (
+      <div className="apollo-dashboard-root light-theme">
+        <Sidebar 
+          activeTab={activeTab}
+          onSelectTab={(tab) => { setShowPricingView(false); onSelectTab(tab); }}
+          onUpgradeClick={openPricingPlans}
+          showToast={showToast}
+          mobileOpen={mobileSidebarOpen}
+          onCloseMobile={() => setMobileSidebarOpen(false)}
+          collapsed={sidebarCollapsed}
+          onCollapsedChange={setSidebarCollapsed}
+        />
+        <div className="dash-right-area" style={{ overflowY: 'auto', padding: 0 }}>
+          {/* Back button bar — exact Apollo.io style */}
+          <div style={{
+            display: 'flex', alignItems: 'center', gap: 12,
+            padding: '10px 24px',
+            background: '#fff',
+            borderBottom: '1.5px solid #e5e7eb',
+            position: 'sticky', top: 0, zIndex: 50,
+          }}>
+            <button
+              onClick={() => setShowPricingView(false)}
+              style={{
+                display: 'flex', alignItems: 'center', gap: 5,
+                background: '#f3f4f6', border: '1.5px solid #e5e7eb',
+                borderRadius: 8, padding: '5px 14px',
+                cursor: 'pointer', fontSize: 13, fontWeight: 600, color: '#374151',
+              }}
+            >
+              <ArrowLeft size={14} /> Back
+            </button>
+            <span style={{ width: 1, height: 18, background: '#e5e7eb', flexShrink: 0 }} />
+            <span style={{ fontSize: 14, fontWeight: 700, color: '#111827', letterSpacing: '-0.1px' }}>Pricing Plans</span>
+          </div>
+          <main style={{ minHeight: '100%' }}>
+            <PricingCheckoutView showToast={showToast} onBack={() => setShowPricingView(false)} />
+          </main>
+          {toastMessage && (
+            <div className="dash-toast">
+              <CheckCircle2 size={16} />
+              <span>{toastMessage}</span>
+            </div>
+          )}
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="apollo-dashboard-root light-theme">
       {/* Left Full-Height Sidebar (Star Logo at top left) */}
       <Sidebar 
         activeTab={activeTab}
         onSelectTab={onSelectTab}
-        onUpgradeClick={() => showToast('Enterprise Unlimited Plan activated')}
+        onUpgradeClick={openPricingPlans}
         showToast={showToast}
         mobileOpen={mobileSidebarOpen}
         onCloseMobile={() => setMobileSidebarOpen(false)}

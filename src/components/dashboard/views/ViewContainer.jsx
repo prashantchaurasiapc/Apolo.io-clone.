@@ -1026,8 +1026,8 @@ export const ListsView = ({ showToast, onSelectTab }) => (
 );
 
 /* ─── 6. Data Enrichment View ─── */
-export const DataEnrichmentView = ({ showToast, onSelectTab }) => (
-  <DataEnrichmentViewComponent showToast={showToast} onNavigateToProspect={onSelectTab} />
+export const DataEnrichmentView = ({ showToast, onSelectTab, onViewPricingPlans }) => (
+  <DataEnrichmentViewComponent showToast={showToast} onNavigateToProspect={onSelectTab} onViewPricingPlans={onViewPricingPlans} />
 );
 
 /* ─── 7. Sequences View ─── */
